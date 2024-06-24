@@ -1,7 +1,7 @@
 import { Tilt } from "react-tilt";
 import { motion } from "framer-motion";
 import styles from "../styles";
-import { git, github } from "../assets";
+import { github } from "../assets";
 import { SectionWrapper } from "../hoc";
 import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
@@ -45,7 +45,7 @@ const ProjectCard = ({
           <p className="mt-2 text-secondary text-[14px]">{description}</p>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
-          {tags.map((tag,index)=>(
+          {tags.map((tag:any)=>(
             <p key={tag.name} className={`text-[14px] ${tag.color}`}>
               {tag.name}
             </p>
