@@ -20,7 +20,13 @@ import redux from "./tech/redux.png";
 import tailwind from "./tech/tailwind.png";
 import typescript from "./tech/typescript.png";
 import threejs from "./tech/threejs.svg";
-
+import nest from "./tech/nest.png"
+import angular from "./tech/angular.png"
+import aws from "./tech/aws.png"
+import express from "./tech/express.png"
+import graphql from "./tech/graphql.png"
+import remix from "./tech/remix.png"
+import terraform from "./tech/terraform.png"
 import meta from "./company/meta.png";
 import shopify from "./company/shopify.png";
 import starbucks from "./adslive.jpeg";
@@ -31,6 +37,13 @@ import jobit from "./jobit.png";
 import tripguide from "./tripguide.png";
 
 export {
+  nest,
+  angular,
+  aws,
+  express,
+  graphql,
+  remix,
+  terraform,
   logo,
   backend,
   creator,

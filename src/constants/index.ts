@@ -18,9 +18,14 @@ import {
     starbucks,
     tesla,
     carrent,
-    jobit,
-    tripguide,
     threejs,
+    angular,
+    aws,
+    express,
+    graphql,
+    nest,
+    remix,
+    terraform,
   } from "../assets";
   
   export const navLinks = [
@@ -59,14 +64,6 @@ import {
   
   const technologies = [
     {
-      name: "HTML 5",
-      icon: html,
-    },
-    {
-      name: "CSS 3",
-      icon: css,
-    },
-    {
       name: "JavaScript",
       icon: javascript,
     },
@@ -91,24 +88,39 @@ import {
       icon: nodejs,
     },
     {
-      name: "MongoDB",
-      icon: mongodb,
-    },
-    {
-      name: "Three JS",
-      icon: threejs,
-    },
-    {
-      name: "git",
-      icon: git,
-    },
-    {
-      name: "figma",
-      icon: figma,
-    },
-    {
       name: "docker",
       icon: docker,
+    },
+    
+    {
+      name: "Angular",
+      icon: angular,
+    },
+    
+    
+    {
+      name: "Express",
+      icon: express,
+    },
+    
+    {
+      name: "GraphQl",
+      icon: graphql,
+    },
+    
+    {
+      name: "Nest JS",
+      icon: nest,
+    },
+    
+    {
+      name: "Remix Run",
+      icon: remix,
+    },
+    
+    {
+      name: "Terraform",
+      icon: terraform,
     },
   ];
   
@@ -144,30 +156,23 @@ import {
     {
       testimonial:
         "I thought it was impossible to make a website as beautiful as our product, but Rick proved me wrong.",
-      name: "Sara Lee",
-      designation: "CFO",
-      company: "Acme Co",
-      image: "https://randomuser.me/api/portraits/women/4.jpg",
+      name: "Emmanuel Alvarado",
+      designation: "ITS DevOps Engineer",
+      company: "Allied Global Technology Services",
+      image: "https://media.licdn.com/dms/image/D4E03AQE7g-X3TFP0fw/profile-displayphoto-shrink_800_800/0/1671477031793?e=1724889600&v=beta&t=Qs_WII6ve_bqU1M-SkcpvljW8EmWWp9lD8dhgjQu6tw",
     },
     {
       testimonial:
-        "I've never met a web developer who truly cares about their clients' success like Rick does.",
-      name: "Chris Brown",
-      designation: "COO",
-      company: "DEF Corp",
-      image: "https://randomuser.me/api/portraits/men/5.jpg",
-    },
-    {
-      testimonial:
-        "After Rick optimized our website, our traffic increased by 50%. We can't thank them enough!",
-      name: "Lisa Wang",
-      designation: "CTO",
-      company: "456 Enterprises",
-      image: "https://randomuser.me/api/portraits/women/6.jpg",
+        "He proved to be an honest, respectful, responsible, and hardworking individual. Under my supervision, he worked as a programmer for a custom-made application and website system.",
+      name: "Lisa Gonzáles Solé",
+      designation: "Marketing and sales manager",
+      company: "Holland Orchids",
+      image: "https://media.licdn.com/dms/image/D4E03AQHd7_l9-Z2Dgg/profile-displayphoto-shrink_200_200/0/1678215473375?e=2147483647&v=beta&t=DXAWM02sJEsLixe8pgY5SryKju7suCm-_hN6QgJx_aY",
     },
   ];
   
-  const projects = [
+  const projects = 
+  [
     {
       name: "Car Rent",
       description:
@@ -187,50 +192,7 @@ import {
         },
       ],
       image: carrent,
-      source_code_link: "https://github.com/",
-    },
-    {
-      name: "Job IT",
-      description:
-        "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
-      tags: [
-        {
-          name: "react",
-          color: "blue-text-gradient",
-        },
-        {
-          name: "restapi",
-          color: "green-text-gradient",
-        },
-        {
-          name: "scss",
-          color: "pink-text-gradient",
-        },
-      ],
-      image: jobit,
-      source_code_link: "https://github.com/",
-    },
-    {
-      name: "Trip Guide",
-      description:
-        "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
-      tags: [
-        {
-          name: "nextjs",
-          color: "blue-text-gradient",
-        },
-        {
-          name: "supabase",
-          color: "green-text-gradient",
-        },
-        {
-          name: "css",
-          color: "pink-text-gradient",
-        },
-      ],
-      image: tripguide,
-      source_code_link: "https://github.com/",
-    },
+    }
   ];
   
   export { services, technologies, experiences, testimonials, projects };
