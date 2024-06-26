@@ -148,7 +148,7 @@ import {
   const testimonials = [
     {
       testimonial:
-        "I thought it was impossible to make a website as beautiful as our product, but Luis proved me wrong.",
+        "Luis proved to be a valuable member of any team he is in. Only his ambitions exceed his achivements.",
       name: "Emmanuel Alvarado",
       designation: "ITS DevOps Engineer",
       company: "Allied Global Technology Services",
