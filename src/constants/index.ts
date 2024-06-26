@@ -148,7 +148,7 @@ import {
   const testimonials = [
     {
       testimonial:
-        "I thought it was impossible to make a website as beautiful as our product, but Rick proved me wrong.",
+        "I thought it was impossible to make a website as beautiful as our product, but Luis proved me wrong.",
       name: "Emmanuel Alvarado",
       designation: "ITS DevOps Engineer",
       company: "Allied Global Technology Services",
@@ -161,6 +161,14 @@ import {
       designation: "Marketing and sales manager",
       company: "Holland Orchids",
       image: "https://media.licdn.com/dms/image/D4E03AQHd7_l9-Z2Dgg/profile-displayphoto-shrink_200_200/0/1678215473375?e=2147483647&v=beta&t=DXAWM02sJEsLixe8pgY5SryKju7suCm-_hN6QgJx_aY",
+    },
+    {
+      testimonial:
+        "He was a key member of our team at Adslivemedia Corp. His expertise in React.js, Vue.js, Node.js, and AWS greatly contributed to our projects. He consistently delivered high-quality work and was always ready to mentor junior developers. Working with Luis was a pleasure, and his problem-solving skills and dedication were truly impressive.",
+      name: "Andres Gálvez ",
+      designation: "Product Owner | Full Stack Dev | AWS Certified",
+      company: "AdsLive Media",
+      image: "https://media.licdn.com/dms/image/D4E03AQEBSfrNFlnFAg/profile-displayphoto-shrink_800_800/0/1712132607867?e=1724889600&v=beta&t=CKW2YC7NtAFr1TyA4_YP8bUHRljT_38r8dK9y8cYx_w",
     },
   ];
   
