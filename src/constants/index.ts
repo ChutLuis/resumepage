@@ -164,7 +164,7 @@ import {
     },
     {
       testimonial:
-        "He was a key member of our team at Adslivemedia Corp. His expertise in React.js, Vue.js, Node.js, and AWS greatly contributed to our projects. He consistently delivered high-quality work and was always ready to mentor junior developers. Working with Luis was a pleasure, and his problem-solving skills and dedication were truly impressive.",
+        "He was a key member of our team at Adslivemedia Corp. He consistently delivered high-quality work and was always ready to mentor junior developers. Working with Luis was a pleasure, and his problem-solving skills and dedication were truly impressive.",
       name: "Andres Gálvez ",
       designation: "Product Owner | Full Stack Dev | AWS Certified",
       company: "AdsLive Media",
