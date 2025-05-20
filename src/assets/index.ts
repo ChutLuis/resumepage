@@ -31,7 +31,8 @@ import meta from "./company/meta.png";
 import shopify from "./company/shopify.png";
 import starbucks from "./adslive.jpeg";
 import tesla from "./ho.jpeg";
-
+import hmd from "./hmd.jpeg"
+import telus from "./telus.jpeg"
 import carrent from "./carrent.png";
 import jobit from "./jobit.png";
 import tripguide from "./tripguide.png";
@@ -72,4 +73,6 @@ export {
   carrent,
   jobit,
   tripguide,
+  hmd,
+  telus
 };
