@@ -5,7 +5,7 @@ import styles from "../styles";
 import { EarthCanvas } from "./canvas";
 import { SectionWrapper } from "../hoc";
 import { slideIn } from "../utils/motion";
-//
+
 const Contact = () => {
   const formRef = useRef<any>();
   const [form, setForm] = useState({
@@ -14,7 +14,6 @@ const Contact = () => {
     message: "",
   });
   const [loading, setLoading] = useState(false);
-  console.log(import.meta.env.VITE_SERVICE_ID)
   const handleChange = (e:any) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -106,6 +105,7 @@ const Contact = () => {
         variants={slideIn("right", "tween", 0.2, 1)}
         className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]"
       >
+        {/* Preload and keep Earth canvas mounted */}
         <EarthCanvas />
       </motion.div>
     </div>

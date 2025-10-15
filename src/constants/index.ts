@@ -12,7 +12,8 @@ import {
   docker,
   starbucks,
   tesla,
-  carrent,
+  jobit,
+  tripguide,
   angular,
   express,
   graphql,
@@ -21,6 +22,9 @@ import {
   terraform,
   hmd,
   telus,
+  figma,
+  aws,
+  git,
 } from "../assets";
 
 export const navLinks = [
@@ -71,6 +75,22 @@ const technologies = [
     icon: reactjs,
   },
   {
+    name: "Node JS",
+    icon: nodejs,
+  },
+  {
+    name: "Nest JS",
+    icon: nest,
+  },
+  {
+    name: "Express",
+    icon: express,
+  },
+  {
+    name: "GraphQL",
+    icon: graphql,
+  },
+  {
     name: "Redux Toolkit",
     icon: redux,
   },
@@ -79,39 +99,29 @@ const technologies = [
     icon: tailwind,
   },
   {
-    name: "Node JS",
-    icon: nodejs,
+    name: "Figma",
+    icon: figma,
   },
   {
-    name: "docker",
+    name: "AWS",
+    icon: aws,
+  },
+  {
+    name: "Docker",
     icon: docker,
   },
-
+  {
+    name: "Git",
+    icon: git,
+  },
   {
     name: "Angular",
     icon: angular,
   },
-
-  {
-    name: "Express",
-    icon: express,
-  },
-
-  {
-    name: "GraphQl",
-    icon: graphql,
-  },
-
-  {
-    name: "Nest JS",
-    icon: nest,
-  },
-
   {
     name: "Remix Run",
     icon: remix,
   },
-
   {
     name: "Terraform",
     icon: terraform,
@@ -120,15 +130,25 @@ const technologies = [
 
 const experiences = [
   {
-    title: "Web Developer",
-    company_name: "Adslive Media Corp.",
-    icon: starbucks,
-    iconBg: "#383E56",
-    date: "March 2021 - May 2023",
+    title: "Senior Applications Developer",
+    company_name: "TELUS Digital Solutions",
+    icon: telus,
+    iconBg: "#E6DEDD",
+    date: "October 2024 - Present",
     points: [
-      "Created websites as a fullstack engineer using web technologies such as React.js, Vue.js, and Node.js (with the Express Framework).",
-      "Managed the AWS console as an admin to deploy, monitor, and create services.",
-      "Utilized web technologies to create Web Augmented Reality with frameworks such as A-Frame and Three.js.",
+      "Architected and implemented key enhancements for native mobile applications, improving performance and user engagement metrics.",
+      "Actively contributing to the strategic migration of the native codebase to React Native, designing reusable components to accelerate the project timeline.",
+    ],
+  },
+  {
+    title: "Fullstack Engineer",
+    company_name: "Hidden Mountain Data",
+    icon: hmd,
+    iconBg: "#E6DEDD",
+    date: "Sept 2024 - October 2024",
+    points: [
+      "As a key contractor on an LLM project, rapidly developed and delivered a full-stack internal tool using Vue.js and NestJS within a tight deadline.",
+      "Engineered the backend system, including the database schema with Prisma and PostgreSQL, enabling efficient data processing for the language model.",
     ],
   },
   {
@@ -138,32 +158,20 @@ const experiences = [
     iconBg: "#E6DEDD",
     date: "May 2023 - Jun 2024",
     points: [
-      "Maintained and cleaned old systems made on React, Node, and React Native, as well as on-premises servers.",
-      "Developed new systems using Remix.js for the frontend, Nest.js and GraphQL for the backend, React Native for mobile, and PostgreSQL for the database.",
-      "Designed and Implemented an Inventory and Orders Systems",
-      "Designed the next steps to include predictions for Orchids stock",
+      "Led the full lifecycle of a new internal software suite, from initial UI/UX prototypes in Figma to full-stack development and deployment, which replaced an outdated legacy tool.",
+      "Improved the stability and performance of existing React legacy systems and managed their on-premises server infrastructure.",
     ],
   },
   {
-    title: "Fullstack Engineer",
-    company_name: "Hidden Mountain Data",
-    icon: hmd,
-    iconBg: "#E6DEDD",
-    date: "May 2023 - Jun 2024",
+    title: "Web Developer",
+    company_name: "Adslivemedia Corp.",
+    icon: starbucks,
+    iconBg: "#383E56",
+    date: "March 2021 - May 2023",
     points: [
-      "Contributed to a small Large Language Model (LLM) project as a contractor.",
-      "Utilized Vue.js for frontend development, and NestJS, Prisma, and PostgreSQL for backend systems.",
-      "Collaborated with the team to develop and enhance project features within a tight timeframe.",
-    ],
-  },
-  {
-    title: "Senior Applications Developer",
-    company_name: "TELUS Digital Solutions",
-    icon: telus,
-    iconBg: "#E6DEDD",
-    date: "May 2023 - Jun 2024",
-    points: [
-      "Collaborated with the team to develop and enhance native apps and React Native Applications"
+      "Developed and deployed multiple full-stack client websites using React, Vue, and Node.js.",
+      "Managed all aspects of cloud infrastructure on AWS, including service deployment, monitoring, and administration.",
+      "Pioneered the company's Web Augmented Reality offerings by building interactive experiences with A-Frame and Three.js, leading to increased client engagement.",
     ],
   },
 ];
@@ -200,16 +208,16 @@ const testimonials = [
 
 const projects = [
   {
-    name: "Car Rent",
+    name: "Socializa.io Landing Page",
     description:
-      "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+      "Modern and engaging landing page for Socializa.io, a social media management platform. Built with cutting-edge web technologies to deliver a smooth, responsive user experience with dynamic animations and interactive elements.",
     tags: [
       {
         name: "react",
         color: "blue-text-gradient",
       },
       {
-        name: "mongodb",
+        name: "typescript",
         color: "green-text-gradient",
       },
       {
@@ -217,7 +225,30 @@ const projects = [
         color: "pink-text-gradient",
       },
     ],
-    image: carrent,
+    image: tripguide,
+    live_link: "https://landing.socializa.io/",
+  },
+  {
+    name: "Portfolio Analytics Dashboard",
+    description:
+      "Full-stack analytics dashboard for portfolio tracking and visualization. Features real-time data updates, interactive charts, and comprehensive analytics tools built with modern web technologies and deployed on Railway.",
+    tags: [
+      {
+        name: "react",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "nestjs",
+        color: "green-text-gradient",
+      },
+      {
+        name: "postgresql",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: jobit,
+    source_code_link: "https://github.com/ChutLuis/portfolio-analytics-upwork",
+    live_link: "https://portfolio-analytics-upwork-production.up.railway.app/",
   },
 ];
 

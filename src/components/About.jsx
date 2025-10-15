@@ -32,16 +32,17 @@ const About = () => {
         variants={fadeIn("", "", 0.1, 1)}
         className="mt-4 text-secondary text-[17px] max-w-7xl leadin-[30px] text-justify"
       >
-        I am Luis Ortiz, an experienced software engineer with a solid
-        background in full-stack web development, cloud services, and augmented
-        reality technologies. I have a proven track record in both frontend and
-        backend processes, database administration, and cloud infrastructure
-        management. Currently, I am enriching web experiences through AR while
-        ensuring optimal performance of server systems. I hold a Bachelor of
-        Engineering in Computers and Systems from Universidad Rafael Landivar
-        and am proficient in Javascript, Typescript, React, Nest, Express,
-        Postgres, and mySQL. Bilingual in English and Spanish, I am highly
-        motivated to deliver robust and innovative software solutions.
+        I am Luis Ortiz, a full-stack developer and UI/UX designer who partners with businesses 
+        to build custom web applications from concept to launch. Specializing in creating engaging 
+        user experiences with modern technologies like React, NestJS, and Web AR, I have a proven 
+        ability to deliver robust, innovative, and user-centered solutions that drive business results. 
+        Currently working as a Senior Applications Developer at TELUS Digital Solutions, I architect 
+        and implement key enhancements for native mobile applications while contributing to strategic 
+        migrations to React Native. I hold a Bachelor of Engineering in Computers and Systems from 
+        Universidad Rafael Landivar and am proficient in JavaScript, TypeScript, React, NestJS, Express, 
+        PostgreSQL, and MySQL. With expertise in UI/UX design using Figma, cloud platforms (AWS), and 
+        data analysis, I am bilingual in English (C2) and Spanish (Native), highly motivated to deliver 
+        exceptional software solutions.
       </motion.p>
       <div className="mt-20 flex flex-wrap gap-10">
         {services.map((service, index) => (
