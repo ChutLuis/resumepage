@@ -18,7 +18,7 @@ const ProjectCard = ({
     <motion.div variants={fadeIn("up", "spring", index * 0.5, 0.75)}>
       <Tilt
         options={{ max: 45, scale: 1, speed: 450 }}
-        className="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full"
+        className="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full border border-blue-900/50 hover:border-blue-500/50 transition-all duration-300 hover:shadow-blue-glow"
       >
         <div className="relative w-full h-[230px]">
           <img
@@ -32,7 +32,7 @@ const ProjectCard = ({
                 onClick={() => {
                   window.open(source_code_link, "_blank");
                 }}
-                className="black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer"
+                className="bg-gradient-to-r from-blue-600 to-cyan-600 w-10 h-10 rounded-full flex justify-center items-center cursor-pointer hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 hover:shadow-blue-glow"
               >
                 <img
                   src={github}
@@ -46,7 +46,7 @@ const ProjectCard = ({
                 onClick={() => {
                   window.open(live_link, "_blank");
                 }}
-                className="black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer"
+                className="bg-gradient-to-r from-blue-600 to-cyan-600 w-10 h-10 rounded-full flex justify-center items-center cursor-pointer hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 hover:shadow-cyan-glow"
                 title="View Live Site"
               >
                 <svg

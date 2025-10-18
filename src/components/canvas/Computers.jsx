@@ -53,9 +53,10 @@ const ComputersCanvas = () => {
         preserveDrawingBuffer: true,
         alpha: true,
         antialias: false,
-        powerPreference: "high-performance"
+        powerPreference: "high-performance",
+        failIfMajorPerformanceCaveat: false
       }}
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
     >
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls
