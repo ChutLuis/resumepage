@@ -36,6 +36,8 @@ import telus from "./telus.jpeg";
 import carrent from "./carrent.png";
 import jobit from "./jobit.png";
 import tripguide from "./tripguide.png";
+import SocializaShowcase from "./SocializaShowcase.png";
+import PortfolioShowcase from "./PortfolioShowcase.png";
 
 export {
   nest,
@@ -75,4 +77,6 @@ export {
   tripguide,
   hmd,
   telus,
+  SocializaShowcase,
+  PortfolioShowcase,
 };
