@@ -8,12 +8,15 @@ import {
   Navbar,
   Tech,
   Works,
-  StarsCanvas,
+  ScrollReactiveBackground,
 } from "./components";
 function App() {
   return (
     <BrowserRouter>
       <div className="relative z-0  bg-primary">
+        {/* EXPERIMENTAL: Scroll-Reactive Background Canvas */}
+        <ScrollReactiveBackground />
+        
         <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
           <Navbar />
           <Hero />
@@ -25,7 +28,8 @@ function App() {
         <Feedbacks />
         <div className="relative z-0">
           <Contact />
-          <StarsCanvas />
+          {/* Original Stars canvas removed - replaced by ScrollReactiveBackground */}
+          {/* <StarsCanvas /> */}
         </div>
       </div>
     </BrowserRouter>
