@@ -42,11 +42,11 @@ const Hero = () => {
         </div>
         <div>
           <h1 className={`${styles.styles.heroHeadText} text-white`}>
-            Hi, I'm <span className="text-blue-400 drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">Luis</span>
+            Hi, I'm <span className="text-blue-400 drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">Luis Ortiz</span>
           </h1>
           <p className={`${styles.styles.heroSubText} mt-2 text-white-100 `}>
-            I am an experienced Full-Stack Software Engineer specializing in{" "}
-            <br className="sm:block hidden" /> modern web technologies.
+            Full-Stack Software Engineer in Guatemala specializing in{" "}
+            <br className="sm:block hidden" /> complex web projects, React, Node.js & AWS solutions worldwide.
           </p>
         </div>
       </div>

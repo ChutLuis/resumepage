@@ -44,19 +44,19 @@ export const navLinks = [
 
 const services = [
   {
-    title: "Frontend Developer",
+    title: "Full-Stack Web Development",
     icon: web,
   },
   {
-    title: "React Native Developer",
+    title: "Mobile App Development",
     icon: mobile,
   },
   {
-    title: "Backend Developer",
+    title: "Cloud & DevOps Solutions",
     icon: backend,
   },
   {
-    title: "Software Engineer",
+    title: "Complex Project Architecture",
     icon: creator,
   },
 ];
@@ -210,7 +210,7 @@ const projects = [
   {
     name: "Socializa.io Landing Page",
     description:
-      "Modern and engaging landing page for Socializa.io, a social media management platform. Built with cutting-edge web technologies to deliver a smooth, responsive user experience with dynamic animations and interactive elements.",
+      "Complex landing page for Socializa.io, a social media management platform. Built with React, TypeScript, and advanced animations. Demonstrates expertise in modern web development, responsive design, and creating engaging user experiences for international clients.",
     tags: [
       {
         name: "react",
@@ -231,7 +231,7 @@ const projects = [
   {
     name: "Portfolio Analytics Dashboard",
     description:
-      "Full-stack analytics dashboard for portfolio tracking and visualization. Features real-time data updates, interactive charts, and comprehensive analytics tools built with modern web technologies and deployed on Railway.",
+      "Enterprise-grade full-stack analytics dashboard with real-time data visualization. Complex architecture featuring React frontend, NestJS backend, PostgreSQL database, and cloud deployment. Showcases ability to build scalable solutions for data-intensive applications worldwide.",
     tags: [
       {
         name: "react",
