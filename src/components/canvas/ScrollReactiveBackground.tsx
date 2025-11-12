@@ -2,16 +2,35 @@ import { useRef, Suspense, useMemo, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Points, PointMaterial } from '@react-three/drei'
 import * as THREE from 'three'
-// @ts-expect-error - maath doesn't have types
 import * as random from 'maath/random/dist/maath-random.esm'
+
+// Detect if user prefers reduced motion
+const prefersReducedMotion = () => {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
+// Detect device capabilities
+const getParticleCount = () => {
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4
+  
+  if (isMobile || isLowEndDevice) {
+    return 1000 // Reduced for mobile/low-end devices
+  }
+  return 2000 // Reduced from 8000 for better performance
+}
 
 // Scroll-reactive particle field
 const ScrollParticles = () => {
   const ref = useRef<THREE.Points>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
   
-  // Generate particles in a sphere
-  const sphere = useMemo(() => random.inSphere(new Float32Array(8000), { radius: 1.8 }), [])
+  // Generate particles in a sphere with dynamic count based on device
+  const sphere = useMemo(() => {
+    const count = getParticleCount()
+    return random.inSphere(new Float32Array(count), { radius: 1.8 })
+  }, [])
   
   // Listen to scroll events (throttled for performance)
   useEffect(() => {
@@ -34,20 +53,27 @@ const ScrollParticles = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
   
-  useFrame((state, delta) => {
-    console.log(state)
+  useFrame((_state, delta) => {
     if (!ref.current) return
     
-    // Base rotation (slower than original stars)
-    ref.current.rotation.x -= delta / 12
-    ref.current.rotation.y -= delta / 15
+    const reducedMotion = prefersReducedMotion()
     
-    // Add scroll-reactive rotation boost
-    ref.current.rotation.z = scrollProgress * Math.PI * 0.5
-    
-    // Pulse effect based on scroll
-    const scale = 1 + Math.sin(scrollProgress * Math.PI * 2) * 0.1
-    ref.current.scale.set(scale, scale, scale)
+    if (!reducedMotion) {
+      // Base rotation (slower than original stars)
+      ref.current.rotation.x -= delta / 12
+      ref.current.rotation.y -= delta / 15
+      
+      // Add scroll-reactive rotation boost
+      ref.current.rotation.z = scrollProgress * Math.PI * 0.5
+      
+      // Pulse effect based on scroll
+      const scale = 1 + Math.sin(scrollProgress * Math.PI * 2) * 0.1
+      ref.current.scale.set(scale, scale, scale)
+    } else {
+      // Static position for reduced motion
+      ref.current.rotation.z = 0
+      ref.current.scale.set(1, 1, 1)
+    }
   })
   
   // Interpolate color based on scroll progress
@@ -109,6 +135,10 @@ const WaveMesh = () => {
   
   useFrame((state) => {
     if (!meshRef.current) return
+    
+    const reducedMotion = prefersReducedMotion()
+    
+    if (reducedMotion) return // Skip animation if reduced motion is preferred
     
     const mesh = meshRef.current
     const geometry = mesh.geometry as THREE.PlaneGeometry
@@ -173,12 +203,19 @@ const FloatingShapes = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
   
-  useFrame((state, delta) => {
-    console.log(state)
+  useFrame((_state, delta) => {
     if (!groupRef.current) return
     
-    groupRef.current.rotation.y += delta * 0.1
-    groupRef.current.position.y = Math.sin(scrollProgress * Math.PI * 2) * 0.5
+    const reducedMotion = prefersReducedMotion()
+    
+    if (!reducedMotion) {
+      groupRef.current.rotation.y += delta * 0.1
+      groupRef.current.position.y = Math.sin(scrollProgress * Math.PI * 2) * 0.5
+    } else {
+      // Keep static position
+      groupRef.current.rotation.y = 0
+      groupRef.current.position.y = 0
+    }
   })
   
   return (
@@ -220,6 +257,34 @@ const FloatingShapes = () => {
 }
 
 const ScrollReactiveBackground = () => {
+  const [reducedMotion, setReducedMotion] = useState(false)
+  
+  useEffect(() => {
+    // Check on mount
+    setReducedMotion(prefersReducedMotion())
+    
+    // Listen for changes
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const handleChange = (e: MediaQueryListEvent) => {
+      setReducedMotion(e.matches)
+    }
+    
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleChange)
+      return () => mediaQuery.removeEventListener('change', handleChange)
+    } else {
+      mediaQuery.addListener(handleChange)
+      return () => mediaQuery.removeListener(handleChange)
+    }
+  }, [])
+  
+  // Show a simple static gradient background if reduced motion is preferred
+  if (reducedMotion) {
+    return (
+      <div className='fixed inset-0 z-[-1] w-full h-full bg-gradient-to-b from-primary via-[#0a1628] to-primary' />
+    )
+  }
+  
   return (
     <div className='fixed inset-0 z-[-1] w-full h-full'>
       <Canvas

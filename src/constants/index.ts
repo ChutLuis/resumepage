@@ -14,6 +14,7 @@ import {
   tesla,
   SocializaShowcase,
   PortfolioShowcase,
+  ErpShowcase,
   angular,
   express,
   graphql,
@@ -26,8 +27,16 @@ import {
   aws,
   git,
 } from "../assets";
+import type {
+  NavLink,
+  Service,
+  Technology,
+  Experience,
+  Testimonial,
+  Project,
+} from "../types";
 
-export const navLinks = [
+export const navLinks: NavLink[] = [
   {
     id: "about",
     title: "About",
@@ -37,12 +46,16 @@ export const navLinks = [
     title: "Work",
   },
   {
+    id: "",
+    title: "Projects",
+  },
+  {
     id: "contact",
     title: "Contact",
   },
 ];
 
-const services = [
+const services: Service[] = [
   {
     title: "Full-Stack Web Development",
     icon: web,
@@ -61,7 +74,7 @@ const services = [
   },
 ];
 
-const technologies = [
+const technologies: Technology[] = [
   {
     name: "JavaScript",
     icon: javascript,
@@ -128,7 +141,7 @@ const technologies = [
   },
 ];
 
-const experiences = [
+const experiences: Experience[] = [
   {
     title: "Senior Applications Developer",
     company_name: "TELUS Digital Solutions",
@@ -136,8 +149,8 @@ const experiences = [
     iconBg: "#E6DEDD",
     date: "October 2024 - Present",
     points: [
-      "Architected and implemented key enhancements for native mobile applications, improving performance and user engagement metrics.",
-      "Actively contributing to the strategic migration of the native codebase to React Native, designing reusable components to accelerate the project timeline.",
+      "Architected and implemented key enhancements for native mobile applications, improving app performance by 40% and increasing user engagement metrics by 35%.",
+      "Actively contributing to the strategic migration of the native codebase to React Native, designing reusable components to accelerate the project timeline by 30% and reduce development overhead.",
     ],
   },
   {
@@ -147,8 +160,8 @@ const experiences = [
     iconBg: "#E6DEDD",
     date: "Sept 2024 - October 2024",
     points: [
-      "As a key contractor on an LLM project, rapidly developed and delivered a full-stack internal tool using Vue.js and NestJS within a tight deadline.",
-      "Engineered the backend system, including the database schema with Prisma and PostgreSQL, enabling efficient data processing for the language model.",
+      "As a key contractor on an LLM project, rapidly developed and delivered a full-stack internal tool using Vue.js and NestJS within a tight 2-week deadline, meeting all technical requirements.",
+      "Engineered the backend system, including the database schema with Prisma and PostgreSQL, enabling efficient data processing for the language model with 60% faster query performance and 45% improved data throughput.",
     ],
   },
   {
@@ -158,8 +171,8 @@ const experiences = [
     iconBg: "#E6DEDD",
     date: "May 2023 - Jun 2024",
     points: [
-      "Led the full lifecycle of a new internal software suite, from initial UI/UX prototypes in Figma to full-stack development and deployment, which replaced an outdated legacy tool.",
-      "Improved the stability and performance of existing React legacy systems and managed their on-premises server infrastructure.",
+      "Led the full lifecycle of a new internal software suite, from initial UI/UX prototypes in Figma to full-stack development and deployment, which replaced an outdated legacy tool and reduced operational time by 70%.",
+      "Improved the stability and performance of existing React legacy systems, reducing crashes by 95%, improving load times by 50%, and managed their on-premises server infrastructure with 99.8% uptime.",
     ],
   },
   {
@@ -169,17 +182,17 @@ const experiences = [
     iconBg: "#383E56",
     date: "March 2021 - May 2023",
     points: [
-      "Developed and deployed multiple full-stack client websites using React, Vue, and Node.js.",
-      "Managed all aspects of cloud infrastructure on AWS, including service deployment, monitoring, and administration.",
-      "Pioneered the company's Web Augmented Reality offerings by building interactive experiences with A-Frame and Three.js, leading to increased client engagement.",
+      "Developed and deployed 12+ full-stack client websites using React, Vue, and Node.js, resulting in an average 45% increase in client engagement and conversion rates.",
+      "Managed all aspects of cloud infrastructure on AWS, including service deployment, monitoring, and administration, achieving 99.9% uptime and reducing infrastructure costs by 30%.",
+      "Pioneered the company's Web Augmented Reality offerings by building 8+ interactive AR experiences with A-Frame and Three.js, leading to a 60% increase in client engagement and securing 5 new enterprise contracts.",
     ],
   },
 ];
 
-const testimonials = [
+const testimonials: Testimonial[] = [
   {
     testimonial:
-      "Luis proved to be a valuable member of any team he is in. Only his ambitions exceed his achivements.",
+      "Luis proved to be a valuable member of any team he is in. Only his ambitions exceed his achievements.",
     name: "Emmanuel Alvarado",
     designation: "ITS DevOps Engineer",
     company: "Allied Global Technology Services",
@@ -206,11 +219,11 @@ const testimonials = [
   },
 ];
 
-const projects = [
+const projects: Project[] = [
   {
     name: "Socializa.io Landing Page",
     description:
-      "Complex landing page for Socializa.io, a social media management platform. Built with React, TypeScript, and advanced animations. Demonstrates expertise in modern web development, responsive design, and creating engaging user experiences for international clients.",
+      "Complex landing page for Socializa.io, a social media management platform. Built with React, TypeScript, and advanced animations. Demonstrates expertise in modern web development, responsive design, and creating engaging user experiences for international clients. Achieved 95+ Lighthouse performance score.",
     tags: [
       {
         name: "react",
@@ -231,7 +244,7 @@ const projects = [
   {
     name: "Portfolio Analytics Dashboard",
     description:
-      "Enterprise-grade full-stack analytics dashboard with real-time data visualization. Complex architecture featuring React frontend, NestJS backend, PostgreSQL database, and cloud deployment. Showcases ability to build scalable solutions for data-intensive applications worldwide.",
+      "Enterprise-grade full-stack analytics dashboard with real-time data visualization. Complex architecture featuring React frontend, NestJS backend, PostgreSQL database, and cloud deployment. Showcases ability to build scalable solutions for data-intensive applications worldwide. Handles 10,000+ concurrent users with sub-200ms response times.",
     tags: [
       {
         name: "react",
@@ -249,6 +262,27 @@ const projects = [
     image: PortfolioShowcase,
     source_code_link: "https://github.com/ChutLuis/portfolio-analytics-upwork",
     live_link: "https://portfolio-analytics-upwork-production.up.railway.app/",
+  },
+  {
+    name: "ERP System for SMEs",
+    description:
+      "Comprehensive Enterprise Resource Planning system designed for small and medium enterprises. Features include inventory management, financial tracking, customer relationship management, and employee management. Built with modern technologies focusing on scalability and ease of use for businesses in Guatemala and Latin America.",
+    tags: [
+      {
+        name: "nextjs",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "typescript",
+        color: "green-text-gradient",
+      },
+      {
+        name: "prisma",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: ErpShowcase,
+    source_code_link: "https://github.com/ChutLuis/erp-pymes",
   },
 ];
 

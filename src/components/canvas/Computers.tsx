@@ -2,8 +2,14 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import CanvasLoader from "../Loader";
-const Computers = ({ isMobile }) => {
+
+interface ComputersProps {
+  isMobile: boolean;
+}
+
+const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
   const computer = useGLTF("./desktop_pc/scene.gltf");
+  
   return (
     <mesh>
       <hemisphereLight intensity={1.5} groundColor={"black"} />
@@ -18,21 +24,23 @@ const Computers = ({ isMobile }) => {
       />
       <primitive
         object={computer.scene}
-        scale={isMobile?0.4:0.75}
-        position={isMobile?[-2,-1,-1.5]:[0, -3.75, -1.5]}
+        scale={isMobile ? 0.4 : 0.75}
+        position={isMobile ? [-2, -1, -1.5] : [0, -3.75, -1.5]}
         rotation={[-0.01, -0.2, -0.1]}
       />
     </mesh>
   );
 };
-const ComputersCanvas = () => {
+
+const ComputersCanvas: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
+  
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 500px)");
 
     setIsMobile(mediaQuery.matches);
 
-    const handleMediaQueryChange = (event) => {
+    const handleMediaQueryChange = (event: MediaQueryListEvent) => {
       setIsMobile(event.matches);
     };
 
