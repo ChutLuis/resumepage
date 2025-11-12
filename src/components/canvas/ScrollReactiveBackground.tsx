@@ -48,7 +48,7 @@ const ScrollParticles = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
   
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     if (!ref.current) return
     
     // Base rotation (slower than original stars)
@@ -186,7 +186,7 @@ const FloatingShapes = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
   
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     if (!groupRef.current) return
     
     groupRef.current.rotation.y += delta * 0.1
