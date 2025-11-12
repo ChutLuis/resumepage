@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import { Hero, Navbar, ScrollReactiveBackground, ErrorBoundary, Footer } from "./components";
+import { Hero, Navbar, StarsCanvas, ErrorBoundary, Footer } from "./components";
 import SectionLoader from "./components/SectionLoader";
 
 // Lazy load heavy components for better initial load performance
@@ -15,9 +15,9 @@ function App() {
   return (
     <BrowserRouter>
       <div className="relative z-0 bg-primary">
-        {/* EXPERIMENTAL: Scroll-Reactive Background Canvas - Wrapped in Error Boundary */}
+        {/* Shooting Stars Background Canvas - Wrapped in Error Boundary */}
         <ErrorBoundary fallbackMessage="Unable to load background animation. The page will continue to work normally.">
-          <ScrollReactiveBackground />
+          <StarsCanvas />
         </ErrorBoundary>
         
         <header className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
@@ -62,8 +62,7 @@ function App() {
                 <Contact />
               </Suspense>
             </ErrorBoundary>
-            {/* Original Stars canvas removed - replaced by ScrollReactiveBackground */}
-            {/* <StarsCanvas /> */}
+            {/* Stars canvas moved to top level for full-page background */}
           </div>
         </main>
         
