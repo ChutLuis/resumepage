@@ -2,7 +2,6 @@ import { useRef, Suspense, useMemo, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Points, PointMaterial } from '@react-three/drei'
 import * as THREE from 'three'
-// @ts-expect-error - maath doesn't have types
 import * as random from 'maath/random/dist/maath-random.esm'
 
 // Detect device capabilities

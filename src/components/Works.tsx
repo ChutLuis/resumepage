@@ -1,11 +1,17 @@
 import { Tilt } from "react-tilt";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import styles from "../styles";
 import { github } from "../assets";
 import { SectionWrapper } from "../hoc";
 import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
-const ProjectCard = ({
+import type { Project, Tag } from "../types";
+
+interface ProjectCardProps extends Project {
+  index: number;
+}
+
+const ProjectCard: React.FC<ProjectCardProps> = ({
   index,
   name,
   description,
@@ -13,9 +19,9 @@ const ProjectCard = ({
   image,
   source_code_link,
   live_link,
-}: any) => {
+}) => {
   return (
-    <motion.div variants={fadeIn("up", "spring", index * 0.5, 0.75)}>
+    <motion.div variants={fadeIn("up", "spring", index * 0.5, 0.75) as Variants}>
       <Tilt
         options={{ max: 45, scale: 1, speed: 450 }}
         className="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full border border-blue-900/50 hover:border-blue-500/50 transition-all duration-300 hover:shadow-blue-glow"
@@ -71,7 +77,7 @@ const ProjectCard = ({
           <p className="mt-2 text-secondary text-[14px]">{description}</p>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
-          {tags.map((tag: any) => (
+          {tags.map((tag: Tag) => (
             <p key={tag.name} className={`text-[14px] ${tag.color}`}>
               #{tag.name}
             </p>
@@ -84,13 +90,13 @@ const ProjectCard = ({
 const Works = () => {
   return (
     <>
-      <motion.div variants={textVariant()}>
+      <motion.div variants={textVariant() as Variants}>
         <p className={styles.styles.sectionSubText}>My work</p>
         <h2 className={styles.styles.heroHeadText}>Projects.</h2>
       </motion.div>
       <div className="w-full flex">
         <motion.p
-          variants={fadeIn("", "", 0.1, 1)}
+          variants={fadeIn("", "spring", 0.1, 1) as Variants}
           className="mt-3 text-secondary text-[17px] max-w-5xl leading-[30px] text-justify"
         >
           The following projects showcase my skills and experience through
