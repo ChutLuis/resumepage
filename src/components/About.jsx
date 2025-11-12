@@ -28,22 +28,29 @@ const About = () => {
         <p className={styles.styles.sectionSubText}>Introduction</p>
         <h2 className={styles.styles.heroHeadText}>Overview</h2>
       </motion.div>
-      <motion.p
+      <motion.div
         variants={fadeIn("", "", 0.1, 1)}
-        className="mt-4 text-secondary text-[17px] max-w-7xl leadin-[30px] text-justify"
+        className="mt-4 text-secondary text-[17px] max-w-7xl leading-[30px] space-y-4"
       >
-        I am Luis Ortiz, a full-stack developer and UI/UX designer who partners with businesses 
-        to build custom web applications from concept to launch. Specializing in creating engaging 
-        user experiences with modern technologies like React, NestJS, and Web AR, I have a proven 
-        ability to deliver robust, innovative, and user-centered solutions that drive business results. 
-        Currently working as a Senior Applications Developer at TELUS Digital Solutions, I architect 
-        and implement key enhancements for native mobile applications while contributing to strategic 
-        migrations to React Native. I hold a Bachelor of Engineering in Computers and Systems from 
-        Universidad Rafael Landivar and am proficient in JavaScript, TypeScript, React, NestJS, Express, 
-        PostgreSQL, and MySQL. With expertise in UI/UX design using Figma, cloud platforms (AWS), and 
-        data analysis, I am bilingual in English (C2) and Spanish (Native), highly motivated to deliver 
-        exceptional software solutions.
-      </motion.p>
+        <p>
+          I'm a full-stack developer specializing in building modern web applications with React,
+          TypeScript, and Node.js. Currently working as a <span className="text-white font-medium">Senior Applications Developer
+          at TELUS Digital Solutions</span>, I architect and implement enhancements for native mobile applications
+          while leading strategic migrations to React Native.
+        </p>
+        
+        <p>
+          I bring <span className="text-white font-medium">4+ years of professional experience</span> delivering
+          full-stack solutions across multiple industries, from enterprise applications to interactive Web AR experiences.
+          My expertise spans modern frontend frameworks (React, Vue, Angular), backend development (NestJS, Express),
+          cloud infrastructure (AWS), and UI/UX design.
+        </p>
+        
+        <p>
+          I hold a Bachelor of Engineering in Computers and Systems from Universidad Rafael Landivar and am
+          bilingual in English (C2) and Spanish (Native). Let's build something impactful together.
+        </p>
+      </motion.div>
       <div className="mt-20 flex flex-wrap gap-10">
         {services.map((service, index) => (
           <ServiceCard key={service.title} index={index} {...service} />

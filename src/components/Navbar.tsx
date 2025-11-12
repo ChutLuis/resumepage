@@ -11,6 +11,8 @@ const Navbar = () => {
   return (
     <nav
       className={`${styles.styles.paddingX} w-full flex items-center py-5 fixed top-0 z-20 bg-primary border-b border-blue-900/50 backdrop-blur-sm`}
+      role="navigation"
+      aria-label="Main navigation"
     >
       <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
         <Link
@@ -21,7 +23,7 @@ const Navbar = () => {
             window.scrollTo(0, 0);
           }}
         >
-          <img src={logo} alt="logo" className=" w-6 h-6 object-contain" />
+          <img src={logo} alt="Luis Ortiz - Software Engineer logo" className=" w-6 h-6 object-contain" />
           <p className="text-white text-[18px] font-bold cursor-pointer flex">
             Luis &nbsp;{" "}
             <span className="sm:block hidden"> | Software Engineer</span>
@@ -41,13 +43,24 @@ const Navbar = () => {
           ))}
         </ul>
         <div className="sm:hidden flex flex-1 justify-end items-center">
-          <img
-            src={toggle ? close : menu}
-            alt="menu"
-            className="w-[28px] h-[28px] object-contain cursor-pointer"
+          <button
             onClick={() => setToggle(!toggle)}
-          />
+            className="w-[44px] h-[44px] flex items-center justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+            aria-label={toggle ? "Close menu" : "Open menu"}
+            aria-expanded={toggle}
+            aria-controls="mobile-menu"
+          >
+            <img
+              src={toggle ? close : menu}
+              alt=""
+              className="w-[28px] h-[28px] object-contain"
+            />
+          </button>
           <div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation menu"
             className={`${
               !toggle ? "hidden" : "flex"
             } p-6 bg-gradient-to-br from-tertiary to-black-100 border border-blue-900/50 absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl shadow-lg shadow-blue-900/50`}

@@ -37,6 +37,10 @@ export const navLinks = [
     title: "Work",
   },
   {
+    id: "",
+    title: "Projects",
+  },
+  {
     id: "contact",
     title: "Contact",
   },
@@ -179,7 +183,7 @@ const experiences = [
 const testimonials = [
   {
     testimonial:
-      "Luis proved to be a valuable member of any team he is in. Only his ambitions exceed his achivements.",
+      "Luis proved to be a valuable member of any team he is in. Only his ambitions exceed his achievements.",
     name: "Emmanuel Alvarado",
     designation: "ITS DevOps Engineer",
     company: "Allied Global Technology Services",

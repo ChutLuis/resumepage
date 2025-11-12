@@ -5,13 +5,27 @@ import * as THREE from 'three'
 // @ts-expect-error - maath doesn't have types
 import * as random from 'maath/random/dist/maath-random.esm'
 
+// Detect device capabilities
+const getParticleCount = () => {
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4
+  
+  if (isMobile || isLowEndDevice) {
+    return 1000 // Reduced for mobile/low-end devices
+  }
+  return 2000 // Reduced from 8000 for better performance
+}
+
 // Scroll-reactive particle field
 const ScrollParticles = () => {
   const ref = useRef<THREE.Points>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
   
-  // Generate particles in a sphere
-  const sphere = useMemo(() => random.inSphere(new Float32Array(8000), { radius: 1.8 }), [])
+  // Generate particles in a sphere with dynamic count based on device
+  const sphere = useMemo(() => {
+    const count = getParticleCount()
+    return random.inSphere(new Float32Array(count), { radius: 1.8 })
+  }, [])
   
   // Listen to scroll events (throttled for performance)
   useEffect(() => {
@@ -35,7 +49,6 @@ const ScrollParticles = () => {
   }, [])
   
   useFrame((state, delta) => {
-    console.log(state)
     if (!ref.current) return
     
     // Base rotation (slower than original stars)
@@ -174,7 +187,6 @@ const FloatingShapes = () => {
   }, [])
   
   useFrame((state, delta) => {
-    console.log(state)
     if (!groupRef.current) return
     
     groupRef.current.rotation.y += delta * 0.1
