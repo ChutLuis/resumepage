@@ -14,6 +14,7 @@ import {
   tesla,
   SocializaShowcase,
   PortfolioShowcase,
+  ErpShowcase,
   angular,
   express,
   graphql,
@@ -263,130 +264,25 @@ const projects: Project[] = [
     live_link: "https://portfolio-analytics-upwork-production.up.railway.app/",
   },
   {
-    name: "E-Commerce Mobile App",
+    name: "ERP System for SMEs",
     description:
-      "Cross-platform mobile application built with React Native for a retail client. Features include real-time inventory tracking, secure payment processing, push notifications, and offline mode. Implemented Redux for state management and integrated with RESTful APIs. Achieved 4.8-star rating with 50,000+ downloads and 85% user retention rate.",
+      "Comprehensive Enterprise Resource Planning system designed for small and medium enterprises. Features include inventory management, financial tracking, customer relationship management, and employee management. Built with modern technologies focusing on scalability and ease of use for businesses in Guatemala and Latin America.",
     tags: [
       {
-        name: "react-native",
+        name: "nextjs",
         color: "blue-text-gradient",
       },
       {
-        name: "redux",
+        name: "typescript",
         color: "green-text-gradient",
       },
       {
-        name: "stripe",
+        name: "prisma",
         color: "pink-text-gradient",
       },
     ],
-    image: PortfolioShowcase,
-    source_code_link: "https://github.com/",
-  },
-  {
-    name: "Cloud Infrastructure Automation",
-    description:
-      "AWS infrastructure-as-code solution using Terraform and Docker for a fintech startup. Automated deployment pipelines with CI/CD, implemented auto-scaling EC2 instances, RDS databases, S3 storage, and CloudFront CDN. Reduced deployment time by 80% and infrastructure costs by 40% while improving system reliability to 99.95% uptime.",
-    tags: [
-      {
-        name: "aws",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "terraform",
-        color: "green-text-gradient",
-      },
-      {
-        name: "docker",
-        color: "pink-text-gradient",
-      },
-    ],
-    image: PortfolioShowcase,
-    source_code_link: "https://github.com/",
-  },
-  {
-    name: "Enterprise CRM System",
-    description:
-      "Full-stack customer relationship management system for a B2B company. Built with Angular frontend, NestJS backend, GraphQL API, and MongoDB database. Features include client management, sales pipeline tracking, automated email campaigns, and advanced analytics dashboard. Improved sales team productivity by 65% and reduced customer response time by 50%.",
-    tags: [
-      {
-        name: "angular",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "graphql",
-        color: "green-text-gradient",
-      },
-      {
-        name: "mongodb",
-        color: "pink-text-gradient",
-      },
-    ],
-    image: PortfolioShowcase,
-    source_code_link: "https://github.com/",
-  },
-  {
-    name: "Real-Time Collaboration Platform",
-    description:
-      "Collaborative workspace application with real-time document editing, video conferencing, and project management features. Built with React, Node.js, Socket.io for WebSocket connections, and Redis for session management. Implemented end-to-end encryption and supports 500+ concurrent collaborative sessions with <100ms latency.",
-    tags: [
-      {
-        name: "react",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "socket.io",
-        color: "green-text-gradient",
-      },
-      {
-        name: "redis",
-        color: "pink-text-gradient",
-      },
-    ],
-    image: PortfolioShowcase,
-    source_code_link: "https://github.com/",
-  },
-  {
-    name: "AI-Powered Content Generator",
-    description:
-      "SaaS platform leveraging OpenAI APIs for automated content creation. Features Remix framework for server-side rendering, Stripe for subscription management, and PostgreSQL for data persistence. Implemented rate limiting, caching strategies, and comprehensive analytics. Serves 5,000+ active users generating 100,000+ AI-powered content pieces monthly with 92% customer satisfaction.",
-    tags: [
-      {
-        name: "remix",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "openai",
-        color: "green-text-gradient",
-      },
-      {
-        name: "stripe",
-        color: "pink-text-gradient",
-      },
-    ],
-    image: PortfolioShowcase,
-    source_code_link: "https://github.com/",
-  },
-  {
-    name: "IoT Dashboard & Control System",
-    description:
-      "Real-time monitoring and control dashboard for IoT devices in smart home automation. Built with Vue.js frontend, Express backend, MQTT protocol for device communication, and InfluxDB for time-series data. Features include live device status, historical data visualization, automated rules engine, and mobile app integration. Managing 1,000+ connected devices with 99.7% uptime.",
-    tags: [
-      {
-        name: "vue",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "mqtt",
-        color: "green-text-gradient",
-      },
-      {
-        name: "influxdb",
-        color: "pink-text-gradient",
-      },
-    ],
-    image: PortfolioShowcase,
-    source_code_link: "https://github.com/",
+    image: ErpShowcase,
+    source_code_link: "https://github.com/ChutLuis/erp-pymes",
   },
 ];
 

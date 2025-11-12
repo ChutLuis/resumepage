@@ -4,7 +4,26 @@ import { ComputersCanvas } from "./canvas";
 
 const Hero = () => {
   const [mountCanvas, setMountCanvas] = useState(true);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  
+  // Check for prefers-reduced-motion
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mediaQuery.matches);
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      setReducedMotion(e.matches);
+    };
+    
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    } else {
+      mediaQuery.addListener(handleChange);
+      return () => mediaQuery.removeListener(handleChange);
+    }
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -62,7 +81,7 @@ const Hero = () => {
           aria-label="Scroll to about section"
         >
           <div className="w-[35px] h-[64px] rounded-3xl border-4 border-blue-400 flex justify-center items-start p-2 hover:border-cyan-400 transition-colors duration-300">
-            <div className="w-3 h-3 rounded-full bg-blue-400 mb-1 animate-bounce shadow-blue-glow" />
+            <div className={`w-3 h-3 rounded-full bg-blue-400 mb-1 shadow-blue-glow ${!reducedMotion ? 'animate-bounce' : ''}`} />
           </div>
         </a>
       </div>

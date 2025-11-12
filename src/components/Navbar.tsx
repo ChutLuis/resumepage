@@ -41,6 +41,28 @@ const Navbar = () => {
               <a href={`#${link.id}`}>{link.title}</a>
             </li>
           ))}
+          <li className="text-secondary hover:text-blue-400 text-[18px] font-medium transition-all duration-300 pb-1">
+            <a
+              href="/resume.pdf"
+              download="Luis_Ortiz_Resume.pdf"
+              className="flex items-center gap-2"
+              onClick={() => {
+                // Optional: Track download event
+                console.log('Resume downloaded');
+              }}
+            >
+              Resume
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </a>
+          </li>
         </ul>
         <div className="sm:hidden flex flex-1 justify-end items-center">
           <button
@@ -80,6 +102,28 @@ const Navbar = () => {
                   <a href={`#${link.id}`}>{link.title}</a>
                 </li>
               ))}
+              <li className="text-secondary font-poppins font-medium cursor-pointer text-[16px] hover:text-blue-400 transition-colors duration-300">
+                <a
+                  href="/resume.pdf"
+                  download="Luis_Ortiz_Resume.pdf"
+                  className="flex items-center gap-2"
+                  onClick={() => {
+                    setToggle(!toggle);
+                    console.log('Resume downloaded');
+                  }}
+                >
+                  Resume
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </a>
+              </li>
             </ul>
           </div>
         </div>

@@ -38,6 +38,7 @@ import jobit from "./jobit.png";
 import tripguide from "./tripguide.png";
 import SocializaShowcase from "./SocializaShowcase.png";
 import PortfolioShowcase from "./PortfolioShowcase.png";
+import ErpShowcase from "./erp-showcase.png";
 
 export {
   nest,
@@ -79,4 +80,5 @@ export {
   telus,
   SocializaShowcase,
   PortfolioShowcase,
+  ErpShowcase,
 };

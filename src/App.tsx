@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import { Hero, Navbar, ScrollReactiveBackground } from "./components";
+import { Hero, Navbar, ScrollReactiveBackground, ErrorBoundary, Footer } from "./components";
+import SectionLoader from "./components/SectionLoader";
 
 // Lazy load heavy components for better initial load performance
 const About = lazy(() => import("./components/About"));
@@ -10,19 +11,14 @@ const Works = lazy(() => import("./components/Works"));
 const Feedbacks = lazy(() => import("./components/Feedbacks"));
 const Contact = lazy(() => import("./components/Contact"));
 
-// Loading fallback component
-const SectionLoader = () => (
-  <div className="flex justify-center items-center min-h-[200px]">
-    <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-  </div>
-);
-
 function App() {
   return (
     <BrowserRouter>
       <div className="relative z-0 bg-primary">
-        {/* EXPERIMENTAL: Scroll-Reactive Background Canvas */}
-        <ScrollReactiveBackground />
+        {/* EXPERIMENTAL: Scroll-Reactive Background Canvas - Wrapped in Error Boundary */}
+        <ErrorBoundary fallbackMessage="Unable to load background animation. The page will continue to work normally.">
+          <ScrollReactiveBackground />
+        </ErrorBoundary>
         
         <header className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
           <Navbar />
@@ -30,34 +26,49 @@ function App() {
         </header>
         
         <main id="main-content" className="relative">
-          <Suspense fallback={<SectionLoader />}>
-            <About />
-          </Suspense>
+          <ErrorBoundary fallbackMessage="Unable to load the About section.">
+            <Suspense fallback={<SectionLoader />}>
+              <About />
+            </Suspense>
+          </ErrorBoundary>
           
-          <Suspense fallback={<SectionLoader />}>
-            <Experience />
-          </Suspense>
+          <ErrorBoundary fallbackMessage="Unable to load the Experience section.">
+            <Suspense fallback={<SectionLoader />}>
+              <Experience />
+            </Suspense>
+          </ErrorBoundary>
           
-          <Suspense fallback={<SectionLoader />}>
-            <Tech />
-          </Suspense>
+          <ErrorBoundary fallbackMessage="Unable to load the Tech section.">
+            <Suspense fallback={<SectionLoader />}>
+              <Tech />
+            </Suspense>
+          </ErrorBoundary>
           
-          <Suspense fallback={<SectionLoader />}>
-            <Works />
-          </Suspense>
+          <ErrorBoundary fallbackMessage="Unable to load the Works section.">
+            <Suspense fallback={<SectionLoader />}>
+              <Works />
+            </Suspense>
+          </ErrorBoundary>
           
-          <Suspense fallback={<SectionLoader />}>
-            <Feedbacks />
-          </Suspense>
+          <ErrorBoundary fallbackMessage="Unable to load the Feedbacks section.">
+            <Suspense fallback={<SectionLoader />}>
+              <Feedbacks />
+            </Suspense>
+          </ErrorBoundary>
           
           <div className="relative z-0">
-            <Suspense fallback={<SectionLoader />}>
-              <Contact />
-            </Suspense>
+            <ErrorBoundary fallbackMessage="Unable to load the Contact section.">
+              <Suspense fallback={<SectionLoader />}>
+                <Contact />
+              </Suspense>
+            </ErrorBoundary>
             {/* Original Stars canvas removed - replaced by ScrollReactiveBackground */}
             {/* <StarsCanvas /> */}
           </div>
         </main>
+        
+        {/* Footer */}
+        <Footer />
       </div>
     </BrowserRouter>
   );

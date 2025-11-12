@@ -8,6 +8,8 @@ import Works from './Works';
 import Feedbacks from './Feedbacks';
 import Contact from './Contact';
 import CSSStars from './CSSStars';
+import ErrorBoundary from './ErrorBoundary';
+import Footer from './Footer';
 
 export {
   Hero,
@@ -18,10 +20,12 @@ export {
   Works,
   Feedbacks,
   Contact,
-  EarthCanvas, 
-  BallCanvas, 
-  ComputersCanvas, 
+  EarthCanvas,
+  BallCanvas,
+  ComputersCanvas,
   StarsCanvas,
   ScrollReactiveBackground,
-  CSSStars
+  CSSStars,
+  ErrorBoundary,
+  Footer
 }
