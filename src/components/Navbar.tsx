@@ -4,13 +4,35 @@ import { Link } from "react-router-dom";
 import styles from "../styles";
 import { navLinks } from "../constants";
 import { logo, menu, close } from "../assets";
+import useActiveSection from "../hooks/useActiveSection";
+
+// Stable reference so the IntersectionObserver effect doesn't re-run each render.
+const SECTION_IDS = navLinks.map((link) => link.id).filter(Boolean);
+
+const ResumeIcon = () => (
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+    />
+  </svg>
+);
+
 const Navbar = () => {
-  const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
-  // mx-auto 14
+  const activeId = useActiveSection(SECTION_IDS);
+
   return (
     <nav
-      className={`${styles.styles.paddingX} w-full flex items-center py-5 fixed top-0 z-20 bg-primary border-b border-blue-900/50 backdrop-blur-sm`}
+      className={`${styles.styles.paddingX} w-full flex items-center py-5 fixed top-0 z-30 bg-primary/80 border-b border-white/5 backdrop-blur-md`}
       role="navigation"
       aria-label="Main navigation"
     >
@@ -18,56 +40,58 @@ const Navbar = () => {
         <Link
           to="/"
           className="flex items-center gap-2"
-          onClick={() => {
-            setActive("");
-            window.scrollTo(0, 0);
-          }}
+          onClick={() => window.scrollTo(0, 0)}
         >
-          <img src={logo} alt="Luis Ortiz - Software Engineer logo" className=" w-6 h-6 object-contain" />
-          <p className="text-white text-[18px] font-bold cursor-pointer flex">
-            Luis &nbsp;{" "}
-            <span className="sm:block hidden"> | Software Engineer</span>
+          <img
+            src={logo}
+            alt="Luis Ortiz - Software Engineer logo"
+            className="w-6 h-6 object-contain"
+          />
+          <p className="text-white text-[18px] font-bold font-display cursor-pointer flex">
+            Luis &nbsp;
+            <span className="sm:block hidden text-secondary font-medium">
+              | Software Engineer
+            </span>
           </p>
         </Link>
-        <ul className="list-none hidden sm:flex flex-row gap-10">
-          {navLinks.map((link: any) => (
-            <li
-              key={link.id}
-              className={`${
-                active === link.title ? "text-white border-b-2 border-blue-400" : "text-secondary"
-              } hover:text-blue-400 text-[18px] font-medium cursor-pointer transition-all duration-300 pb-1`}
-              onClick={() => setActive(link.title)}
-            >
-              <a href={`#${link.id}`}>{link.title}</a>
-            </li>
-          ))}
-          <li className="text-secondary hover:text-blue-400 text-[18px] font-medium transition-all duration-300 pb-1">
+
+        <ul className="list-none hidden sm:flex flex-row gap-8 items-center">
+          {navLinks.map((link) => {
+            const isActive = activeId === link.id;
+            return (
+              <li key={link.id} data-cursor="hover">
+                <a
+                  href={`#${link.id}`}
+                  className={`relative text-[17px] font-medium transition-colors duration-300 ${
+                    isActive ? "text-white" : "text-secondary hover:text-white"
+                  }`}
+                >
+                  {link.title}
+                  <span
+                    className={`absolute -bottom-1.5 left-0 h-0.5 rounded-full bg-gradient-to-r from-accent-500 to-cyan-400 transition-all duration-300 ${
+                      isActive ? "w-full opacity-100" : "w-0 opacity-0"
+                    }`}
+                  />
+                </a>
+              </li>
+            );
+          })}
+          <li data-cursor="hover">
             <a
               href="/resume.pdf"
               download="Luis_Ortiz_Resume.pdf"
-              className="flex items-center gap-2"
-              onClick={() => {
-                // Optional: Track download event
-                console.log('Resume downloaded');
-              }}
+              className="flex items-center gap-2 rounded-full border border-accent-500/40 bg-accent-500/10 px-4 py-1.5 text-[15px] font-medium text-accent-300 transition-all duration-300 hover:border-accent-400 hover:bg-accent-500/20 hover:text-white"
             >
               Resume
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
+              <ResumeIcon />
             </a>
           </li>
         </ul>
+
         <div className="sm:hidden flex flex-1 justify-end items-center">
           <button
             onClick={() => setToggle(!toggle)}
-            className="w-[44px] h-[44px] flex items-center justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 rounded"
+            className="w-[44px] h-[44px] flex items-center justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent-400 rounded"
             aria-label={toggle ? "Close menu" : "Open menu"}
             aria-expanded={toggle}
             aria-controls="mobile-menu"
@@ -85,43 +109,32 @@ const Navbar = () => {
             aria-label="Mobile navigation menu"
             className={`${
               !toggle ? "hidden" : "flex"
-            } p-6 bg-gradient-to-br from-tertiary to-black-100 border border-blue-900/50 absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl shadow-lg shadow-blue-900/50`}
+            } glass p-6 absolute top-20 right-0 mx-4 my-2 min-w-[160px] z-10 rounded-2xl`}
           >
-            <ul className="list-none flex justify-end items-start flex-col gap-4">
-              {navLinks.map((link: any) => (
-                <li
-                  key={link.id}
-                  className={`${
-                    active === link.title ? "text-white" : "text-secondary"
-                  } font-poppins font-medium cursor-pointer text-[16px] hover:text-blue-400 transition-colors duration-300`}
-                  onClick={() => {
-                    setToggle(!toggle);
-                    setActive(link.title);
-                  }}
-                >
-                  <a href={`#${link.id}`}>{link.title}</a>
-                </li>
-              ))}
-              <li className="text-secondary font-poppins font-medium cursor-pointer text-[16px] hover:text-blue-400 transition-colors duration-300">
+            <ul className="list-none flex justify-end items-start flex-col gap-4 w-full">
+              {navLinks.map((link) => {
+                const isActive = activeId === link.id;
+                return (
+                  <li
+                    key={link.id}
+                    className={`font-medium cursor-pointer text-[16px] transition-colors duration-300 ${
+                      isActive ? "text-white" : "text-secondary hover:text-white"
+                    }`}
+                    onClick={() => setToggle(false)}
+                  >
+                    <a href={`#${link.id}`}>{link.title}</a>
+                  </li>
+                );
+              })}
+              <li className="w-full pt-2 border-t border-white/10">
                 <a
                   href="/resume.pdf"
                   download="Luis_Ortiz_Resume.pdf"
-                  className="flex items-center gap-2"
-                  onClick={() => {
-                    setToggle(!toggle);
-                    console.log('Resume downloaded');
-                  }}
+                  className="flex items-center gap-2 text-[16px] font-medium text-accent-300 hover:text-white transition-colors duration-300"
+                  onClick={() => setToggle(false)}
                 >
                   Resume
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
+                  <ResumeIcon />
                 </a>
               </li>
             </ul>

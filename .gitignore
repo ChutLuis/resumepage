@@ -16,6 +16,8 @@ dist-ssr
 .env
 .env.*
 !.env.example
+# Runtime env dump - must never be committed (leaks local machine env vars)
+public/env.js
 
 # Build output
 .next

@@ -1,87 +1,129 @@
 import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform, Variants } from "framer-motion";
 import styles from "../styles";
 import { ComputersCanvas } from "./canvas";
+import MagneticButton from "./ui/MagneticButton";
+
+const container: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+};
+const item: Variants = {
+  hidden: { y: 24, opacity: 0 },
+  show: { y: 0, opacity: 1, transition: { duration: 0.7, ease: "easeOut" } },
+};
+
+const badges = ["React", "React Native", "Node.js", "AWS", "TypeScript"];
 
 const Hero = () => {
-  const [mountCanvas, setMountCanvas] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  
-  // Check for prefers-reduced-motion
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const textY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : 120]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReducedMotion(mediaQuery.matches);
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      setReducedMotion(e.matches);
-    };
-    
+    const handleChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
     if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
     } else {
       mediaQuery.addListener(handleChange);
       return () => mediaQuery.removeListener(handleChange);
     }
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Force remount when coming into view
-            setMountCanvas(false);
-            setTimeout(() => setMountCanvas(true), 100);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} className="relative w-full h-screen mx-auto">
-      <div
-        className={`${styles.styles.paddingX} pb-4 absolute inset-0 top-[80px] max-w-7xl mx-auto flex flex-row items-start gap-5 z-10`}
+    <section ref={sectionRef} className="relative mx-auto h-screen w-full">
+      <motion.div
+        style={{ y: textY, opacity: textOpacity }}
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className={`${styles.styles.paddingX} absolute inset-0 top-[90px] z-10 mx-auto flex max-w-7xl flex-row items-start gap-5 pb-4`}
       >
-        <div className="flex flex-col justify-center items-center mt-5">
-          <div className="w-5 h-5 rounded-full bg-blue-400 shadow-blue-glow" />
-          <div className="w-1 sm:h-80 h-40 blue-gradient" />
+        <div className="mt-2 flex flex-col items-center justify-center">
+          <div className="h-5 w-5 rounded-full bg-accent-500 shadow-accent-glow" />
+          <div className="blue-gradient h-40 w-1 sm:h-80" />
         </div>
-        <div className="relative z-10 bg-primary/80 backdrop-blur-sm p-6 rounded-lg sm:bg-transparent sm:backdrop-blur-none sm:p-0">
-          <h1 className={`${styles.styles.heroHeadText} text-white`}>
-            Hi, I'm <span className="text-blue-400 drop-shadow-[0_0_15px_rgba(56,189,248,0.8)]">Luis Ortiz</span>
-          </h1>
-          <p className={`${styles.styles.heroSubText} mt-2 text-white`}>
-            Full-Stack Software Engineer specializing in{" "}
-            React, Node.js & AWS solutions worldwide.
-          </p>
+
+        <div className="relative z-10 rounded-2xl bg-primary/70 p-6 backdrop-blur-sm sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
+          <motion.p
+            variants={item}
+            className="mb-3 text-[15px] font-medium uppercase tracking-[0.3em] text-cyan-400"
+          >
+            Full-Stack Software Engineer
+          </motion.p>
+          <motion.h1 variants={item} className={styles.styles.heroHeadText}>
+            Hi, I'm{" "}
+            <span className="text-gradient-animated">Luis Ortiz</span>
+          </motion.h1>
+          <motion.p
+            variants={item}
+            className={`${styles.styles.heroSubText} mt-3 max-w-2xl`}
+          >
+            I build modern web &amp; mobile products with React, Node.js &amp;
+            AWS — from enterprise platforms to interactive experiences.
+          </motion.p>
+
+          <motion.div variants={item} className="mt-6 flex flex-wrap gap-2">
+            {badges.map((b) => (
+              <span
+                key={b}
+                className="rounded-full border border-line bg-bg-2/70 px-3 py-1 text-[13px] font-medium text-body backdrop-blur-sm"
+              >
+                {b}
+              </span>
+            ))}
+          </motion.div>
+
+          <motion.div variants={item} className="mt-8 flex flex-wrap gap-4">
+            <MagneticButton
+              href="#work"
+              ariaLabel="View my work"
+              className="rounded-xl bg-gradient-to-r from-accent-600 to-cyan-600 px-6 py-3 font-semibold text-white shadow-accent-glow transition-shadow hover:shadow-cyan-glow"
+            >
+              View my work
+            </MagneticButton>
+            <MagneticButton
+              href="#contact"
+              ariaLabel="Get in touch"
+              className="rounded-xl border border-line bg-bg-2/50 px-6 py-3 font-semibold text-heading transition-colors hover:border-accent-400"
+            >
+              Get in touch
+            </MagneticButton>
+          </motion.div>
         </div>
-      </div>
-      {/* 3D Model rendered as background, lower z-index so it doesn't block text */}
-      <div className="absolute inset-0 z-0 opacity-60 sm:opacity-100" role="img" aria-label="3D computer model decoration">
-        {mountCanvas && <ComputersCanvas key={Date.now()} />}
+      </motion.div>
+
+      {/* 3D model as background layer */}
+      <div
+        className="absolute inset-0 z-[1] opacity-60 sm:opacity-100"
+        role="img"
+        aria-label="3D computer model decoration"
+      >
+        <ComputersCanvas />
       </div>
 
-      <div className="absolute xs:bottom-10 bottom-10 w-full flex justify-center items-center z-10">
+      <div className="absolute bottom-10 z-10 flex w-full items-center justify-center xs:bottom-10">
         <a
           href="#about"
-          className="focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-primary rounded-3xl"
+          className="rounded-3xl focus:outline-none focus:ring-4 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary"
           aria-label="Scroll to about section"
+          data-cursor="hover"
         >
-          <div className="w-[35px] h-[64px] rounded-3xl border-4 border-blue-400 flex justify-center items-start p-2 hover:border-cyan-400 transition-colors duration-300">
-            <div className={`w-3 h-3 rounded-full bg-blue-400 mb-1 shadow-blue-glow ${!reducedMotion ? 'animate-bounce' : ''}`} />
+          <div className="flex h-[64px] w-[35px] items-start justify-center rounded-3xl border-4 border-accent-400 p-2 transition-colors duration-300 hover:border-cyan-400">
+            <div
+              className={`mb-1 h-3 w-3 rounded-full bg-accent-400 shadow-accent-glow ${
+                !reducedMotion ? "animate-bounce" : ""
+              }`}
+            />
           </div>
         </a>
       </div>

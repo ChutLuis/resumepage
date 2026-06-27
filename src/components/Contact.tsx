@@ -1,12 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
 import styles from "../styles";
 import { EarthCanvas } from "./canvas";
 
 const Contact = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-  const [mountCanvas, setMountCanvas] = useState(true);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -19,31 +17,6 @@ const Contact = () => {
     message: "",
   });
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Force remount when coming into view to recover from WebGL context loss
-            setMountCanvas(false);
-            setTimeout(() => setMountCanvas(true), 100);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -132,10 +105,10 @@ const Contact = () => {
   };
 
   return (
-    <section ref={sectionRef} id="contact" className={`${styles.styles.padding} max-w-7xl mx-auto relative z-0`}>
+    <section id="contact" className={`${styles.styles.padding} max-w-7xl mx-auto relative z-0`}>
       <span className='hash-span'>&nbsp;</span>
       <div className="xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden">
-        <div className="flex-0.75 bg-black-100 p-8 rounded-2xl border border-blue-900/50 shadow-blue-glow">
+        <div className="flex-0.75 gradient-border bg-surface/70 p-8 rounded-2xl backdrop-blur-xl shadow-accent-glow">
           <p className={`${styles.styles.sectionSubText}`}>Get in touch</p>
           <h3 className={`${styles.styles.sectionHeadText}`}>Contact.</h3>
 
@@ -145,7 +118,7 @@ const Contact = () => {
             className="mt-12 flex flex-col gap-8"
           >
             <label htmlFor="contact-name" className="flex flex-col ">
-              <span className="text-white font-medium mb-4">
+              <span className="text-heading font-medium mb-4">
                 Your Name <span className="text-red-400" aria-label="required">*</span>
               </span>
               <input
@@ -159,9 +132,9 @@ const Contact = () => {
                 aria-required="true"
                 aria-invalid={errors.name ? "true" : "false"}
                 aria-describedby={errors.name ? "name-error" : undefined}
-                className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border ${
-                  errors.name ? 'border-red-500' : 'border-blue-900/50'
-                } focus:border-blue-500 transition-colors duration-300 font-medium`}
+                className={`bg-bg-2/70 py-4 px-6 placeholder:text-body text-heading rounded-lg outline-none border ${
+                  errors.name ? 'border-red-500' : 'border-line'
+                } focus:border-accent-400 transition-colors duration-300 font-medium`}
               />
               {errors.name && (
                 <span id="name-error" role="alert" className="text-red-400 text-sm mt-2">
@@ -171,7 +144,7 @@ const Contact = () => {
             </label>
             
             <label htmlFor="contact-email" className="flex flex-col ">
-              <span className="text-white font-medium mb-4">
+              <span className="text-heading font-medium mb-4">
                 Your Email <span className="text-red-400" aria-label="required">*</span>
               </span>
               <input
@@ -185,9 +158,9 @@ const Contact = () => {
                 aria-required="true"
                 aria-invalid={errors.email ? "true" : "false"}
                 aria-describedby={errors.email ? "email-error" : undefined}
-                className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border ${
-                  errors.email ? 'border-red-500' : 'border-blue-900/50'
-                } focus:border-blue-500 transition-colors duration-300 font-medium`}
+                className={`bg-bg-2/70 py-4 px-6 placeholder:text-body text-heading rounded-lg outline-none border ${
+                  errors.email ? 'border-red-500' : 'border-line'
+                } focus:border-accent-400 transition-colors duration-300 font-medium`}
               />
               {errors.email && (
                 <span id="email-error" role="alert" className="text-red-400 text-sm mt-2">
@@ -197,7 +170,7 @@ const Contact = () => {
             </label>
             
             <label htmlFor="contact-message" className="flex flex-col ">
-              <span className="text-white font-medium mb-4">
+              <span className="text-heading font-medium mb-4">
                 Your Message <span className="text-red-400" aria-label="required">*</span>
               </span>
               <textarea
@@ -211,9 +184,9 @@ const Contact = () => {
                 aria-required="true"
                 aria-invalid={errors.message ? "true" : "false"}
                 aria-describedby={errors.message ? "message-error" : undefined}
-                className={`bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border ${
-                  errors.message ? 'border-red-500' : 'border-blue-900/50'
-                } focus:border-blue-500 transition-colors duration-300 font-medium`}
+                className={`bg-bg-2/70 py-4 px-6 placeholder:text-body text-heading rounded-lg outline-none border ${
+                  errors.message ? 'border-red-500' : 'border-line'
+                } focus:border-accent-400 transition-colors duration-300 font-medium`}
               />
               {errors.message && (
                 <span id="message-error" role="alert" className="text-red-400 text-sm mt-2">
@@ -239,16 +212,16 @@ const Contact = () => {
             <button
               type="submit"
               disabled={loading}
-              className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed py-3 px-8 outline-none w-fit text-white font-bold shadow-lg shadow-blue-500/50 hover:shadow-blue-500/70 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-400"
+              className="bg-gradient-to-r from-accent-600 to-cyan-600 hover:shadow-cyan-glow disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed py-3 px-8 outline-none w-fit text-white font-bold shadow-accent-glow rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-accent-400"
               aria-busy={loading}
+              data-cursor="hover"
             >
               {loading ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>
         <div className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]">
-          {/* Always render, but remount on visibility to recover from context loss */}
-          {mountCanvas && <EarthCanvas key={Date.now()} />}
+          <EarthCanvas />
         </div>
       </div>
     </section>

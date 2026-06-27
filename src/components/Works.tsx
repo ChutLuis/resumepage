@@ -23,14 +23,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <motion.div variants={fadeIn("up", "spring", index * 0.5, 0.75) as Variants}>
       <Tilt
-        options={{ max: 45, scale: 1, speed: 450 }}
-        className="bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full border border-blue-900/50 hover:border-blue-500/50 transition-all duration-300 hover:shadow-blue-glow"
+        options={{ max: 12, scale: 1.02, speed: 450 }}
+        className="card-lift group gradient-border glass p-5 rounded-2xl sm:w-[360px] w-full"
       >
-        <div className="relative w-full h-[230px]">
+        <div className="relative w-full h-[230px] overflow-hidden rounded-2xl">
           <img
             src={image}
             alt={name}
-            className="w-full h-full object-cover rounded-2xl"
+            className="w-full h-full object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"
           />
           <div className="absolute inset-0 flex justify-end m-3 card-img_hover gap-2">
             {source_code_link && (
@@ -38,7 +38,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 onClick={() => {
                   window.open(source_code_link, "_blank");
                 }}
-                className="bg-gradient-to-r from-blue-600 to-cyan-600 w-10 h-10 rounded-full flex justify-center items-center cursor-pointer hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 hover:shadow-blue-glow"
+                className="bg-gradient-to-r from-accent-600 to-cyan-600 w-10 h-10 rounded-full flex justify-center items-center cursor-pointer hover:from-accent-500 hover:to-cyan-500 transition-all duration-300 hover:shadow-accent-glow"
+                data-cursor="hover"
               >
                 <img
                   src={github}
@@ -52,8 +53,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 onClick={() => {
                   window.open(live_link, "_blank");
                 }}
-                className="bg-gradient-to-r from-blue-600 to-cyan-600 w-10 h-10 rounded-full flex justify-center items-center cursor-pointer hover:from-blue-500 hover:to-cyan-500 transition-all duration-300 hover:shadow-cyan-glow"
+                className="bg-gradient-to-r from-accent-600 to-cyan-600 w-10 h-10 rounded-full flex justify-center items-center cursor-pointer hover:from-accent-500 hover:to-cyan-500 transition-all duration-300 hover:shadow-cyan-glow"
                 title="View Live Site"
+                data-cursor="hover"
               >
                 <svg
                   className="w-5 h-5 text-white"
@@ -73,8 +75,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
         <div className="mt-5">
-          <h3 className="text-white font-bold text-[24px]">{name}</h3>
-          <p className="mt-2 text-secondary text-[14px]">{description}</p>
+          <h3 className="text-heading font-display font-bold text-[24px]">
+            {name}
+          </h3>
+          <p className="mt-2 text-body text-[14px] leading-relaxed">
+            {description}
+          </p>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           {tags.map((tag: Tag) => (
@@ -115,4 +121,4 @@ const Works = () => {
   );
 };
 
-export default SectionWrapper(Works, "");
+export default SectionWrapper(Works, "projects");

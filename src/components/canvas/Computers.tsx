@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import CanvasLoader from "../Loader";
+import ContextLossRecovery from "./ContextLossRecovery";
 
 interface ComputersProps {
   isMobile: boolean;
@@ -65,6 +66,7 @@ const ComputersCanvas: React.FC = () => {
       }}
       dpr={[1, 1.5]}
     >
+      <ContextLossRecovery />
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls
           enableZoom={false}

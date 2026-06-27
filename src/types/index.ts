@@ -6,6 +6,16 @@ export interface NavLink {
 export interface Service {
   title: string;
   icon: string;
+  /** Key into the custom inline icon map (preferred over the PNG `icon`) */
+  iconName?: "fullstack" | "mobile" | "cloud" | "architecture";
+  /** Short supporting line shown under the title in the bento grid */
+  blurb?: string;
+}
+
+export interface Stat {
+  value: number;
+  suffix?: string;
+  label: string;
 }
 
 export interface Technology {

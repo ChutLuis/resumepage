@@ -17,17 +17,19 @@ interface ExperienceCardProps {
 const ExperienceCard: React.FC<ExperienceCardProps> = ({ experience }) => {
   return (
     <VerticalTimelineElement
-      contentStyle={{ 
-        background: "#1a237e", 
-        color: "#fff",
-        boxShadow: "0 3px 0 #0ea5e9",
-        border: "1px solid #1e40af"
+      contentStyle={{
+        background: "rgba(19, 19, 29, 0.7)",
+        backdropFilter: "blur(12px)",
+        color: "#ededf6",
+        boxShadow: "0 3px 0 #8b5cf6",
+        border: "1px solid rgba(139, 92, 246, 0.25)",
+        borderRadius: "16px",
       }}
-      contentArrowStyle={{ borderRight: "7px solid #0ea5e9" }}
+      contentArrowStyle={{ borderRight: "7px solid rgba(139, 92, 246, 0.5)" }}
       date={experience.date}
-      iconStyle={{ 
+      iconStyle={{
         background: experience.iconBg,
-        boxShadow: "0 0 0 4px #0ea5e9, inset 0 2px 0 rgba(0,0,0,.08), 0 3px 0 4px rgba(0,0,0,.05)"
+        boxShadow: "0 0 0 4px #8b5cf6, 0 0 20px rgba(139, 92, 246, 0.4)",
       }}
       icon={
         <div className="flex justify-center items-center w-full h-full">
@@ -40,13 +42,22 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ experience }) => {
       }
     >
       <div>
-        <h3 className="text-white text-[24px]">{experience.title}</h3>
-        <p className="text-secondary text-[16px] font-semibold" style={{margin:0}}>{experience.company_name}</p>
+        <h3 className="text-heading font-display text-[24px] font-bold">
+          {experience.title}
+        </h3>
+        <p
+          className="text-accent-300 text-[16px] font-semibold"
+          style={{ margin: 0 }}
+        >
+          {experience.company_name}
+        </p>
       </div>
       <ul className="mt-5 list-disc ml-5 space-y-2">
         {experience.points.map((point, index) => (
-          <li key={`experience-point-${index}-${experience.company_name}`}
-          className="text-white-100 text-[14px] pl-1 tracking-wider">
+          <li
+            key={`experience-point-${index}-${experience.company_name}`}
+            className="text-body text-[14px] pl-1 tracking-wide marker:text-cyan-400"
+          >
             {point}
           </li>
         ))}

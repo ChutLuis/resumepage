@@ -10,8 +10,8 @@ import {
   tailwind,
   nodejs,
   docker,
-  starbucks,
-  tesla,
+  adslive,
+  hollandOrchids,
   SocializaShowcase,
   PortfolioShowcase,
   ErpShowcase,
@@ -30,6 +30,7 @@ import {
 import type {
   NavLink,
   Service,
+  Stat,
   Technology,
   Experience,
   Testimonial,
@@ -46,7 +47,7 @@ export const navLinks: NavLink[] = [
     title: "Work",
   },
   {
-    id: "",
+    id: "projects",
     title: "Projects",
   },
   {
@@ -59,19 +60,34 @@ const services: Service[] = [
   {
     title: "Full-Stack Web Development",
     icon: web,
+    iconName: "fullstack",
+    blurb: "React, Vue & Angular front-ends backed by Node, NestJS & Express.",
   },
   {
     title: "Mobile App Development",
     icon: mobile,
+    iconName: "mobile",
+    blurb: "Native enhancements and React Native migrations at scale.",
   },
   {
     title: "Cloud & DevOps Solutions",
     icon: backend,
+    iconName: "cloud",
+    blurb: "AWS infrastructure, CI/CD and Terraform with 99.9% uptime.",
   },
   {
     title: "Complex Project Architecture",
     icon: creator,
+    iconName: "architecture",
+    blurb: "Scalable, maintainable systems from prototype to production.",
   },
+];
+
+const stats: Stat[] = [
+  { value: 4, suffix: "+", label: "Years of experience" },
+  { value: 20, suffix: "+", label: "Projects delivered" },
+  { value: 16, suffix: "", label: "Technologies mastered" },
+  { value: 99, suffix: "%", label: "Avg. infra uptime" },
 ];
 
 const technologies: Technology[] = [
@@ -167,7 +183,7 @@ const experiences: Experience[] = [
   {
     title: "Software Engineer",
     company_name: "Holland Orchids",
-    icon: tesla,
+    icon: hollandOrchids,
     iconBg: "#E6DEDD",
     date: "May 2023 - Jun 2024",
     points: [
@@ -178,7 +194,7 @@ const experiences: Experience[] = [
   {
     title: "Web Developer",
     company_name: "Adslivemedia Corp.",
-    icon: starbucks,
+    icon: adslive,
     iconBg: "#383E56",
     date: "March 2021 - May 2023",
     points: [
@@ -286,4 +302,4 @@ const projects: Project[] = [
   },
 ];
 
-export { services, technologies, experiences, testimonials, projects };
+export { services, stats, technologies, experiences, testimonials, projects };
