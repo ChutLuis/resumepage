@@ -5,6 +5,8 @@ import styles from "../styles";
 import { navLinks } from "../constants";
 import { logo, menu, close } from "../assets";
 import useActiveSection from "../hooks/useActiveSection";
+import { useLocale } from "../i18n/LocaleContext";
+import LanguageToggle from "./ui/LanguageToggle";
 
 // Stable reference so the IntersectionObserver effect doesn't re-run each render.
 const SECTION_IDS = navLinks.map((link) => link.id).filter(Boolean);
@@ -29,12 +31,13 @@ const ResumeIcon = () => (
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const activeId = useActiveSection(SECTION_IDS);
+  const { t, content } = useLocale();
 
   return (
     <nav
       className={`${styles.styles.paddingX} w-full flex items-center py-5 fixed top-0 z-30 bg-primary/80 border-b border-white/5 backdrop-blur-md`}
       role="navigation"
-      aria-label="Main navigation"
+      aria-label={t.nav.mainNavigation}
     >
       <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
         <Link
@@ -44,19 +47,19 @@ const Navbar = () => {
         >
           <img
             src={logo}
-            alt="Luis Ortiz - Software Engineer logo"
+            alt={`${t.nav.brand} - ${t.nav.brandRole} logo`}
             className="w-6 h-6 object-contain"
           />
           <p className="text-white text-[18px] font-bold font-display cursor-pointer flex">
-            Luis &nbsp;
+            {t.nav.brand} &nbsp;
             <span className="sm:block hidden text-secondary font-medium">
-              | Software Engineer
+              | {t.nav.brandRole}
             </span>
           </p>
         </Link>
 
         <ul className="list-none hidden sm:flex flex-row gap-8 items-center">
-          {navLinks.map((link) => {
+          {content.navLinks.map((link) => {
             const isActive = activeId === link.id;
             return (
               <li key={link.id} data-cursor="hover">
@@ -76,13 +79,16 @@ const Navbar = () => {
               </li>
             );
           })}
+          <li>
+            <LanguageToggle />
+          </li>
           <li data-cursor="hover">
             <a
               href="/resume.pdf"
               download="Luis_Ortiz_Resume.pdf"
               className="flex items-center gap-2 rounded-full border border-accent-500/40 bg-accent-500/10 px-4 py-1.5 text-[15px] font-medium text-accent-300 transition-all duration-300 hover:border-accent-400 hover:bg-accent-500/20 hover:text-white"
             >
-              Resume
+              {t.nav.resume}
               <ResumeIcon />
             </a>
           </li>
@@ -92,7 +98,7 @@ const Navbar = () => {
           <button
             onClick={() => setToggle(!toggle)}
             className="w-[44px] h-[44px] flex items-center justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent-400 rounded"
-            aria-label={toggle ? "Close menu" : "Open menu"}
+            aria-label={toggle ? t.nav.closeMenu : t.nav.openMenu}
             aria-expanded={toggle}
             aria-controls="mobile-menu"
           >
@@ -106,13 +112,13 @@ const Navbar = () => {
             id="mobile-menu"
             role="dialog"
             aria-modal="true"
-            aria-label="Mobile navigation menu"
+            aria-label={t.nav.mainNavigation}
             className={`${
               !toggle ? "hidden" : "flex"
             } glass p-6 absolute top-20 right-0 mx-4 my-2 min-w-[160px] z-10 rounded-2xl`}
           >
             <ul className="list-none flex justify-end items-start flex-col gap-4 w-full">
-              {navLinks.map((link) => {
+              {content.navLinks.map((link) => {
                 const isActive = activeId === link.id;
                 return (
                   <li
@@ -126,6 +132,9 @@ const Navbar = () => {
                   </li>
                 );
               })}
+              <li className="w-full border-t border-white/10 pt-3">
+                <LanguageToggle />
+              </li>
               <li className="w-full pt-2 border-t border-white/10">
                 <a
                   href="/resume.pdf"
@@ -133,7 +142,7 @@ const Navbar = () => {
                   className="flex items-center gap-2 text-[16px] font-medium text-accent-300 hover:text-white transition-colors duration-300"
                   onClick={() => setToggle(false)}
                 >
-                  Resume
+                  {t.nav.resume}
                   <ResumeIcon />
                 </a>
               </li>

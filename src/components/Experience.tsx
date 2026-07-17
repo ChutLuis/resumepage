@@ -5,10 +5,10 @@ import {
 import "react-vertical-timeline-component/style.min.css";
 import { motion, Variants } from "framer-motion";
 import styles from "../styles";
-import { experiences } from "../constants";
 import { SectionWrapper } from "../hoc";
 import { textVariant } from "../utils/motion";
 import type { Experience as ExperienceType } from "../types";
+import { useLocale } from "../i18n/LocaleContext";
 
 interface ExperienceCardProps {
   experience: ExperienceType;
@@ -67,15 +67,17 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ experience }) => {
 };
 
 const Experience: React.FC = () => {
+  const { t, content } = useLocale();
+
   return (
     <>
       <motion.div variants={textVariant() as Variants}>
-        <p className={styles.styles.sectionSubText}>What I have done so far</p>
-        <h2 className={styles.styles.heroHeadText}>Work Experience</h2>
+        <p className={styles.styles.sectionSubText}>{t.experience.subhead}</p>
+        <h2 className={styles.styles.heroHeadText}>{t.experience.heading}</h2>
       </motion.div>
       <div className="mt-20 flex flex-col">
         <VerticalTimeline>
-          {experiences.map((experience, index) => (
+          {content.experiences.map((experience, index) => (
             <ExperienceCard key={index} experience={experience} />
           ))}
         </VerticalTimeline>

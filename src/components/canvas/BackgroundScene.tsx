@@ -1,5 +1,6 @@
 import { useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree, extend } from "@react-three/fiber";
+import type { ReactThreeFiber } from "@react-three/fiber";
 import * as THREE from "three";
 import { shaderMaterial } from "@react-three/drei";
 import scrollState from "../../lib/scrollState";
@@ -169,17 +170,32 @@ const ParticleMaterial = shaderMaterial(
   `
 );
 
+interface AuroraMaterialInstance extends THREE.ShaderMaterial {
+  uTime: number;
+  uResolution: THREE.Vector2;
+  uPointer: THREE.Vector2;
+  uVelocity: number;
+  uProgress: number;
+}
+
+interface ParticleMaterialInstance extends THREE.ShaderMaterial {
+  uTime: number;
+  uPixelRatio: number;
+  uProgress: number;
+  uVelocity: number;
+}
+
 extend({ AuroraMaterial, ParticleMaterial });
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    auroraMaterial: any;
-    particleMaterial: any;
+    auroraMaterial: ReactThreeFiber.MaterialNode<AuroraMaterialInstance, typeof AuroraMaterial>;
+    particleMaterial: ReactThreeFiber.MaterialNode<ParticleMaterialInstance, typeof ParticleMaterial>;
   }
 }
 
 const AuroraPlane = () => {
-  const ref = useRef<any>(null);
+  const ref = useRef<AuroraMaterialInstance>(null);
   const { size } = useThree();
   const pointer = useRef(new THREE.Vector2(0, 0));
 
@@ -197,14 +213,13 @@ const AuroraPlane = () => {
   return (
     <mesh frustumCulled={false} renderOrder={-10}>
       <planeGeometry args={[2, 2]} />
-      {/* @ts-ignore custom shader material element */}
       <auroraMaterial ref={ref} depthTest={false} depthWrite={false} />
     </mesh>
   );
 };
 
 const ParticleField = ({ count, pixelRatio }: { count: number; pixelRatio: number }) => {
-  const ref = useRef<any>(null);
+  const ref = useRef<ParticleMaterialInstance>(null);
   const group = useRef<THREE.Points>(null);
   const pointer = useRef(new THREE.Vector2(0, 0));
 
@@ -244,7 +259,6 @@ const ParticleField = ({ count, pixelRatio }: { count: number; pixelRatio: numbe
         <bufferAttribute attach="attributes-aScale" args={[scales, 1]} />
         <bufferAttribute attach="attributes-aSeed" args={[seeds, 1]} />
       </bufferGeometry>
-      {/* @ts-ignore custom shader material element */}
       <particleMaterial
         ref={ref}
         uPixelRatio={pixelRatio}

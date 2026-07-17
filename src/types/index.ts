@@ -1,9 +1,18 @@
+export type NavId = "about" | "work" | "projects" | "contact";
+export type ServiceId = "fullstack" | "mobile" | "cloud" | "architecture";
+export type StatId = "years" | "projects" | "languages" | "areas";
+export type ExperienceId = "telus" | "hmd" | "holland" | "adslive";
+export type TestimonialId = "emmanuel" | "lisa" | "andres";
+export type ProjectId = "socializa" | "portfolio-analytics" | "erp-pymes";
+export type CaseStudyId = "socialhub" | "jersey-guatemala";
+
 export interface NavLink {
-  id: string;
+  id: NavId;
   title: string;
 }
 
 export interface Service {
+  id: ServiceId;
   title: string;
   icon: string;
   /** Key into the custom inline icon map (preferred over the PNG `icon`) */
@@ -13,6 +22,7 @@ export interface Service {
 }
 
 export interface Stat {
+  id: StatId;
   value: number;
   suffix?: string;
   label: string;
@@ -24,6 +34,7 @@ export interface Technology {
 }
 
 export interface Experience {
+  id: ExperienceId;
   title: string;
   company_name: string;
   icon: string;
@@ -33,6 +44,7 @@ export interface Experience {
 }
 
 export interface Testimonial {
+  id: TestimonialId;
   testimonial: string;
   name: string;
   designation: string;
@@ -46,12 +58,33 @@ export interface Tag {
 }
 
 export interface Project {
+  id: ProjectId;
   name: string;
   description: string;
   tags: Tag[];
   image: string;
   source_code_link?: string;
   live_link?: string;
+}
+
+export interface CaseStudyLink {
+  label: string;
+  url: string;
+  kind: "live" | "source";
+}
+
+export interface CaseStudyHighlight {
+  text: string;
+}
+
+export interface CaseStudy {
+  id: CaseStudyId;
+  name: string;
+  summary: string;
+  description: string;
+  highlights: CaseStudyHighlight[];
+  tags: Tag[];
+  links: CaseStudyLink[];
 }
 
 // Component prop types

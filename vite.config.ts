@@ -44,8 +44,6 @@ export default defineConfig({
           // Animation libraries
           'animation-vendor': ['framer-motion'],
           
-          // Form and validation
-          'form-vendor': ['@emailjs/browser'],
         },
         
         // Naming pattern for chunks

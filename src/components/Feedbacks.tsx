@@ -3,8 +3,8 @@ import { motion, Variants } from "framer-motion";
 import styles from "../styles";
 import { SectionWrapper } from "../hoc";
 import { fadeIn, textVariant } from "../utils/motion";
-import { testimonials } from "../constants";
 import type { Testimonial } from "../types";
+import { useLocale } from "../i18n/LocaleContext";
 
 interface FeedbackCardProps extends Testimonial {
   index: number;
@@ -70,14 +70,14 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({
         {imageFailed ? (
           <div
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent-600 to-cyan-600 text-sm font-bold text-white ring-2 ring-accent-500/40"
-            aria-label={`${name} avatar`}
+              aria-label={name}
           >
             {getInitials(name)}
           </div>
         ) : (
           <img
             src={image}
-            alt={`feedback-by-${name}`}
+            alt={name}
             className="h-11 w-11 shrink-0 rounded-full object-cover ring-2 ring-accent-500/40"
             loading="lazy"
             onError={() => setImageFailed(true)}
@@ -98,15 +98,17 @@ const FeedbackCard: React.FC<FeedbackCardProps> = ({
 };
 
 const Feedbacks = () => {
+  const { t, content } = useLocale();
+
   return (
     <div className="mt-12">
       <motion.div variants={textVariant() as Variants}>
-        <p className={styles.styles.sectionSubText}>What others say</p>
-        <h2 className={styles.styles.sectionHeadText}>Testimonials.</h2>
+        <p className={styles.styles.sectionSubText}>{t.testimonials.subhead}</p>
+        <h2 className={styles.styles.sectionHeadText}>{t.testimonials.heading}</h2>
       </motion.div>
 
       <div className="mt-12 flex flex-wrap gap-7">
-        {testimonials.map((testimonial, index) => (
+        {content.testimonials.map((testimonial, index) => (
           <FeedbackCard key={testimonial.name} index={index} {...testimonial} />
         ))}
       </div>

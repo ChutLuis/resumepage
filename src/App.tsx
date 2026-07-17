@@ -4,6 +4,7 @@ import { Hero, Navbar, ErrorBoundary, Footer, CustomCursor, ScrollProgress } fro
 import SectionLoader from "./components/SectionLoader";
 import SmoothScroll from "./components/SmoothScroll";
 import GlobalBackground from "./components/GlobalBackground";
+import { useLocale } from "./i18n/LocaleContext";
 
 // Lazy load heavy components for better initial load performance
 const About = lazy(() => import("./components/About"));
@@ -14,6 +15,15 @@ const Feedbacks = lazy(() => import("./components/Feedbacks"));
 const Contact = lazy(() => import("./components/Contact"));
 
 function App() {
+  const { t } = useLocale();
+  const errorLabels = {
+    title: t.system.errorTitle,
+    fallback: t.system.errorFallback,
+    tryAgain: t.system.tryAgain,
+    refresh: t.system.refresh,
+    developmentError: t.system.developmentError,
+  };
+
   return (
     <BrowserRouter>
       <div className="relative z-0">
@@ -22,7 +32,7 @@ function App() {
         <CustomCursor />
 
         {/* Persistent full-page WebGL background (aurora shader + particle field). */}
-        <ErrorBoundary fallbackMessage="Unable to load background animation. The page will continue to work normally.">
+        <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
           <GlobalBackground />
         </ErrorBoundary>
 
@@ -34,37 +44,37 @@ function App() {
           </header>
 
           <main id="main-content" className="relative">
-            <ErrorBoundary fallbackMessage="Unable to load the About section.">
+            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
               <Suspense fallback={<SectionLoader />}>
                 <About />
               </Suspense>
             </ErrorBoundary>
 
-            <ErrorBoundary fallbackMessage="Unable to load the Experience section.">
+            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
               <Suspense fallback={<SectionLoader />}>
                 <Experience />
               </Suspense>
             </ErrorBoundary>
 
-            <ErrorBoundary fallbackMessage="Unable to load the Tech section.">
+            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
               <Suspense fallback={<SectionLoader />}>
                 <Tech />
               </Suspense>
             </ErrorBoundary>
 
-            <ErrorBoundary fallbackMessage="Unable to load the Works section.">
+            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
               <Suspense fallback={<SectionLoader />}>
                 <Works />
               </Suspense>
             </ErrorBoundary>
 
-            <ErrorBoundary fallbackMessage="Unable to load the Feedbacks section.">
+            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
               <Suspense fallback={<SectionLoader />}>
                 <Feedbacks />
               </Suspense>
             </ErrorBoundary>
 
-            <ErrorBoundary fallbackMessage="Unable to load the Contact section.">
+            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
               <Suspense fallback={<SectionLoader />}>
                 <Contact />
               </Suspense>

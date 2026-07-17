@@ -1,14 +1,17 @@
 import { useState, useRef } from "react";
-import emailjs from "@emailjs/browser";
 import styles from "../styles";
 import { EarthCanvas } from "./canvas";
+import { useLocale } from "../i18n/LocaleContext";
 
 const Contact = () => {
+  const { t } = useLocale();
   const formRef = useRef<HTMLFormElement>(null);
+  const formOpenedAt = useRef(Date.now());
   const [form, setForm] = useState({
     name: "",
     email: "",
     message: "",
+    company: "",
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
@@ -40,23 +43,23 @@ const Contact = () => {
     let isValid = true;
 
     if (!form.name.trim()) {
-      newErrors.name = "Name is required";
+      newErrors.name = t.contact.validation.nameRequired;
       isValid = false;
     }
 
     if (!form.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = t.contact.validation.emailRequired;
       isValid = false;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      newErrors.email = "Please enter a valid email address";
+      newErrors.email = t.contact.validation.emailInvalid;
       isValid = false;
     }
 
     if (!form.message.trim()) {
-      newErrors.message = "Message is required";
+      newErrors.message = t.contact.validation.messageRequired;
       isValid = false;
     } else if (form.message.trim().length < 10) {
-      newErrors.message = "Message must be at least 10 characters";
+      newErrors.message = t.contact.validation.messageMin;
       isValid = false;
     }
 
@@ -64,44 +67,54 @@ const Contact = () => {
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (!validateForm()) {
       return;
     }
 
+    const endpoint = import.meta.env.VITE_CONTACT_ENDPOINT;
+
+    if (!endpoint) {
+      setSubmitStatus('error');
+      return;
+    }
+
     setLoading(true);
     setSubmitStatus('idle');
-    
-    emailjs.send(
-      import.meta.env.VITE_SERVICE_ID,
-      import.meta.env.VITE_TEMPLATE_ID,
-      {
-        from_name: form.name,
-        to_name: "Luis",
-        from_email: form.email,
-        to_email: import.meta.env.VITE_TO_EMAIL,
-        message: form.message,
-      },
-      import.meta.env.VITE_PKEY
-    ).then(()=>{
-      setLoading(false);
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          company: form.company,
+          openedAt: formOpenedAt.current,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Contact request failed with ${response.status}`);
+      }
+
       setSubmitStatus('success');
       setForm({
         name: "",
         email: "",
         message: "",
+        company: "",
       });
-      // Auto-hide success message after 5 seconds
       setTimeout(() => setSubmitStatus('idle'), 5000);
-    },(error)=>{
-      setLoading(false);
+    } catch {
       setSubmitStatus('error');
-      console.error('Email send error:', error);
-      // Auto-hide error message after 5 seconds
       setTimeout(() => setSubmitStatus('idle'), 5000);
-    })
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -109,17 +122,21 @@ const Contact = () => {
       <span className='hash-span'>&nbsp;</span>
       <div className="xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden">
         <div className="flex-0.75 gradient-border bg-surface/70 p-8 rounded-2xl backdrop-blur-xl shadow-accent-glow">
-          <p className={`${styles.styles.sectionSubText}`}>Get in touch</p>
-          <h3 className={`${styles.styles.sectionHeadText}`}>Contact.</h3>
+          <p className={`${styles.styles.sectionSubText}`}>{t.contact.subhead}</p>
+          <h3 className={`${styles.styles.sectionHeadText}`}>{t.contact.heading}</h3>
+          <p id="contact-intro" className="mt-4 max-w-xl text-[15px] leading-relaxed text-body">
+            {t.contact.intro}
+          </p>
 
           <form
             ref={formRef}
             onSubmit={handleSubmit}
+            aria-describedby="contact-intro"
             className="mt-12 flex flex-col gap-8"
           >
             <label htmlFor="contact-name" className="flex flex-col ">
               <span className="text-heading font-medium mb-4">
-                Your Name <span className="text-red-400" aria-label="required">*</span>
+                {t.contact.nameLabel} <span className="text-red-400" aria-label={t.contact.required}>*</span>
               </span>
               <input
                 id="contact-name"
@@ -127,7 +144,7 @@ const Contact = () => {
                 name="name"
                 value={form.name}
                 onChange={handleChange}
-                placeholder="What's your name?"
+                placeholder={t.contact.namePlaceholder}
                 required
                 aria-required="true"
                 aria-invalid={errors.name ? "true" : "false"}
@@ -145,7 +162,7 @@ const Contact = () => {
             
             <label htmlFor="contact-email" className="flex flex-col ">
               <span className="text-heading font-medium mb-4">
-                Your Email <span className="text-red-400" aria-label="required">*</span>
+                {t.contact.emailLabel} <span className="text-red-400" aria-label={t.contact.required}>*</span>
               </span>
               <input
                 id="contact-email"
@@ -153,7 +170,7 @@ const Contact = () => {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                placeholder="What's your email?"
+                placeholder={t.contact.emailPlaceholder}
                 required
                 aria-required="true"
                 aria-invalid={errors.email ? "true" : "false"}
@@ -171,7 +188,7 @@ const Contact = () => {
             
             <label htmlFor="contact-message" className="flex flex-col ">
               <span className="text-heading font-medium mb-4">
-                Your Message <span className="text-red-400" aria-label="required">*</span>
+                {t.contact.messageLabel} <span className="text-red-400" aria-label={t.contact.required}>*</span>
               </span>
               <textarea
                 id="contact-message"
@@ -179,7 +196,7 @@ const Contact = () => {
                 name="message"
                 value={form.message}
                 onChange={handleChange}
-                placeholder="What do you want to say?"
+                placeholder={t.contact.messagePlaceholder}
                 required
                 aria-required="true"
                 aria-invalid={errors.message ? "true" : "false"}
@@ -194,19 +211,34 @@ const Contact = () => {
                 </span>
               )}
             </label>
+
+            <label
+              className="absolute -left-[10000px] h-px w-px overflow-hidden"
+              aria-hidden="true"
+            >
+              Company
+              <input
+                type="text"
+                name="company"
+                value={form.company}
+                onChange={handleChange}
+                autoComplete="off"
+                tabIndex={-1}
+              />
+            </label>
             
             {/* Success/Error Messages */}
             {submitStatus === 'success' && (
               <div role="alert" className="bg-green-900/30 border border-green-500 text-green-400 px-4 py-3 rounded-lg">
-                <strong className="font-bold">Success!</strong>
-                <p className="text-sm mt-1">Thank you for your message. I'll get back to you soon!</p>
+                <strong className="font-bold">{t.contact.success.title}</strong>
+                <p className="text-sm mt-1">{t.contact.success.body}</p>
               </div>
             )}
             
             {submitStatus === 'error' && (
               <div role="alert" className="bg-red-900/30 border border-red-500 text-red-400 px-4 py-3 rounded-lg">
-                <strong className="font-bold">Error!</strong>
-                <p className="text-sm mt-1">Something went wrong. Please try again or contact me directly.</p>
+                <strong className="font-bold">{t.contact.error.title}</strong>
+                <p className="text-sm mt-1">{t.contact.error.body}</p>
               </div>
             )}
             <button
@@ -216,8 +248,17 @@ const Contact = () => {
               aria-busy={loading}
               data-cursor="hover"
             >
-              {loading ? "Sending..." : "Send Message"}
+              {loading ? t.contact.sending : t.contact.send}
             </button>
+            <p className="-mt-3 text-sm text-body">
+              {t.contact.preferEmail}{" "}
+              <a
+                href="mailto:me@lfortiz.com"
+                className="text-cyan-300 underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-surface"
+              >
+                me@lfortiz.com
+              </a>
+            </p>
           </form>
         </div>
         <div className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]">

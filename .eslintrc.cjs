@@ -10,9 +10,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+    // Section modules intentionally compose local components and HOCs.
+    'react-refresh/only-export-components': 'off',
   },
 }

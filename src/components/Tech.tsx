@@ -4,6 +4,7 @@ import { SectionWrapper } from "../hoc";
 import { technologies } from "../constants";
 import { textVariant } from "../utils/motion";
 import Marquee from "./ui/Marquee";
+import { useLocale } from "../i18n/LocaleContext";
 
 const TechChip = ({ tech }: { tech: { name: string; icon: string } }) => (
   <div
@@ -23,6 +24,7 @@ const TechChip = ({ tech }: { tech: { name: string; icon: string } }) => (
 );
 
 const Tech = () => {
+  const { t } = useLocale();
   const half = Math.ceil(technologies.length / 2);
   const rowOne = technologies.slice(0, half);
   const rowTwo = technologies.slice(half);
@@ -30,8 +32,8 @@ const Tech = () => {
   return (
     <>
       <motion.div variants={textVariant() as Variants} className="mb-10">
-        <p className={styles.styles.sectionSubText}>What I build with</p>
-        <h2 className={styles.styles.sectionHeadText}>Tech Stack.</h2>
+        <p className={styles.styles.sectionSubText}>{t.tech.subhead}</p>
+        <h2 className={styles.styles.sectionHeadText}>{t.tech.heading}</h2>
       </motion.div>
 
       <div className="flex flex-col gap-5">

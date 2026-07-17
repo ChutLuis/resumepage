@@ -1,6 +1,10 @@
+import { useLocale } from "../i18n/LocaleContext";
+
 const SectionLoader = () => {
+  const { t } = useLocale();
+
   return (
-    <div className="flex justify-center items-center min-h-[200px]" role="status" aria-label="Loading section">
+    <div className="flex justify-center items-center min-h-[200px]" role="status" aria-label={t.system.loadingSection}>
       <div className="relative">
         {/* Outer rotating ring */}
         <div className="w-16 h-16 border-4 border-blue-400/30 border-t-blue-400 rounded-full animate-spin"></div>
@@ -10,7 +14,7 @@ const SectionLoader = () => {
           <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
         </div>
       </div>
-      <span className="sr-only">Loading content...</span>
+      <span className="sr-only">{t.system.loadingContent}</span>
     </div>
   );
 };

@@ -11,7 +11,7 @@ Live site: <https://www.lfortiz.com/>
 - **Three.js** via **@react-three/fiber** and **@react-three/drei** (3D models, particle background, animated globe)
 - **Tailwind CSS** for styling
 - **Framer Motion** for section/scroll animations
-- **EmailJS** for the contact form (no backend required)
+- **AWS Lambda + Amazon SES** for secure contact-form delivery
 
 ## Getting started
 
@@ -33,16 +33,13 @@ npm run dev      # start the Vite dev server
 
 ## Environment variables
 
-The contact form uses EmailJS. Create a `.env` file in the project root:
+The contact form posts to a Lambda API. Create a `.env` file in the project root:
 
 ```bash
-VITE_SERVICE_ID=your_emailjs_service_id
-VITE_TEMPLATE_ID=your_emailjs_template_id
-VITE_PKEY=your_emailjs_public_key
-VITE_TO_EMAIL=your_destination_email
+VITE_CONTACT_ENDPOINT=https://your-api-id.execute-api.us-east-1.amazonaws.com/contact
 ```
 
-`.env` files are gitignored. **Never commit real keys.**
+This URL is public by design. The Lambda holds no browser-exposed credentials.
 
 ## Project structure
 
@@ -64,3 +61,9 @@ To update resume content (jobs, projects, skills, testimonials), edit
 
 `npm run build` outputs static files to `dist/`, deployable to any static host.
 An `.htaccess` is included for Apache-based SPA routing.
+
+## Contact API
+
+The `lambda/` directory contains the TypeScript contact-form endpoint. It validates
+submissions, discards honeypot spam, and sends mail with Amazon SES. See
+[`lambda/README.md`](lambda/README.md) for the build and AWS Console setup steps.

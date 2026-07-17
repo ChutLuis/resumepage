@@ -1,7 +1,8 @@
-import { navLinks } from "../constants";
+import { useLocale } from "../i18n/LocaleContext";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { t, content } = useLocale();
 
   return (
     <footer className="bg-primary border-t border-blue-900/50 py-8">
@@ -11,15 +12,15 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-bold text-xl mb-4">Luis Ortiz</h3>
             <p className="text-secondary text-sm">
-              Full-Stack Software Engineer specializing in React, Node.js & AWS solutions.
+              {t.footer.brandBlurb}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-4">Quick Links</h3>
+            <h3 className="text-white font-bold text-lg mb-4">{t.footer.quickLinks}</h3>
             <ul className="space-y-2">
-              {navLinks.map((link) => (
+              {content.navLinks.map((link) => (
                 <li key={link.id}>
                   <a
                     href={`#${link.id}`}
@@ -35,7 +36,7 @@ const Footer = () => {
                   download="Luis_Ortiz_Resume.pdf"
                   className="text-secondary hover:text-blue-400 transition-colors duration-300 text-sm"
                 >
-                  Download Resume
+                  {t.footer.downloadResume}
                 </a>
               </li>
             </ul>
@@ -43,14 +44,14 @@ const Footer = () => {
 
           {/* Social Links */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-4">Connect</h3>
+            <h3 className="text-white font-bold text-lg mb-4">{t.footer.connect}</h3>
             <div className="flex gap-4">
               <a
                 href="https://github.com/chutluis"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-secondary hover:text-blue-400 transition-colors duration-300"
-                aria-label="GitHub Profile"
+                aria-label={t.footer.github}
               >
                 <svg
                   className="w-6 h-6"
@@ -70,7 +71,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-secondary hover:text-blue-400 transition-colors duration-300"
-                aria-label="LinkedIn Profile"
+                aria-label={t.footer.linkedin}
               >
                 <svg
                   className="w-6 h-6"
@@ -84,7 +85,7 @@ const Footer = () => {
               <a
                 href="mailto:l.chuta2014ig@gmail.com"
                 className="text-secondary hover:text-blue-400 transition-colors duration-300"
-                aria-label="Email Contact"
+                aria-label={t.footer.email}
               >
                 <svg
                   className="w-6 h-6"
@@ -108,10 +109,10 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-blue-900/30 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-secondary text-sm text-center sm:text-left">
-            © {currentYear} Luis Ortiz. All rights reserved.
+            © {currentYear} Luis Ortiz. {t.footer.rights}
           </p>
           <p className="text-secondary text-sm text-center sm:text-right">
-            Built with React, Three.js & Tailwind CSS
+            {t.footer.builtWith}
           </p>
         </div>
       </div>

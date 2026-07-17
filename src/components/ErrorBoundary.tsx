@@ -3,6 +3,13 @@ import { Component, ErrorInfo, ReactNode } from 'react';
 interface Props {
   children: ReactNode;
   fallbackMessage?: string;
+  labels?: {
+    title: string;
+    fallback: string;
+    tryAgain: string;
+    refresh: string;
+    developmentError: string;
+  };
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
 }
 
@@ -59,10 +66,10 @@ class ErrorBoundary extends Component<Props, State> {
           <div className="max-w-md w-full mx-4 p-8 bg-tertiary rounded-2xl shadow-card">
             <div className="text-center">
               <h2 className="text-white text-2xl font-bold mb-4">
-                Oops! Something went wrong
+                {this.props.labels?.title ?? "Oops! Something went wrong"}
               </h2>
               <p className="text-secondary text-sm mb-6">
-                {this.props.fallbackMessage ||
+                {this.props.fallbackMessage || this.props.labels?.fallback ||
                   "We're sorry, but something unexpected happened. Please try refreshing the page."}
               </p>
 
@@ -70,7 +77,7 @@ class ErrorBoundary extends Component<Props, State> {
               {import.meta.env.DEV && this.state.error && (
                 <details className="text-left mb-6 p-4 bg-black-200/50 rounded-lg">
                   <summary className="text-white cursor-pointer mb-2 font-medium">
-                    Error Details (Development Only)
+                    {this.props.labels?.developmentError ?? "Error Details (Development Only)"}
                   </summary>
                   <div className="text-xs text-red-400 space-y-2">
                     <p className="font-mono break-all">
@@ -90,13 +97,13 @@ class ErrorBoundary extends Component<Props, State> {
                   onClick={this.handleReset}
                   className="px-6 py-3 bg-tertiary border border-secondary/20 rounded-lg text-white font-medium hover:bg-black-200 transition-colors"
                 >
-                  Try Again
+                  {this.props.labels?.tryAgain ?? "Try Again"}
                 </button>
                 <button
                   onClick={() => window.location.reload()}
                   className="px-6 py-3 bg-[#915EFF] rounded-lg text-white font-medium hover:bg-[#7c4ee0] transition-colors"
                 >
-                  Refresh Page
+                  {this.props.labels?.refresh ?? "Refresh Page"}
                 </button>
               </div>
             </div>

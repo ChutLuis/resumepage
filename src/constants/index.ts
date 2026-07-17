@@ -35,7 +35,9 @@ import type {
   Experience,
   Testimonial,
   Project,
+  CaseStudy,
 } from "../types";
+import type { Dictionary } from "../i18n/translations";
 
 export const navLinks: NavLink[] = [
   {
@@ -58,36 +60,40 @@ export const navLinks: NavLink[] = [
 
 const services: Service[] = [
   {
+    id: "fullstack",
     title: "Full-Stack Web Development",
     icon: web,
     iconName: "fullstack",
     blurb: "React, Vue & Angular front-ends backed by Node, NestJS & Express.",
   },
   {
+    id: "mobile",
     title: "Mobile App Development",
     icon: mobile,
     iconName: "mobile",
     blurb: "Native enhancements and React Native migrations at scale.",
   },
   {
+    id: "cloud",
     title: "Cloud & DevOps Solutions",
     icon: backend,
     iconName: "cloud",
-    blurb: "AWS infrastructure, CI/CD and Terraform with 99.9% uptime.",
+    blurb: "AWS infrastructure, CI/CD and Terraform for reliable delivery.",
   },
   {
-    title: "Complex Project Architecture",
+    id: "architecture",
+    title: "Product & System Architecture",
     icon: creator,
     iconName: "architecture",
-    blurb: "Scalable, maintainable systems from prototype to production.",
+    blurb: "Maintainable technical foundations from prototype to production.",
   },
 ];
 
 const stats: Stat[] = [
-  { value: 4, suffix: "+", label: "Years of experience" },
-  { value: 20, suffix: "+", label: "Projects delivered" },
-  { value: 16, suffix: "", label: "Technologies mastered" },
-  { value: 99, suffix: "%", label: "Avg. infra uptime" },
+  { id: "years", value: 4, suffix: "+", label: "Years of experience" },
+  { id: "projects", value: 20, suffix: "+", label: "Projects delivered" },
+  { id: "languages", value: 2, suffix: "", label: "Working languages" },
+  { id: "areas", value: 4, suffix: "", label: "Delivery areas" },
 ];
 
 const technologies: Technology[] = [
@@ -159,6 +165,7 @@ const technologies: Technology[] = [
 
 const experiences: Experience[] = [
   {
+    id: "telus",
     title: "Senior Applications Developer",
     company_name: "TELUS Digital Solutions",
     icon: telus,
@@ -170,6 +177,7 @@ const experiences: Experience[] = [
     ],
   },
   {
+    id: "hmd",
     title: "Fullstack Engineer",
     company_name: "Hidden Mountain Data",
     icon: hmd,
@@ -181,6 +189,7 @@ const experiences: Experience[] = [
     ],
   },
   {
+    id: "holland",
     title: "Software Engineer",
     company_name: "Holland Orchids",
     icon: hollandOrchids,
@@ -192,6 +201,7 @@ const experiences: Experience[] = [
     ],
   },
   {
+    id: "adslive",
     title: "Web Developer",
     company_name: "Adslivemedia Corp.",
     icon: adslive,
@@ -207,6 +217,7 @@ const experiences: Experience[] = [
 
 const testimonials: Testimonial[] = [
   {
+    id: "emmanuel",
     testimonial:
       "Luis proved to be a valuable member of any team he is in. Only his ambitions exceed his achievements.",
     name: "Emmanuel Alvarado",
@@ -216,6 +227,7 @@ const testimonials: Testimonial[] = [
       "https://media.licdn.com/dms/image/v2/D4E03AQE7g-X3TFP0fw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1671477031793?e=1753315200&v=beta&t=YUUcyyGq-t2carst0siL_oE2OPw62M6GruhxFnR2p1A",
   },
   {
+    id: "lisa",
     testimonial:
       "He proved to be an honest, respectful, responsible, and hardworking individual. Under my supervision, he worked as a programmer for a custom-made application and website system.",
     name: "Lisa Gonzáles Solé",
@@ -225,6 +237,7 @@ const testimonials: Testimonial[] = [
       "https://media.licdn.com/dms/image/D4E03AQHd7_l9-Z2Dgg/profile-displayphoto-shrink_200_200/0/1678215473375?e=2147483647&v=beta&t=DXAWM02sJEsLixe8pgY5SryKju7suCm-_hN6QgJx_aY",
   },
   {
+    id: "andres",
     testimonial:
       "He was a key member of our team at Adslivemedia Corp. He consistently delivered high-quality work and was always ready to mentor junior developers. Working with Luis was a pleasure, and his problem-solving skills and dedication were truly impressive.",
     name: "Andres Gálvez ",
@@ -237,9 +250,10 @@ const testimonials: Testimonial[] = [
 
 const projects: Project[] = [
   {
+    id: "socializa",
     name: "Socializa.io Landing Page",
     description:
-      "Complex landing page for Socializa.io, a social media management platform. Built with React, TypeScript, and advanced animations. Demonstrates expertise in modern web development, responsive design, and creating engaging user experiences for international clients. Achieved 95+ Lighthouse performance score.",
+      "Marketing site for Socializa.io, a social media management platform. Built with React, TypeScript, Tailwind, and purposeful motion design.",
     tags: [
       {
         name: "react",
@@ -258,9 +272,10 @@ const projects: Project[] = [
     live_link: "https://landing.socializa.io/",
   },
   {
+    id: "portfolio-analytics",
     name: "Portfolio Analytics Dashboard",
     description:
-      "Enterprise-grade full-stack analytics dashboard with real-time data visualization. Complex architecture featuring React frontend, NestJS backend, PostgreSQL database, and cloud deployment. Showcases ability to build scalable solutions for data-intensive applications worldwide. Handles 10,000+ concurrent users with sub-200ms response times.",
+      "Full-stack analytics dashboard built with a React frontend, NestJS API, PostgreSQL, and cloud deployment. A technical demonstration of a data-intensive product workflow.",
     tags: [
       {
         name: "react",
@@ -280,9 +295,10 @@ const projects: Project[] = [
     live_link: "https://portfolio-analytics-upwork-production.up.railway.app/",
   },
   {
+    id: "erp-pymes",
     name: "ERP System for SMEs",
     description:
-      "Comprehensive Enterprise Resource Planning system designed for small and medium enterprises. Features include inventory management, financial tracking, customer relationship management, and employee management. Built with modern technologies focusing on scalability and ease of use for businesses in Guatemala and Latin America.",
+      "Product prototype for small and medium businesses, with inventory, financial, customer, and employee workflows. Built with Next.js, TypeScript, and Prisma.",
     tags: [
       {
         name: "nextjs",
@@ -302,4 +318,89 @@ const projects: Project[] = [
   },
 ];
 
-export { services, stats, technologies, experiences, testimonials, projects };
+const caseStudies: CaseStudy[] = [
+  {
+    id: "socialhub",
+    name: "SocialHub",
+    summary: "Full-stack social media management platform",
+    description:
+      "A live social media management platform for scheduling and publishing across connected accounts. Built with a Next.js 15 / React 19 frontend and a NestJS API, backed by Prisma on MySQL with Redis and BullMQ for background jobs.",
+    highlights: [
+      { text: "Auth0 authentication with workspace-based RBAC" },
+      { text: "Social OAuth connections with automatic token refresh" },
+      { text: "Post scheduling powered by Redis + BullMQ queues" },
+      { text: "Media handling via AWS S3 presigned uploads" },
+    ],
+    tags: [
+      { name: "nextjs", color: "blue-text-gradient" },
+      { name: "nestjs", color: "green-text-gradient" },
+      { name: "prisma-mysql", color: "pink-text-gradient" },
+      { name: "aws-s3", color: "orange-text-gradient" },
+    ],
+    links: [
+      {
+        label: "View SocialHub live site",
+        url: "https://app.lfortiz.com",
+        kind: "live",
+      },
+    ],
+  },
+  {
+    id: "jersey-guatemala",
+    name: "Jersey Guatemala",
+    summary:
+      "Bilingual site for the Asociación de Criadores de Ganado Jersey de Guatemala",
+    description:
+      "A bilingual Spanish / English website for Guatemala's Jersey cattle breeders association, built with Astro 7. It organizes membership information, a farm directory, registration and certification content, and cattle listings.",
+    highlights: [
+      { text: "Bilingual Spanish / English content architecture" },
+      { text: "Membership information and farm directory" },
+      { text: "Registration and certification content" },
+      { text: "Structured cattle listings" },
+    ],
+    tags: [
+      { name: "astro", color: "orange-text-gradient" },
+      { name: "typescript", color: "green-text-gradient" },
+      { name: "i18n", color: "blue-text-gradient" },
+    ],
+    links: [
+      {
+        label: "View Jersey Guatemala live site",
+        url: "https://jersey-guatemala-production.up.railway.app",
+        kind: "live",
+      },
+    ],
+  },
+];
+
+export { services, stats, technologies, experiences, testimonials, projects, caseStudies };
+
+export const getLocalizedContent = (dictionary: Dictionary) => ({
+  navLinks: navLinks.map((link) => ({ ...link, title: dictionary.nav[link.id] })),
+  services: services.map((service) => ({
+    ...service,
+    ...dictionary.about.services[service.id],
+  })),
+  stats: stats.map((stat) => ({ ...stat, label: dictionary.about.stats[stat.id] })),
+  experiences: experiences.map((experience) => ({
+    ...experience,
+    ...dictionary.experience.items[experience.id],
+  })),
+  testimonials: testimonials.map((testimonial) => ({
+    ...testimonial,
+    ...dictionary.testimonials.items[testimonial.id],
+  })),
+  projects: projects.map((project) => ({
+    ...project,
+    ...dictionary.works.projects[project.id],
+  })),
+  caseStudies: caseStudies.map((caseStudy) => {
+    const translation = dictionary.works.caseStudies[caseStudy.id];
+    return {
+      ...caseStudy,
+      ...translation,
+      highlights: translation.highlights.map((text) => ({ text })),
+      links: caseStudy.links.map((link) => ({ ...link, label: translation.linkLabel })),
+    };
+  }),
+});
