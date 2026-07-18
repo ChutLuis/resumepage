@@ -11,7 +11,9 @@ Live site: <https://www.lfortiz.com/>
 - **Three.js** via **@react-three/fiber** and **@react-three/drei** (3D models, particle background, animated globe)
 - **Tailwind CSS** for styling
 - **Framer Motion** for section/scroll animations
-- **AWS Lambda + Amazon SES** for secure contact-form delivery
+- **English/Spanish i18n** with browser-language detection and a persistent language preference
+- **AWS Amplify Hosting** for the static site
+- **AWS Lambda + API Gateway + Amazon SES** for secure contact-form delivery
 
 ## Getting started
 
@@ -41,6 +43,16 @@ VITE_CONTACT_ENDPOINT=https://your-api-id.execute-api.us-east-1.amazonaws.com/co
 
 This URL is public by design. The Lambda holds no browser-exposed credentials.
 
+## Languages and content
+
+The site supports English and Spanish. On a first visit, Spanish is selected when
+the browser language starts with `es`; otherwise English is selected. Visitors can
+override this from the language toggle, and their preference is stored locally as
+`lfortiz-locale`.
+
+Translations and locale-aware metadata live in `src/i18n/`. Resume content is
+localized through `getLocalizedContent()` in `src/constants/index.ts`.
+
 ## Project structure
 
 ```
@@ -51,6 +63,8 @@ src/
   assets/            Images and logos
   hoc/               Section wrapper HOC
   utils/             Animation helpers
+  i18n/              Locale context and English/Spanish dictionaries
+lambda/               TypeScript SES contact endpoint and deployment instructions
 public/              Static files served as-is (resume.pdf, robots.txt, sitemap.xml, 3D models)
 ```
 
@@ -59,8 +73,13 @@ To update resume content (jobs, projects, skills, testimonials), edit
 
 ## Deployment
 
-`npm run build` outputs static files to `dist/`, deployable to any static host.
-An `.htaccess` is included for Apache-based SPA routing.
+The production site is built and hosted by AWS Amplify from `main`. Add
+`VITE_CONTACT_ENDPOINT` to the Amplify branch environment before deploying; Vite
+embeds it at build time. The endpoint URL is public, but AWS credentials must
+never be added to `VITE_*` variables.
+
+See [`DEPLOYMENT.md`](DEPLOYMENT.md) for the Amplify release process and the
+contact-form verification checklist.
 
 ## Contact API
 

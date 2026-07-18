@@ -1,7 +1,9 @@
 # SEO Optimization Guide - Luis Ortiz Portfolio
 
 ## Overview
-This document outlines the comprehensive SEO optimization implemented for the portfolio website, targeting freelance opportunities in Guatemala and showcasing complex projects worldwide.
+This document outlines the SEO implementation for the portfolio website,
+targeting freelance opportunities in Guatemala and select international project
+work. The production site is hosted at <https://www.lfortiz.com/>.
 
 ## Implemented SEO Features
 
@@ -157,8 +159,8 @@ Enhanced descriptions with:
 ## Next Steps for Deployment
 
 ### 1. Domain Setup
-Update all URLs in the following files from `https://luisortiz.dev/` to your actual domain:
-- `index.html` (meta tags, JSON-LD schemas)
+The production domain is already configured as `https://www.lfortiz.com/` in:
+- `index.html` (meta tags and JSON-LD schemas)
 - `public/sitemap.xml`
 - `public/robots.txt`
 
@@ -182,11 +184,8 @@ If offering local services:
 4. Add business hours and contact info
 
 ### 5. Analytics Setup
-Install Google Analytics or similar:
-```html
-<!-- Add to index.html <head> -->
-<!-- Google Analytics script -->
-```
+Choose a privacy and measurement approach before adding analytics. If analytics
+is added, load it only after the required consent decision for your audience.
 
 ### 6. Social Media Profiles
 Update JSON-LD schema with actual profile URLs:
@@ -267,6 +266,6 @@ Update JSON-LD schema with actual profile URLs:
 
 ---
 
-**Last Updated**: January 21, 2025
-**Version**: 1.0
+**Last Updated**: July 17, 2026
+**Version**: 1.1
 **Author**: Luis Ortiz

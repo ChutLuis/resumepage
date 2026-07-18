@@ -1,5 +1,9 @@
 # SEO Implementation Checklist - Luis Ortiz Portfolio
 
+> Current implementation notes: the public domain is `https://www.lfortiz.com/`.
+> English and Spanish share one canonical URL; language selection is client-side,
+> so separate `hreflang` URLs are not currently applicable.
+
 ## ✅ Completed Optimizations
 
 ### Technical SEO
@@ -9,8 +13,8 @@
 - [x] **Robots.txt**: Configured to allow crawlers and specify sitemap location
 - [x] **Canonical URLs**: Set to prevent duplicate content
 - [x] **Mobile Responsive**: Already implemented in Tailwind design
-- [x] **HTTPS Ready**: .htaccess configured to force HTTPS
-- [x] **Performance**: .htaccess with compression and caching rules
+- [x] **HTTPS**: Enforced by AWS Amplify hosting
+- [x] **Performance**: Static assets delivered through Amplify's CDN
 
 ### Geographic & Local SEO
 - [x] **Guatemala Targeting**: Geo meta tags (GT region)
@@ -37,10 +41,8 @@
 ## 🔄 Before Deployment
 
 ### Required Updates
-- [ ] **Replace Domain**: Update `https://luisortiz.dev/` with your actual domain in:
-  - [x] `index.html` (all meta tags and JSON-LD)
-  - [x] `public/sitemap.xml`
-  - [x] `public/robots.txt`
+- [x] **Domain**: `https://www.lfortiz.com/` is used in `index.html`,
+  `public/sitemap.xml`, and `public/robots.txt`.
 
 - [ ] **Add Social Images**: Create and upload to `/public/`:
   - [ ] `og-image.jpg` (1200x630px) - Open Graph image
@@ -58,7 +60,7 @@
 - [ ] Add Google Analytics tracking code
 - [ ] Set up Google Search Console
 - [ ] Create Google My Business profile (for local SEO)
-- [ ] Add hreflang tags if creating Spanish version
+- [x] Client-side English/Spanish language selection and localized metadata
 
 ## 📊 Post-Deployment Tasks
 
@@ -172,7 +174,8 @@ npm run dev
 5. Consider creating a blog for ongoing SEO value
 
 ### Performance Tips
-- The .htaccess file handles compression and caching
+- AWS Amplify serves static assets through its CDN; configure cache behavior in
+  Amplify or CloudFront if the hosting architecture changes
 - Images should be optimized (WebP format recommended)
 - Consider lazy loading for below-the-fold content
 - Monitor Core Web Vitals in PageSpeed Insights
@@ -185,6 +188,7 @@ npm run dev
 
 ---
 
-**Last Updated**: January 21, 2025
-**Status**: Ready for Deployment
-**Next Review**: After first month of deployment
+**Last Updated**: July 17, 2026
+**Status**: Deployed architecture documented; complete remaining Search Console and
+social-image tasks before considering SEO setup complete.
+**Next Review**: After the next production release or Search Console review.
