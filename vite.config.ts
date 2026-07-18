@@ -33,12 +33,10 @@ export default defineConfig({
           // React core
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           
-          // Three.js and related libraries
+          // Three.js (Aquarius hero only)
           'three-vendor': [
             'three',
             '@react-three/fiber',
-            '@react-three/drei',
-            'maath',
           ],
           
           // Animation libraries

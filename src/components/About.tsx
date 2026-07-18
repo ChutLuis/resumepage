@@ -1,160 +1,69 @@
-import { motion, Variants } from "framer-motion";
-import styles from "../styles";
-import { fadeIn, textVariant } from "../utils/motion";
-import { SectionWrapper } from "../hoc";
-import AnimatedCounter from "./ui/AnimatedCounter";
-import MagneticButton from "./ui/MagneticButton";
-import { iconMap } from "./ui/ServiceIcons";
-import type { Service } from "../types";
+import { Section, Reveal, Eyebrow } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
 
-const ServiceCard = ({
-  service,
-  index,
-}: {
-  service: Service;
-  index: number;
-}) => {
-  const Icon = service.iconName ? iconMap[service.iconName] : null;
-  return (
-    <motion.div
-      variants={fadeIn("up", "spring", 0.1 * index, 0.6) as Variants}
-      data-cursor="hover"
-      className="group card-lift relative gradient-border rounded-2xl bg-surface/70 p-6"
-    >
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-bg-2 ring-1 ring-line transition-shadow duration-300 group-hover:shadow-accent-glow">
-        {Icon ? (
-          <Icon className="h-7 w-7" />
-        ) : (
-          <img src={service.icon} alt="" className="h-7 w-7 object-contain" />
-        )}
-      </div>
-      <h3 className="font-display text-[17px] font-semibold leading-tight text-heading">
-        {service.title}
-      </h3>
-      {service.blurb && (
-        <p className="mt-2 text-[13px] leading-relaxed text-body">
-          {service.blurb}
-        </p>
-      )}
-    </motion.div>
-  );
-};
+const ABOUT_RADIAL =
+  "radial-gradient(60% 80% at 90% 0%, rgba(139,92,246,0.10), transparent 60%)";
 
 const About = () => {
-  const { t, content } = useLocale();
+  const { t } = useLocale();
 
   return (
-    <>
-      <motion.div variants={textVariant() as Variants}>
-        <p className={styles.styles.sectionSubText}>{t.about.subhead}</p>
-        <h2 className={styles.styles.sectionHeadText}>{t.about.heading}</h2>
-      </motion.div>
-
-      {/* Bento grid: prominent bio + a purposeful "currently" card */}
-      <div className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-3">
-        {/* Bio — the human story, now front and center */}
-        <motion.div
-          variants={fadeIn("right", "spring", 0.1, 0.75) as Variants}
-          className="relative gradient-border overflow-hidden rounded-3xl bg-surface/70 p-8 lg:col-span-2 sm:p-10"
+    <Section id="about" className="pb-10 pt-[72px]">
+      <Reveal>
+        <div
+          className="grid grid-cols-1 gap-10 rounded-2xl border border-line bg-surface p-8 sm:p-11 lg:grid-cols-2 lg:gap-12"
+          style={{ backgroundImage: ABOUT_RADIAL }}
         >
-          <div className="pointer-events-none absolute inset-0 bg-aurora opacity-70" />
-          <div className="relative">
-            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-bg-2/80 px-3 py-1 text-[12px] font-medium text-body">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-400" />
-              </span>
-              {t.about.currentBadge}
-            </span>
-
-            <p className="mt-6 text-[17px] leading-[30px] text-body">
+          {/* Left: story + CTAs */}
+          <div>
+            <Eyebrow>{t.about.subhead}</Eyebrow>
+            <h2 className="mt-3 font-display text-[28px] font-bold tracking-[-0.02em] text-heading sm:text-[34px]">
+              {t.about.heading}
+            </h2>
+            <p className="mt-[18px] text-[15px] leading-[1.7] text-body">
               {t.about.bioLead}
             </p>
-            <p className="mt-4 text-[17px] leading-[30px] text-body">
+            <p className="mt-3.5 text-[15px] leading-[1.7] text-body">
               {t.about.bioSecondary}
             </p>
-
-            <div className="mt-8 flex flex-wrap gap-4">
-              <MagneticButton
+            <div className="mt-6 flex flex-wrap gap-3.5">
+              <a
                 href="/resume.pdf"
                 download="Luis_Ortiz_Resume.pdf"
-                ariaLabel={t.about.resumeCta}
-                className="rounded-xl bg-gradient-to-r from-accent-600 to-cyan-600 px-6 py-3 font-semibold text-white shadow-accent-glow transition-shadow hover:shadow-cyan-glow"
+                className="inline-block rounded-[10px] bg-accent-500 px-[22px] py-[11px] text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-accent-400"
               >
                 {t.about.resumeCta}
-              </MagneticButton>
-              <MagneticButton
+              </a>
+              <a
                 href="#contact"
-                ariaLabel={t.about.talkCta}
-                className="rounded-xl border border-line bg-bg-2/60 px-6 py-3 font-semibold text-heading transition-colors hover:border-accent-400"
+                className="inline-block rounded-[10px] border border-line px-[22px] py-[11px] text-[14px] font-semibold text-heading transition-colors duration-200 hover:border-accent-400"
               >
                 {t.about.talkCta} →
-              </MagneticButton>
+              </a>
             </div>
           </div>
-        </motion.div>
 
-        {/* "Currently" card */}
-        <motion.div
-          variants={fadeIn("left", "spring", 0.2, 0.75) as Variants}
-          data-cursor="hover"
-          className="relative gradient-border flex flex-col justify-between overflow-hidden rounded-3xl bg-surface/70 p-8"
-        >
-          <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent-500/20 blur-3xl" />
-          <div className="relative">
-            <p className="text-[12px] uppercase tracking-[0.25em] text-cyan-400">
+          {/* Right: currently @ TELUS */}
+          <div className="flex flex-col justify-center gap-[18px] border-t border-line pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
+            <p className="font-mono text-[12px] text-accent-400">
               {t.about.currentlyLabel}
             </p>
-            <h3 className="mt-3 font-display text-2xl font-bold text-heading">
-              {t.about.currentlyTitle}
-            </h3>
-            <ul className="mt-5 space-y-3 text-[14px] text-body">
+            <div className="flex flex-col gap-3 text-[14px] text-body-strong">
               {t.about.currentlyPoints.map((point) => (
-                <li key={point} className="flex gap-3">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-r from-accent-400 to-cyan-400" />
+                <span key={point} className="flex gap-3">
+                  <span className="text-accent-500">—</span>
                   {point}
-                </li>
+                </span>
               ))}
-            </ul>
-          </div>
-          <div className="relative mt-6 border-t border-line pt-5">
-            <p className="text-[13px] text-body">
+            </div>
+            <p className="mt-1.5 border-t border-line pt-4 text-[13px] text-body">
               {t.about.openToNote}
             </p>
           </div>
-        </motion.div>
-      </div>
-
-      {/* Stat band */}
-      <div className="mt-5 grid grid-cols-2 gap-5 lg:grid-cols-4">
-        {content.stats.map((stat, index) => (
-          <motion.div
-            key={stat.label}
-            variants={fadeIn("up", "spring", 0.08 * index, 0.6) as Variants}
-            data-cursor="hover"
-            className="card-lift gradient-border flex flex-col justify-center rounded-2xl bg-surface/70 p-6"
-          >
-            <AnimatedCounter
-              value={stat.value}
-              suffix={stat.suffix}
-              className="font-display text-4xl font-bold text-gradient sm:text-5xl"
-            />
-            <p className="mt-2 text-[13px] uppercase tracking-wider text-body">
-              {stat.label}
-            </p>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* What I do */}
-      <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {content.services.map((service, index) => (
-          <ServiceCard key={service.title} service={service} index={index} />
-        ))}
-      </div>
-    </>
+        </div>
+      </Reveal>
+    </Section>
   );
 };
 
-export default SectionWrapper(About, "about");
+export default About;

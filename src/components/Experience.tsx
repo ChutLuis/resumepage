@@ -1,89 +1,49 @@
-import {
-  VerticalTimeline,
-  VerticalTimelineElement,
-} from "react-vertical-timeline-component";
-import "react-vertical-timeline-component/style.min.css";
-import { motion, Variants } from "framer-motion";
-import styles from "../styles";
-import { SectionWrapper } from "../hoc";
-import { textVariant } from "../utils/motion";
-import type { Experience as ExperienceType } from "../types";
+import { Section, Reveal, Eyebrow } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
 
-interface ExperienceCardProps {
-  experience: ExperienceType;
-}
-
-const ExperienceCard: React.FC<ExperienceCardProps> = ({ experience }) => {
-  return (
-    <VerticalTimelineElement
-      contentStyle={{
-        background: "rgba(19, 19, 29, 0.7)",
-        backdropFilter: "blur(12px)",
-        color: "#ededf6",
-        boxShadow: "0 3px 0 #8b5cf6",
-        border: "1px solid rgba(139, 92, 246, 0.25)",
-        borderRadius: "16px",
-      }}
-      contentArrowStyle={{ borderRight: "7px solid rgba(139, 92, 246, 0.5)" }}
-      date={experience.date}
-      iconStyle={{
-        background: experience.iconBg,
-        boxShadow: "0 0 0 4px #8b5cf6, 0 0 20px rgba(139, 92, 246, 0.4)",
-      }}
-      icon={
-        <div className="flex justify-center items-center w-full h-full">
-          <img
-            src={experience.icon}
-            alt={experience.company_name}
-            className="w-[60%] h-[60%]"
-          />
-        </div>
-      }
-    >
-      <div>
-        <h3 className="text-heading font-display text-[24px] font-bold">
-          {experience.title}
-        </h3>
-        <p
-          className="text-accent-300 text-[16px] font-semibold"
-          style={{ margin: 0 }}
-        >
-          {experience.company_name}
-        </p>
-      </div>
-      <ul className="mt-5 list-disc ml-5 space-y-2">
-        {experience.points.map((point, index) => (
-          <li
-            key={`experience-point-${index}-${experience.company_name}`}
-            className="text-body text-[14px] pl-1 tracking-wide marker:text-cyan-400"
-          >
-            {point}
-          </li>
-        ))}
-      </ul>
-    </VerticalTimelineElement>
-  );
-};
-
-const Experience: React.FC = () => {
+const Experience = () => {
   const { t, content } = useLocale();
 
   return (
-    <>
-      <motion.div variants={textVariant() as Variants}>
-        <p className={styles.styles.sectionSubText}>{t.experience.subhead}</p>
-        <h2 className={styles.styles.heroHeadText}>{t.experience.heading}</h2>
-      </motion.div>
-      <div className="mt-20 flex flex-col">
-        <VerticalTimeline>
-          {content.experiences.map((experience, index) => (
-            <ExperienceCard key={index} experience={experience} />
+    <Section id="experience" className="pb-10 pt-[72px]">
+      <Reveal>
+        <Eyebrow>{t.experience.subhead}</Eyebrow>
+        <h2 className="mt-2.5 font-display text-[32px] font-bold tracking-[-0.02em] text-heading sm:text-[40px] lg:text-[44px]">
+          {t.experience.heading}
+        </h2>
+
+        <div className="mt-8 border-t border-line">
+          {content.experiences.map((experience) => (
+            <article
+              key={experience.id}
+              className="grid grid-cols-[44px_1fr] gap-x-5 gap-y-3 border-b border-divider py-[26px] md:grid-cols-[220px_56px_1fr] md:items-start md:gap-6"
+            >
+              <p className="order-1 col-span-2 font-mono text-[12px] text-body md:order-none md:col-span-1 md:pt-1">
+                {experience.date}
+              </p>
+              <img
+                src={experience.icon}
+                alt={experience.company_name}
+                className="order-2 h-11 w-11 rounded-[10px] object-cover md:order-none"
+                loading="lazy"
+              />
+              <div className="order-3 md:order-none">
+                <h3 className="font-display text-[19px] font-semibold leading-snug text-heading">
+                  {experience.title} ·{" "}
+                  <span className="text-accent-400">
+                    {experience.company_name}
+                  </span>
+                </h3>
+                <p className="mt-2 max-w-[680px] text-[14px] leading-[1.65] text-body">
+                  {experience.summary}
+                </p>
+              </div>
+            </article>
           ))}
-        </VerticalTimeline>
-      </div>
-    </>
+        </div>
+      </Reveal>
+    </Section>
   );
 };
 
-export default SectionWrapper(Experience, "work");
+export default Experience;

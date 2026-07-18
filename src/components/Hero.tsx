@@ -1,133 +1,100 @@
-import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, Variants } from "framer-motion";
-import styles from "../styles";
-import { ComputersCanvas } from "./canvas";
-import MagneticButton from "./ui/MagneticButton";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { Reveal } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
 
-const container: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
-};
-const item: Variants = {
-  hidden: { y: 24, opacity: 0 },
-  show: { y: 0, opacity: 1, transition: { duration: 0.7, ease: "easeOut" } },
+// Defer three.js off the initial critical path — only the hero canvas needs it.
+const AquariusCanvas = lazy(() => import("./canvas/AquariusCanvas"));
+
+const HERO_RADIAL =
+  "radial-gradient(70% 60% at 30% 0%, rgba(139,92,246,0.14), transparent 65%)";
+
+const DESKTOP_QUERY = "(min-width: 1024px)";
+
+/**
+ * True on lg+ viewports. Initialized synchronously from matchMedia so the
+ * correct canvas (desktop column vs. mobile background) mounts on first paint
+ * without a remount flash.
+ */
+const useIsDesktop = () => {
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia(DESKTOP_QUERY).matches : false
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_QUERY);
+    setIsDesktop(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, []);
+  return isDesktop;
 };
 
 const Hero = () => {
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
   const { t } = useLocale();
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-  const textY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : 120]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mediaQuery.matches);
-    const handleChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener("change", handleChange);
-      return () => mediaQuery.removeEventListener("change", handleChange);
-    } else {
-      mediaQuery.addListener(handleChange);
-      return () => mediaQuery.removeListener(handleChange);
-    }
-  }, []);
+  const isDesktop = useIsDesktop();
 
   return (
-    <section ref={sectionRef} className="relative mx-auto h-screen w-full">
-      <motion.div
-        style={{ y: textY, opacity: textOpacity }}
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className={`${styles.styles.paddingX} absolute inset-0 top-[90px] z-10 mx-auto flex max-w-7xl flex-row items-start gap-5 pb-4`}
-      >
-        <div className="mt-2 flex flex-col items-center justify-center">
-          <div className="h-5 w-5 rounded-full bg-accent-500 shadow-accent-glow" />
-          <div className="blue-gradient h-40 w-1 sm:h-80" />
+    <section
+      className="relative w-full overflow-hidden"
+      style={{ backgroundImage: HERO_RADIAL }}
+    >
+      {/* Mobile: constellation as a faint full-bleed backdrop behind the text.
+          pointer-events-none keeps the CTAs fully tappable. */}
+      {!isDesktop && (
+        <div
+          className="pointer-events-none absolute inset-0 z-0 opacity-50"
+          aria-hidden="true"
+        >
+          <Suspense fallback={null}>
+            <AquariusCanvas />
+          </Suspense>
         </div>
+      )}
 
-        <div className="relative z-10 rounded-2xl bg-primary/70 p-6 backdrop-blur-sm sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
-          <motion.p
-            variants={item}
-            className="mb-3 text-[15px] font-medium uppercase tracking-[0.3em] text-cyan-400"
-          >
+      <div className="relative z-10 mx-auto grid max-w-content grid-cols-1 items-center gap-12 px-6 pb-16 pt-28 sm:px-10 sm:pb-[90px] lg:grid-cols-[1.3fr_1fr] lg:pt-[110px]">
+        <Reveal>
+          <p className="font-mono text-[13px] tracking-[0.08em] text-accent-400">
             {t.hero.eyebrow}
-          </motion.p>
-          <motion.h1 variants={item} className={styles.styles.heroHeadText}>
-            {t.hero.greeting}{" "}
-            <span className="text-gradient-animated">Luis Ortiz</span>
-          </motion.h1>
-          <motion.p
-            variants={item}
-            className={`${styles.styles.heroSubText} mt-3 max-w-2xl`}
-          >
+          </p>
+          <h1 className="mt-4 font-display text-[32px] font-bold leading-[1.1] tracking-[-0.02em] text-heading xs:text-[40px] sm:mt-5 sm:text-[52px] sm:leading-[1.08] lg:text-[62px]">
+            {t.hero.headline}
+          </h1>
+          <p className="mt-5 max-w-[560px] text-[16px] leading-[1.6] text-body sm:mt-6 sm:text-[18px] sm:leading-[1.65]">
             {t.hero.intro}
-          </motion.p>
-
-          <motion.div variants={item} className="mt-6 flex flex-wrap gap-2">
-            {t.hero.badges.map((b) => (
-              <span
-                key={b}
-                className="rounded-full border border-line bg-bg-2/70 px-3 py-1 text-[13px] font-medium text-body backdrop-blur-sm"
-              >
-                {b}
-              </span>
-            ))}
-          </motion.div>
-
-          <motion.div variants={item} className="mt-8 flex flex-wrap gap-4">
-            <MagneticButton
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3.5 sm:mt-9">
+            <a
               href="#contact"
-              ariaLabel={t.hero.contactCta}
-              className="rounded-xl bg-gradient-to-r from-accent-600 to-cyan-600 px-6 py-3 font-semibold text-white shadow-accent-glow transition-shadow hover:shadow-cyan-glow"
+              className="inline-block rounded-[10px] bg-accent-500 px-[26px] py-[13px] text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-accent-400"
             >
               {t.hero.contactCta}
-            </MagneticButton>
-            <MagneticButton
-              href="#projects"
-              ariaLabel={t.hero.workCta}
-              className="rounded-xl border border-line bg-bg-2/50 px-6 py-3 font-semibold text-heading transition-colors hover:border-accent-400"
+            </a>
+            <a
+              href="#work"
+              className="inline-block rounded-[10px] border border-line px-[26px] py-[13px] text-[15px] font-semibold text-heading transition-colors duration-200 hover:border-accent-400"
             >
-              {t.hero.workCta}
-            </MagneticButton>
-          </motion.div>
-          <motion.p variants={item} className="mt-5 text-sm text-body">
-            {t.hero.availability}
-          </motion.p>
-        </div>
-      </motion.div>
-
-      {/* 3D model as background layer */}
-      <div
-        className="absolute inset-0 z-[1] opacity-60 sm:opacity-100"
-        role="img"
-        aria-label={t.hero.computerAria}
-      >
-        <ComputersCanvas />
-      </div>
-
-      <div className="absolute bottom-10 z-10 flex w-full items-center justify-center xs:bottom-10">
-        <a
-          href="#about"
-          className="rounded-3xl focus:outline-none focus:ring-4 focus:ring-accent-400 focus:ring-offset-2 focus:ring-offset-primary"
-          aria-label={t.hero.scrollAria}
-          data-cursor="hover"
-        >
-          <div className="flex h-[64px] w-[35px] items-start justify-center rounded-3xl border-4 border-accent-400 p-2 transition-colors duration-300 hover:border-cyan-400">
-            <div
-              className={`mb-1 h-3 w-3 rounded-full bg-accent-400 shadow-accent-glow ${
-                !reducedMotion ? "animate-bounce" : ""
-              }`}
-            />
+              {t.hero.workCta} ↓
+            </a>
           </div>
-        </a>
+        </Reveal>
+
+        {/* Desktop: constellation in the right column with its caption. */}
+        <div className="hidden lg:block">
+          <div
+            className="h-[440px] w-full"
+            role="img"
+            aria-label={t.hero.canvasAria}
+          >
+            {isDesktop && (
+              <Suspense fallback={null}>
+                <AquariusCanvas />
+              </Suspense>
+            )}
+          </div>
+          <p className="mt-1.5 text-right font-mono text-[11px] tracking-[0.08em] text-caption">
+            {t.hero.canvasCaption}
+          </p>
+        </div>
       </div>
     </section>
   );

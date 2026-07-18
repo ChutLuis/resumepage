@@ -1,16 +1,16 @@
 import { BrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import { Hero, Navbar, ErrorBoundary, Footer, CustomCursor, ScrollProgress } from "./components";
+import { Hero, Navbar, ErrorBoundary, Footer } from "./components";
 import SectionLoader from "./components/SectionLoader";
 import SmoothScroll from "./components/SmoothScroll";
-import GlobalBackground from "./components/GlobalBackground";
+import ScrollProgress from "./components/ui/ScrollProgress";
 import { useLocale } from "./i18n/LocaleContext";
 
-// Lazy load heavy components for better initial load performance
-const About = lazy(() => import("./components/About"));
+// Lazy load below-the-fold sections for a lean initial payload.
+const Works = lazy(() => import("./components/Works"));
 const Experience = lazy(() => import("./components/Experience"));
 const Tech = lazy(() => import("./components/Tech"));
-const Works = lazy(() => import("./components/Works"));
+const About = lazy(() => import("./components/About"));
 const Feedbacks = lazy(() => import("./components/Feedbacks"));
 const Contact = lazy(() => import("./components/Contact"));
 
@@ -24,65 +24,34 @@ function App() {
     developmentError: t.system.developmentError,
   };
 
+  const sections = [Works, Experience, Tech, About, Feedbacks, Contact];
+
   return (
     <BrowserRouter>
-      <div className="relative z-0">
+      <div className="relative z-0 bg-primary">
         <SmoothScroll />
         <ScrollProgress />
-        <CustomCursor />
 
-        {/* Persistent full-page WebGL background (aurora shader + particle field). */}
-        <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
-          <GlobalBackground />
-        </ErrorBoundary>
+        <header>
+          <Navbar />
+          <Hero />
+        </header>
 
-        {/* All real content layers above the fixed WebGL canvas. */}
-        <div className="relative z-10">
-          <header>
-            <Navbar />
-            <Hero />
-          </header>
-
-          <main id="main-content" className="relative">
-            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
+        <main id="main-content" className="relative">
+          {sections.map((SectionComponent, index) => (
+            <ErrorBoundary
+              key={index}
+              fallbackMessage={t.system.errorFallback}
+              labels={errorLabels}
+            >
               <Suspense fallback={<SectionLoader />}>
-                <About />
+                <SectionComponent />
               </Suspense>
             </ErrorBoundary>
+          ))}
+        </main>
 
-            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
-              <Suspense fallback={<SectionLoader />}>
-                <Experience />
-              </Suspense>
-            </ErrorBoundary>
-
-            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
-              <Suspense fallback={<SectionLoader />}>
-                <Tech />
-              </Suspense>
-            </ErrorBoundary>
-
-            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
-              <Suspense fallback={<SectionLoader />}>
-                <Works />
-              </Suspense>
-            </ErrorBoundary>
-
-            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
-              <Suspense fallback={<SectionLoader />}>
-                <Feedbacks />
-              </Suspense>
-            </ErrorBoundary>
-
-            <ErrorBoundary fallbackMessage={t.system.errorFallback} labels={errorLabels}>
-              <Suspense fallback={<SectionLoader />}>
-                <Contact />
-              </Suspense>
-            </ErrorBoundary>
-          </main>
-
-          <Footer />
-        </div>
+        <Footer />
       </div>
     </BrowserRouter>
   );

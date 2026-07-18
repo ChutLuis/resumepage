@@ -1,31 +1,33 @@
-export type NavId = "about" | "work" | "projects" | "contact";
-export type ServiceId = "fullstack" | "mobile" | "cloud" | "architecture";
-export type StatId = "years" | "projects" | "languages" | "areas";
+export type NavId = "work" | "experience" | "about" | "contact";
+export type WorkId =
+  | "socialhub"
+  | "jersey-guatemala"
+  | "portfolio-analytics"
+  | "socializa"
+  | "erp-pymes";
 export type ExperienceId = "telus" | "hmd" | "holland" | "adslive";
 export type TestimonialId = "emmanuel" | "lisa" | "andres";
-export type ProjectId = "socializa" | "portfolio-analytics" | "erp-pymes";
-export type CaseStudyId = "socialhub" | "jersey-guatemala";
+export type TechGroupId = "frontend" | "backend" | "infra";
 
 export interface NavLink {
   id: NavId;
   title: string;
 }
 
-export interface Service {
-  id: ServiceId;
-  title: string;
-  icon: string;
-  /** Key into the custom inline icon map (preferred over the PNG `icon`) */
-  iconName?: "fullstack" | "mobile" | "cloud" | "architecture";
-  /** Short supporting line shown under the title in the bento grid */
-  blurb?: string;
-}
-
-export interface Stat {
-  id: StatId;
-  value: number;
-  suffix?: string;
-  label: string;
+/**
+ * A row in the "Selected Work" numbered index. Copy (name / descriptor /
+ * paragraph / link label / placeholder label) comes from the i18n dictionary;
+ * the fields here are locale-independent.
+ */
+export interface WorkItem {
+  id: WorkId;
+  /** Inline status chip; omit for none. */
+  status?: "production" | "live";
+  /** Mono stack line, e.g. "nextjs 15 · nestjs · redis/bullmq · s3". */
+  stack: string;
+  url: string;
+  /** Imported thumbnail; when omitted the row renders a labeled placeholder. */
+  image?: string;
 }
 
 export interface Technology {
@@ -33,64 +35,22 @@ export interface Technology {
   icon: string;
 }
 
+export interface TechGroup {
+  id: TechGroupId;
+  items: Technology[];
+}
+
+/** Non-translated experience fields; title/date/summary come from i18n. */
 export interface Experience {
   id: ExperienceId;
-  title: string;
   company_name: string;
   icon: string;
-  iconBg: string;
-  date: string;
-  points: string[];
 }
 
+/** Non-translated testimonial fields; testimonial/designation come from i18n. */
 export interface Testimonial {
   id: TestimonialId;
-  testimonial: string;
   name: string;
-  designation: string;
-  company: string;
-  image: string;
-}
-
-export interface Tag {
-  name: string;
-  color: string;
-}
-
-export interface Project {
-  id: ProjectId;
-  name: string;
-  description: string;
-  tags: Tag[];
-  image: string;
-  source_code_link?: string;
-  live_link?: string;
-}
-
-export interface CaseStudyLink {
-  label: string;
-  url: string;
-  kind: "live" | "source";
-}
-
-export interface CaseStudyHighlight {
-  text: string;
-}
-
-export interface CaseStudy {
-  id: CaseStudyId;
-  name: string;
-  summary: string;
-  description: string;
-  highlights: CaseStudyHighlight[];
-  tags: Tag[];
-  links: CaseStudyLink[];
-}
-
-// Component prop types
-export interface SectionWrapperProps {
-  children: React.ReactNode;
-  idName: string;
 }
 
 export interface MotionVariants {

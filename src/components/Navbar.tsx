@@ -1,7 +1,5 @@
 import { useState } from "react";
-
 import { Link } from "react-router-dom";
-import styles from "../styles";
 import { navLinks } from "../constants";
 import { logo, menu, close } from "../assets";
 import useActiveSection from "../hooks/useActiveSection";
@@ -9,24 +7,7 @@ import { useLocale } from "../i18n/LocaleContext";
 import LanguageToggle from "./ui/LanguageToggle";
 
 // Stable reference so the IntersectionObserver effect doesn't re-run each render.
-const SECTION_IDS = navLinks.map((link) => link.id).filter(Boolean);
-
-const ResumeIcon = () => (
-  <svg
-    className="w-4 h-4"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-    />
-  </svg>
-);
+const SECTION_IDS = navLinks.map((link) => link.id);
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
@@ -35,46 +16,35 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`${styles.styles.paddingX} w-full flex items-center py-5 fixed top-0 z-30 bg-primary/80 border-b border-white/5 backdrop-blur-md`}
+      className="fixed top-0 z-30 w-full border-b border-white/[0.06] bg-primary/85 backdrop-blur-md"
       role="navigation"
       aria-label={t.nav.mainNavigation}
     >
-      <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
+      <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-[18px] sm:px-10">
         <Link
           to="/"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2.5"
           onClick={() => window.scrollTo(0, 0)}
         >
-          <img
-            src={logo}
-            alt={`${t.nav.brand} - ${t.nav.brandRole} logo`}
-            className="w-6 h-6 object-contain"
-          />
-          <p className="text-white text-[18px] font-bold font-display cursor-pointer flex">
-            {t.nav.brand} &nbsp;
-            <span className="sm:block hidden text-secondary font-medium">
-              | {t.nav.brandRole}
-            </span>
-          </p>
+          <img src={logo} alt="" className="h-5 w-5 object-contain" />
+          <span className="font-display text-[16px] font-bold text-heading">
+            {t.nav.brand}
+          </span>
         </Link>
 
-        <ul className="list-none hidden sm:flex flex-row gap-8 items-center">
+        <ul className="hidden list-none flex-row items-center gap-7 sm:flex">
           {content.navLinks.map((link) => {
             const isActive = activeId === link.id;
             return (
-              <li key={link.id} data-cursor="hover">
+              <li key={link.id}>
                 <a
                   href={`#${link.id}`}
-                  className={`relative text-[17px] font-medium transition-colors duration-300 ${
-                    isActive ? "text-white" : "text-secondary hover:text-white"
+                  aria-current={isActive ? "true" : undefined}
+                  className={`text-[14px] transition-colors duration-200 ${
+                    isActive ? "text-heading" : "text-body hover:text-heading"
                   }`}
                 >
                   {link.title}
-                  <span
-                    className={`absolute -bottom-1.5 left-0 h-0.5 rounded-full bg-gradient-to-r from-accent-500 to-cyan-400 transition-all duration-300 ${
-                      isActive ? "w-full opacity-100" : "w-0 opacity-0"
-                    }`}
-                  />
                 </a>
               </li>
             );
@@ -82,22 +52,21 @@ const Navbar = () => {
           <li>
             <LanguageToggle />
           </li>
-          <li data-cursor="hover">
+          <li>
             <a
               href="/resume.pdf"
               download="Luis_Ortiz_Resume.pdf"
-              className="flex items-center gap-2 rounded-full border border-accent-500/40 bg-accent-500/10 px-4 py-1.5 text-[15px] font-medium text-accent-300 transition-all duration-300 hover:border-accent-400 hover:bg-accent-500/20 hover:text-white"
+              className="rounded-lg border border-accent-500/40 px-3.5 py-1.5 text-[14px] font-medium text-accent-300 transition-colors duration-200 hover:border-accent-400 hover:text-accent-200"
             >
               {t.nav.resume}
-              <ResumeIcon />
             </a>
           </li>
         </ul>
 
-        <div className="sm:hidden flex flex-1 justify-end items-center">
+        <div className="flex flex-1 items-center justify-end sm:hidden">
           <button
             onClick={() => setToggle(!toggle)}
-            className="w-[44px] h-[44px] flex items-center justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent-400 rounded"
+            className="flex h-11 w-11 items-center justify-center rounded focus:outline-none focus:ring-2 focus:ring-accent-400"
             aria-label={toggle ? t.nav.closeMenu : t.nav.openMenu}
             aria-expanded={toggle}
             aria-controls="mobile-menu"
@@ -105,7 +74,7 @@ const Navbar = () => {
             <img
               src={toggle ? close : menu}
               alt=""
-              className="w-[28px] h-[28px] object-contain"
+              className="h-7 w-7 object-contain"
             />
           </button>
           <div
@@ -115,16 +84,16 @@ const Navbar = () => {
             aria-label={t.nav.mainNavigation}
             className={`${
               !toggle ? "hidden" : "flex"
-            } glass p-6 absolute top-20 right-0 mx-4 my-2 min-w-[160px] z-10 rounded-2xl`}
+            } absolute right-4 top-[68px] z-10 min-w-[180px] flex-col rounded-2xl border border-line bg-bg-2 p-5`}
           >
-            <ul className="list-none flex justify-end items-start flex-col gap-4 w-full">
+            <ul className="flex w-full list-none flex-col items-start gap-4">
               {content.navLinks.map((link) => {
                 const isActive = activeId === link.id;
                 return (
                   <li
                     key={link.id}
-                    className={`font-medium cursor-pointer text-[16px] transition-colors duration-300 ${
-                      isActive ? "text-white" : "text-secondary hover:text-white"
+                    className={`text-[16px] font-medium transition-colors duration-200 ${
+                      isActive ? "text-heading" : "text-body hover:text-heading"
                     }`}
                     onClick={() => setToggle(false)}
                   >
@@ -132,18 +101,17 @@ const Navbar = () => {
                   </li>
                 );
               })}
-              <li className="w-full border-t border-white/10 pt-3">
+              <li className="w-full border-t border-line pt-3">
                 <LanguageToggle />
               </li>
-              <li className="w-full pt-2 border-t border-white/10">
+              <li className="w-full border-t border-line pt-3">
                 <a
                   href="/resume.pdf"
                   download="Luis_Ortiz_Resume.pdf"
-                  className="flex items-center gap-2 text-[16px] font-medium text-accent-300 hover:text-white transition-colors duration-300"
+                  className="text-[16px] font-medium text-accent-300 transition-colors duration-200 hover:text-accent-200"
                   onClick={() => setToggle(false)}
                 >
                   {t.nav.resume}
-                  <ResumeIcon />
                 </a>
               </li>
             </ul>
