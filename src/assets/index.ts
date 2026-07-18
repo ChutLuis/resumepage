@@ -1,4 +1,4 @@
-import logo from "./logo3.svg";
+import logo from "./lf-logo-mark.svg";
 import menu from "./menu.svg";
 import close from "./close.svg";
 
