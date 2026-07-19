@@ -161,29 +161,29 @@ const en = {
         name: "Jersey Guatemala",
         descriptor: "Bilingual cattle breeders association site",
         paragraph:
-          "Membership, farm directory, certification content, and structured cattle listings — in Spanish and English.",
+          "Farm directory with individual herd profiles and filterable cattle-for-sale listings — fully bilingual (Spanish/English), built on Astro content collections with an automatic image pipeline.",
         linkLabel: "live site",
         imageLabel: "Jersey Guatemala site shot",
       },
       "portfolio-analytics": {
         name: "Portfolio Analytics",
-        descriptor: "Data-intensive dashboard demo",
+        descriptor: "Analytics dashboard UI demo",
         paragraph:
-          "Full-stack analytics workflow with a React frontend, NestJS API, and cloud deployment.",
+          "Analytics dashboard UI — KPI cards, Recharts graphs, and a Three.js hero — built with React Router and Tailwind over sample data, containerized with Docker.",
         linkLabel: "source on GitHub",
       },
       socializa: {
         name: "Socializa.io",
-        descriptor: "Marketing site",
+        descriptor: "Marketing site with pricing and checkout",
         paragraph:
-          "Landing page for a social media management platform, with purposeful motion design.",
+          "Multi-page marketing site for a social media management platform — scroll-choreographed motion, an interactive 3D scene, tiered pricing, and a Braintree checkout.",
         linkLabel: "live site",
       },
       "erp-pymes": {
         name: "ERP for SMEs",
-        descriptor: "Product prototype",
+        descriptor: "Inventory, POS & finance demo",
         paragraph:
-          "Inventory, financial, customer, and employee workflows for small and medium businesses.",
+          "Point-of-sale, inventory, expense, budget, and reporting workflows for small businesses (Guatemala-focused, GTQ) — a front-end product demo on sample data.",
         linkLabel: "source on GitHub",
       },
     },
@@ -367,29 +367,29 @@ const es = {
         name: "Jersey Guatemala",
         descriptor: "Sitio bilingüe de la asociación de criadores de ganado",
         paragraph:
-          "Membresías, directorio de fincas, contenido de certificación y listados estructurados de ganado — en español e inglés.",
+          "Directorio de fincas con perfiles de hato y listados filtrables de ganado en venta — totalmente bilingüe (español/inglés), construido con content collections de Astro y una canalización automática de imágenes.",
         linkLabel: "ver sitio",
         imageLabel: "Captura de Jersey Guatemala",
       },
       "portfolio-analytics": {
         name: "Portfolio Analytics",
-        descriptor: "Demo de dashboard intensivo en datos",
+        descriptor: "Demo de UI de dashboard analítico",
         paragraph:
-          "Flujo de analítica full-stack con frontend en React, API en NestJS y despliegue en la nube.",
+          "UI de dashboard analítico — tarjetas de KPI, gráficas con Recharts y un hero en Three.js — construida con React Router y Tailwind sobre datos de ejemplo, empaquetada con Docker.",
         linkLabel: "código en GitHub",
       },
       socializa: {
         name: "Socializa.io",
-        descriptor: "Sitio de marketing",
+        descriptor: "Sitio de marketing con precios y checkout",
         paragraph:
-          "Landing page para una plataforma de gestión de redes sociales, con animaciones con intención.",
+          "Sitio de marketing multipágina para una plataforma de gestión de redes sociales — animaciones coreografiadas al hacer scroll, una escena 3D interactiva, planes de precios y un checkout con Braintree.",
         linkLabel: "ver sitio",
       },
       "erp-pymes": {
         name: "ERP para PyMEs",
-        descriptor: "Prototipo de producto",
+        descriptor: "Demo de inventario, POS y finanzas",
         paragraph:
-          "Flujos de inventario, finanzas, clientes y empleados para pequeñas y medianas empresas.",
+          "Flujos de punto de venta, inventario, gastos, presupuestos y reportes para pequeñas empresas (enfoque Guatemala, GTQ) — un demo de producto de front-end sobre datos de ejemplo.",
         linkLabel: "código en GitHub",
       },
     },

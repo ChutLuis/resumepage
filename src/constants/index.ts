@@ -52,6 +52,12 @@ const workItems: WorkItem[] = [
     url: "https://app.lfortiz.com",
   },
   {
+    id: "socializa",
+    stack: "react router · tailwind · framer motion · three.js · braintree",
+    url: "https://landing.socializa.io/",
+    image: SocializaShowcase,
+  },
+  {
     id: "jersey-guatemala",
     status: "live",
     stack: "astro 7 · typescript · i18n",
@@ -59,19 +65,13 @@ const workItems: WorkItem[] = [
   },
   {
     id: "portfolio-analytics",
-    stack: "react · nestjs · postgresql",
+    stack: "react router · tailwind · recharts · three.js · docker",
     url: "https://github.com/ChutLuis/portfolio-analytics-upwork",
     image: PortfolioShowcase,
   },
   {
-    id: "socializa",
-    stack: "react · typescript · tailwind",
-    url: "https://landing.socializa.io/",
-    image: SocializaShowcase,
-  },
-  {
     id: "erp-pymes",
-    stack: "nextjs · typescript · prisma",
+    stack: "react router · typescript · tailwind · recharts",
     url: "https://github.com/ChutLuis/erp-pymes",
     image: ErpShowcase,
   },
