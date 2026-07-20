@@ -24,7 +24,9 @@ import hmd from "./hmd.jpeg";
 import telus from "./telus.jpeg";
 import SocializaShowcase from "./SocializaShowcase.png";
 import PortfolioShowcase from "./PortfolioShowcase.png";
-import ErpShowcase from "./erp-showcase.png";
+import ErpShowcase from "./erp-showcase.jpg";
+import JerseyShowcase from "./jersey-showcase.jpg";
+import SocialhubShowcase from "./socialhub-showcase.jpg";
 
 export {
   nest,
@@ -53,4 +55,6 @@ export {
   SocializaShowcase,
   PortfolioShowcase,
   ErpShowcase,
+  JerseyShowcase,
+  SocialhubShowcase,
 };

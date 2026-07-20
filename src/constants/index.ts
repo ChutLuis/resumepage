@@ -11,6 +11,8 @@ import {
   SocializaShowcase,
   PortfolioShowcase,
   ErpShowcase,
+  JerseyShowcase,
+  SocialhubShowcase,
   angular,
   express,
   graphql,
@@ -41,8 +43,7 @@ export const navLinks: NavLink[] = [
 ];
 
 /**
- * "Selected Work" numbered index. SocialHub and Jersey Guatemala have no image
- * yet, so their rows render labeled placeholders until real screenshots land.
+ * "Selected Work" numbered index — every row uses a real/live screenshot.
  */
 const workItems: WorkItem[] = [
   {
@@ -50,6 +51,7 @@ const workItems: WorkItem[] = [
     status: "production",
     stack: "nextjs 15 · nestjs · redis/bullmq · s3",
     url: "https://app.lfortiz.com",
+    image: SocialhubShowcase,
   },
   {
     id: "socializa",
@@ -58,22 +60,24 @@ const workItems: WorkItem[] = [
     image: SocializaShowcase,
   },
   {
+    id: "erp-pymes",
+    status: "live",
+    stack: "react router · prisma · postgresql · tailwind",
+    url: "https://web-production-76cc3.up.railway.app",
+    image: ErpShowcase,
+  },
+  {
     id: "jersey-guatemala",
     status: "live",
     stack: "astro 7 · typescript · i18n",
     url: "https://jersey-guatemala-production.up.railway.app",
+    image: JerseyShowcase,
   },
   {
     id: "portfolio-analytics",
     stack: "react router · tailwind · recharts · three.js · docker",
     url: "https://github.com/ChutLuis/portfolio-analytics-upwork",
     image: PortfolioShowcase,
-  },
-  {
-    id: "erp-pymes",
-    stack: "react router · typescript · tailwind · recharts",
-    url: "https://github.com/ChutLuis/erp-pymes",
-    image: ErpShowcase,
   },
 ];
 

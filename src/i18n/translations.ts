@@ -180,11 +180,11 @@ const en = {
         linkLabel: "live site",
       },
       "erp-pymes": {
-        name: "ERP for SMEs",
-        descriptor: "Inventory, POS & finance demo",
+        name: "Café & Comedor POS",
+        descriptor: "Counter-service POS demo",
         paragraph:
-          "Point-of-sale, inventory, expense, budget, and reporting workflows for small businesses (Guatemala-focused, GTQ) — a front-end product demo on sample data.",
-        linkLabel: "source on GitHub",
+          "Order-taking, kitchen board, cash-close reconciliation, and reporting for cafés and comedores — server-authoritative pricing and stock in Prisma transactions, with real auth. Seeded demo data.",
+        linkLabel: "live site",
       },
     },
   },
@@ -386,11 +386,11 @@ const es = {
         linkLabel: "ver sitio",
       },
       "erp-pymes": {
-        name: "ERP para PyMEs",
-        descriptor: "Demo de inventario, POS y finanzas",
+        name: "POS para cafés y comedores",
+        descriptor: "Demo de POS de mostrador",
         paragraph:
-          "Flujos de punto de venta, inventario, gastos, presupuestos y reportes para pequeñas empresas (enfoque Guatemala, GTQ) — un demo de producto de front-end sobre datos de ejemplo.",
-        linkLabel: "código en GitHub",
+          "Toma de pedidos, tablero de cocina, cierre y cuadre de caja, y reportes para cafeterías y comedores — precios y stock recalculados en el servidor dentro de transacciones de Prisma, con autenticación real. Datos de demo.",
+        linkLabel: "ver sitio",
       },
     },
   },
