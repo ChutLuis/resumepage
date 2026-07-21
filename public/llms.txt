@@ -1,0 +1,18 @@
+# Luis Ortiz — Senior Software Engineer
+
+> Senior full-stack software engineer based in Guatemala, specializing in React Native, TypeScript, and Node.js. Core engineer on a flagship mobile app used by millions; available for select project-based work.
+
+Luis Ortiz builds production web and mobile products end to end — customer-facing mobile features, the platform layers beneath them (in-app WebViews, third-party SDKs, observability, accessibility), and the Node/NestJS backends that support them. Bilingual in English and Spanish.
+
+## Profiles
+- [Portfolio](https://www.lfortiz.com/): Full portfolio, selected work, experience, and contact form.
+- [GitHub](https://github.com/ChutLuis): Open-source projects and source code.
+- [LinkedIn](https://www.linkedin.com/in/luis-ortiz-3b5454195/): Professional history and background.
+
+## Focus areas
+- Mobile: React Native, Expo, feature-flagged releases, in-app WebView systems.
+- Full-stack: React, TypeScript, Node.js, NestJS, Prisma, PostgreSQL.
+- Cloud & tooling: AWS, Docker, GraphQL.
+
+## Contact
+- [Email](mailto:me@lfortiz.com): Project inquiries and select freelance work.

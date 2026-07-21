@@ -316,13 +316,13 @@ const en = {
     lang: "en",
     title: "Luis Ortiz | Senior Full-Stack Engineer",
     description:
-      "Senior full-stack engineer building dependable React, TypeScript, and Node products — from customer-facing apps to internal tools. Available for select project work worldwide.",
+      "Senior full-stack engineer building React Native, TypeScript, and Node products — from mobile apps used by millions to the internal tools teams rely on. Open to select project work worldwide.",
     ogLocale: "en_US",
     ogLocaleAlternate: "es_GT",
     personDescription:
-      "Senior full-stack engineer building dependable React and Node.js products for growing businesses and startups.",
+      "Senior full-stack software engineer in Guatemala building React Native, TypeScript, and Node products — mobile apps used by millions and the internal tools teams rely on.",
     serviceDescription:
-      "Project-based full-stack development for growing businesses and startups, including web applications, mobile products, and cloud solutions.",
+      "Project-based full-stack and mobile development — React Native apps, web applications, APIs, and cloud solutions for teams and startups.",
   },
 } satisfies Dictionary;
 
@@ -522,13 +522,13 @@ const es = {
     lang: "es",
     title: "Luis Ortiz | Ingeniero Full-Stack Senior",
     description:
-      "Ingeniero full-stack senior que construye productos confiables con React, TypeScript y Node — desde aplicaciones para clientes hasta herramientas internas. Disponible para proyectos selectos a nivel mundial.",
+      "Ingeniero full-stack senior que construye productos con React Native, TypeScript y Node — desde apps móviles usadas por millones hasta las herramientas internas en las que confían los equipos. Disponible para proyectos selectos a nivel mundial.",
     ogLocale: "es_GT",
     ogLocaleAlternate: "en_US",
     personDescription:
-      "Ingeniero full-stack senior en Guatemala que construye productos confiables con React y Node.js para empresas en crecimiento y startups.",
+      "Ingeniero full-stack senior en Guatemala que construye productos con React Native, TypeScript y Node — apps móviles usadas por millones y las herramientas en las que confían los equipos.",
     serviceDescription:
-      "Desarrollo full-stack por proyecto para empresas en crecimiento y startups, con aplicaciones web, productos móviles y soluciones cloud.",
+      "Desarrollo full-stack y móvil por proyecto — apps en React Native, aplicaciones web, APIs y soluciones en la nube para equipos y startups.",
   },
 } satisfies Dictionary;
 
