@@ -124,10 +124,11 @@ def job(title, dates, company):
 
 # ---- Professional Summary ----
 section("Professional Summary")
-para("A full-stack developer and UI/UX designer who partners with businesses to build custom web "
-     "applications from concept to launch. Specializing in creating engaging user experiences with "
-     "modern technologies like React, NestJS, and Web AR. Proven ability to deliver robust, innovative, "
-     "and user-centered solutions that drive business results.", gap=6)
+para("A full-stack engineer who ships production web and mobile products with React, React Native, "
+     "TypeScript, and Node.js. Core contributor to a flagship enterprise customer app serving millions "
+     "of users — delivering features end-to-end and owning cross-cutting concerns like WebView "
+     "infrastructure, third-party SDKs, reliability, and accessibility. Over 4+ years I’ve shipped "
+     "enterprise apps, internal tools, and cloud infrastructure.", gap=6)
 
 # ---- Professional Experience ----
 section("Professional Experience")
@@ -169,8 +170,8 @@ y -= 15
 # ---- Skills ----
 section("Skills & Proficiencies")
 skills = [
-    ("Key Technologies:", " Javascript, Typescript, React, Nest, Express, Postgres, mySQL."),
-    ("UI/UX Design:", " Skilled in user experience and interface design with practical experience using Figma."),
+    ("Key Technologies:", " Javascript, Typescript, React, React Native, Node, Nest, Express, Postgres."),
+    ("Mobile Engineering:", " React Native & Expo, native module/SDK integration, and Dynatrace observability."),
     ("Cloud Platforms:", " Proficient in AWS for service deployment and monitoring."),
     ("Soft Skills:", " Problem Solving, Quick Learner, Time Management, Communication."),
     ("Software Security:", " Knowledge of best practices in security for software development."),
