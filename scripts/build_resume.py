@@ -7,7 +7,7 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase.pdfmetrics import stringWidth
 
 LINKEDIN_URL = "https://www.linkedin.com/in/luis-ortiz-3b5454195/"
-EMAIL = "l.chuta2014ig@gmail.com"
+EMAIL = "me@lfortiz.com"
 
 PAGE_W, PAGE_H = letter
 LM, RM = 0.9 * inch, 0.9 * inch
@@ -106,7 +106,7 @@ def bullet(text, size=10.5):
     if line:
         c.drawString(bx, y, line)
         y -= size + 2
-    y -= 2
+    y -= 1
 
 
 def job(title, dates, company):
@@ -127,25 +127,26 @@ section("Professional Summary")
 para("A full-stack developer and UI/UX designer who partners with businesses to build custom web "
      "applications from concept to launch. Specializing in creating engaging user experiences with "
      "modern technologies like React, NestJS, and Web AR. Proven ability to deliver robust, innovative, "
-     "and user-centered solutions that drive business results.", gap=8)
+     "and user-centered solutions that drive business results.", gap=6)
 
 # ---- Professional Experience ----
 section("Professional Experience")
 
 job("Senior Applications Developer", "October 2024 - Present", "TELUS Digital Solutions")
-bullet("Architected and implemented key enhancements for native mobile applications, improving performance and user engagement metrics.")
-bullet("Actively contributing to the strategic migration of the native codebase to React Native, designing reusable components to accelerate the project timeline.")
-y -= 4
+bullet("Core engineer on TELUS's flagship customer-facing React Native app; deliver features across billing, notifications, navigation, and platform infrastructure.")
+bullet("Led the design and delivery of a new in-app customer experience end-to-end — from feature detection logic to composed UI — shipped dark behind Firebase Remote Config flags with a full regression test suite for zero-risk rollout.")
+bullet("Owned cross-cutting platform concerns: the shared WebView layer, Salesforce Marketing Cloud SDK integration in an Expo app, Dynatrace error observability, and WCAG accessibility improvements across billing flows.")
+y -= 2
 
 job("Fullstack Engineer", "Sept 2024 - October 2024", "Hidden Mountain Data")
 bullet("As a key contractor on an LLM project, rapidly developed and delivered a full-stack internal tool using Vue.js and NestJS within a tight deadline.")
 bullet("Engineered the backend system, including the database schema with Prisma and PostgreSQL, enabling efficient data processing for the language model.")
-y -= 4
+y -= 2
 
 job("Software Engineer", "May 2023 - Jun 2024", "Holland Orchids")
 bullet("Led the full lifecycle of a new internal software suite, from initial UI/UX prototypes in Figma to full-stack development and deployment, which replaced an outdated legacy tool.")
 bullet("Improved the stability and performance of existing React legacy systems and managed their on-premises server infrastructure.")
-y -= 4
+y -= 2
 
 job("Web Dev", "March 2021 - May 2023", "Adslivemedia Corp.")
 bullet("Developed and deployed multiple full-stack client websites using React, Vue, and Node.js.")
@@ -163,7 +164,7 @@ c.drawString(PAGE_W - RM - dw, y, "2016 - 2023")
 y -= 12
 c.setFont(SERIF_I, 10)
 c.drawString(LM + 8, y, "Bachelor of Engineering in Computers and Systems")
-y -= 18
+y -= 15
 
 # ---- Skills ----
 section("Skills & Proficiencies")
@@ -182,9 +183,9 @@ for label, rest in skills:
     lw = stringWidth(label, SERIF_B, 10.5)
     c.setFont(SERIF, 10.5)
     c.drawString(LM + 8 + lw, y, rest)
-    y -= 16
+    y -= 15
 
-y -= 4
+y -= 2
 # ---- Languages ----
 section("Languages")
 c.setFont(SERIF, 10.5)

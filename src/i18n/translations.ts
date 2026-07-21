@@ -139,7 +139,7 @@ const en = {
     eyebrow: "Senior Full-Stack Engineer — TELUS Digital · Remote, worldwide",
     headline: "I build web and mobile products that businesses run on.",
     intro:
-      "React, TypeScript, and Node — from customer-facing apps to the internal tools that keep operations moving. Currently leading a React Native migration at TELUS; selectively taking on project work.",
+      "React, TypeScript, and Node — from customer-facing apps to the internal tools that keep operations moving. Currently building TELUS's flagship customer app in React Native; selectively taking on project work.",
     contactCta: "Start a conversation",
     workCta: "View work",
     canvasCaption: "AQUARIUS — BORN FEBRUARY",
@@ -196,7 +196,7 @@ const en = {
         title: "Senior Applications Developer",
         date: "Oct 2024 — Present",
         summary:
-          "Leading enhancements for native mobile apps and the strategic migration to React Native — designing the reusable component system that cut the projected timeline by ~30%.",
+          "Core engineer on TELUS's flagship customer app (React Native, millions of users). Led the end-to-end build of a new customer experience — screen composition, navigation gating, and engagement components — dark-launched behind remote feature flags with full test coverage. Also own shared platform layers: the in-app WebView system, marketing SDK integration, observability, and accessibility.",
       },
       hmd: {
         title: "Full-Stack Engineer (contract)",
@@ -237,9 +237,9 @@ const en = {
     talkCta: "Let's talk",
     currentlyLabel: "currently @ TELUS",
     currentlyPoints: [
-      "Leading the native → React Native migration",
-      "Shipping performance and engagement improvements",
-      "Designing reusable component systems",
+      "Leading feature delivery on a React Native app serving millions of users",
+      "Own shared platform layers: WebView, feature flags, analytics, observability",
+      "Ship performance, accessibility, and reliability improvements app-wide",
     ],
     openToNote:
       "Open to select project-based work alongside my full-time role.",
@@ -345,7 +345,7 @@ const es = {
     headline:
       "Construyo productos web y móviles sobre los que operan las empresas.",
     intro:
-      "React, TypeScript y Node — desde aplicaciones para clientes hasta las herramientas internas que mantienen la operación en marcha. Actualmente lidero una migración a React Native en TELUS; tomo proyectos de forma selectiva.",
+      "React, TypeScript y Node — desde aplicaciones para clientes hasta las herramientas internas que mantienen las operaciones en marcha. Actualmente desarrollo la app principal de clientes de TELUS en React Native; acepto proyectos selectos en paralelo.",
     contactCta: "Conversemos",
     workCta: "Ver proyectos",
     canvasCaption: "ACUARIO — NACIDO EN FEBRERO",
@@ -402,7 +402,7 @@ const es = {
         title: "Desarrollador Senior de Aplicaciones",
         date: "Oct 2024 — Actualidad",
         summary:
-          "Lidero mejoras para apps móviles nativas y la migración estratégica a React Native — diseñando el sistema de componentes reutilizables que redujo el cronograma previsto en ~30%.",
+          "Ingeniero clave en la app principal de clientes de TELUS (React Native, millones de usuarios). Lideré de inicio a fin la construcción de una nueva experiencia de cliente — composición de pantallas, control de navegación y componentes de engagement — lanzada en oscuro tras feature flags remotos y con cobertura completa de pruebas. También soy responsable de capas compartidas de la plataforma: el sistema de WebView de la app, la integración del SDK de marketing, observabilidad y accesibilidad.",
       },
       hmd: {
         title: "Ingeniero Full-Stack (contrato)",
@@ -443,9 +443,9 @@ const es = {
     talkCta: "Conversemos",
     currentlyLabel: "actualmente @ TELUS",
     currentlyPoints: [
-      "Liderando la migración de nativo → React Native",
-      "Entregando mejoras de rendimiento y engagement",
-      "Diseñando sistemas de componentes reutilizables",
+      "Lidero la entrega de features en una app React Native con millones de usuarios",
+      "Responsable de capas compartidas: WebView, feature flags, analítica, observabilidad",
+      "Entrego mejoras de rendimiento, accesibilidad y confiabilidad en toda la app",
     ],
     openToNote:
       "Disponible para proyectos selectos junto a mi trabajo de tiempo completo.",
