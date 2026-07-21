@@ -1,23 +1,25 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
 import type { ReactNode } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getLocalizedContent } from "../constants";
 import { dictionaries, type Dictionary, type Locale } from "./translations";
 
 const STORAGE_KEY = "lfortiz-locale";
+const SITE_URL = "https://www.lfortiz.com";
 
-const getInitialLocale = (): Locale => {
-  try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored === "en" || stored === "es") return stored;
-  } catch {
-    // Storage can be unavailable in private browsing contexts.
-  }
+/** Locale is derived from the URL so each language is a distinct, indexable page. */
+const localeFromPath = (pathname: string): Locale =>
+  pathname === "/es" || pathname.startsWith("/es/") ? "es" : "en";
 
-  return navigator.language?.toLowerCase().startsWith("es") ? "es" : "en";
-};
+const canonicalForLocale = (locale: Locale): string =>
+  locale === "es" ? `${SITE_URL}/es` : `${SITE_URL}/`;
 
 const updateMeta = (selector: string, content: string) => {
   document.querySelector<HTMLMetaElement>(selector)?.setAttribute("content", content);
+};
+
+const updateHref = (selector: string, href: string) => {
+  document.querySelector<HTMLLinkElement>(selector)?.setAttribute("href", href);
 };
 
 const updateStructuredData = (dictionary: Dictionary) => {
@@ -51,34 +53,41 @@ interface LocaleContextValue {
 const LocaleContext = createContext<LocaleContextValue | null>(null);
 
 export const LocaleProvider = ({ children }: { children: ReactNode }) => {
-  const [locale, setLocaleState] = useState<Locale>(getInitialLocale);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const locale = localeFromPath(location.pathname);
   const t = dictionaries[locale];
   const content = useMemo(() => getLocalizedContent(t), [t]);
 
   const setLocale = (nextLocale: Locale) => {
-    setLocaleState(nextLocale);
     try {
       window.localStorage.setItem(STORAGE_KEY, nextLocale);
     } catch {
-      // Locale remains active for this session if storage is unavailable.
+      // Preference storage can be unavailable in private browsing contexts.
     }
+    const path = nextLocale === "es" ? "/es" : "/";
+    navigate(`${path}${location.hash}`);
   };
 
   useEffect(() => {
+    const canonical = canonicalForLocale(locale);
     document.documentElement.lang = t.meta.lang;
     const skipLink = document.querySelector<HTMLAnchorElement>('a[href="#main-content"]');
     if (skipLink) skipLink.textContent = t.system.skipToContent;
     document.title = t.meta.title;
     updateMeta('meta[name="title"]', t.meta.title);
     updateMeta('meta[name="description"]', t.meta.description);
+    updateHref('link[rel="canonical"]', canonical);
     updateMeta('meta[property="og:title"]', t.meta.title);
     updateMeta('meta[property="og:description"]', t.meta.description);
+    updateMeta('meta[property="og:url"]', canonical);
     updateMeta('meta[property="og:locale"]', t.meta.ogLocale);
     updateMeta('meta[property="og:locale:alternate"]', t.meta.ogLocaleAlternate);
     updateMeta('meta[property="twitter:title"]', t.meta.title);
     updateMeta('meta[property="twitter:description"]', t.meta.description);
+    updateMeta('meta[property="twitter:url"]', canonical);
     updateStructuredData(t);
-  }, [t]);
+  }, [t, locale]);
 
   return (
     <LocaleContext.Provider value={{ locale, setLocale, t, content }}>

@@ -1,8 +1,8 @@
 # SEO Implementation Checklist - Luis Ortiz Portfolio
 
 > Current implementation notes: the public domain is `https://www.lfortiz.com/`.
-> English and Spanish share one canonical URL; language selection is client-side,
-> so separate `hreflang` URLs are not currently applicable.
+> English is served at `/` and Spanish at `/es`, each with a self-referencing
+> canonical and reciprocal `hreflang` alternates (plus `x-default` -> `/`).
 
 ## ✅ Completed Optimizations
 

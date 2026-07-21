@@ -1,4 +1,3 @@
-import { BrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { Hero, Navbar, ErrorBoundary, Footer } from "./components";
 import SectionLoader from "./components/SectionLoader";
@@ -27,33 +26,31 @@ function App() {
   const sections = [Works, Experience, Tech, About, Feedbacks, Contact];
 
   return (
-    <BrowserRouter>
-      <div className="relative z-0 bg-primary">
-        <SmoothScroll />
-        <ScrollProgress />
+    <div className="relative z-0 bg-primary">
+      <SmoothScroll />
+      <ScrollProgress />
 
-        <header>
-          <Navbar />
-          <Hero />
-        </header>
+      <header>
+        <Navbar />
+        <Hero />
+      </header>
 
-        <main id="main-content" className="relative">
-          {sections.map((SectionComponent, index) => (
-            <ErrorBoundary
-              key={index}
-              fallbackMessage={t.system.errorFallback}
-              labels={errorLabels}
-            >
-              <Suspense fallback={<SectionLoader />}>
-                <SectionComponent />
-              </Suspense>
-            </ErrorBoundary>
-          ))}
-        </main>
+      <main id="main-content" className="relative">
+        {sections.map((SectionComponent, index) => (
+          <ErrorBoundary
+            key={index}
+            fallbackMessage={t.system.errorFallback}
+            labels={errorLabels}
+          >
+            <Suspense fallback={<SectionLoader />}>
+              <SectionComponent />
+            </Suspense>
+          </ErrorBoundary>
+        ))}
+      </main>
 
-        <Footer />
-      </div>
-    </BrowserRouter>
+      <Footer />
+    </div>
   );
 }
 
