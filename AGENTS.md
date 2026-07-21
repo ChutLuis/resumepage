@@ -20,6 +20,23 @@
   uses the honeypot, and sends through SES; no email credentials belong in the
   frontend.
 
+## Design system (Refined Aurora v2)
+
+- Flat, editorial, dark-violet. **1px hairline borders, no shadows/glows.** Tokens
+  live in `tailwind.config.ts` + CSS vars in `src/index.css` (page `#0a0a12`, card
+  `#0e0e16`, border `#2a2a40`, accent `#8b5cf6`/`#a78bfa`).
+- Fonts: `font-display` Space Grotesk, `font-sans` Inter, `font-mono` IBM Plex Mono
+  (eyebrows/dates/stacks/captions), `font-serif` Newsreader (testimonial quotes).
+- Build sections with `Section` / `Reveal` / `Eyebrow` from
+  `src/components/ui/primitives.tsx` (one subtle fade-up per section). Section ids:
+  `work`, `experience`, `tech`, `about`, `testimonials`, `contact`.
+- The **only** 3D is `src/components/canvas/AquariusCanvas.tsx` (@react-three/fiber
+  Aquarius constellation): lazy-loaded, desktop right-column + faint mobile
+  backdrop, with a reduced-motion static frame. No drei / GLTF models / WebGL
+  background. Keep it lean.
+- Selected Work rows come from `workItems` in `src/constants/index.ts`; thumbnails
+  are `src/assets/*-showcase.jpg`.
+
 ## Deployment Constraints
 
 - AWS Amplify builds and hosts `main`. `VITE_CONTACT_ENDPOINT` is a build-time,
