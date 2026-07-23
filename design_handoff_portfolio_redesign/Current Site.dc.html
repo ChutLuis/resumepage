@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { margin:0; background:#08080e; font-family:'Inter',ui-sans-serif,system-ui,sans-serif; }
+a { color:#22d3ee; text-decoration:none; }
+a:hover { color:#67e8f9; }
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+@keyframes marquee-reverse { 0%{transform:translateX(-50%)} 100%{transform:translateX(0)} }
+@keyframes text-gradient-pan { to { background-position:300% center; } }
+@keyframes bounce { 0%,100%{transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)} 50%{transform:translateY(0);animation-timing-function:cubic-bezier(0,0,0.2,1)} }
+@keyframes ping { 75%,100%{transform:scale(2);opacity:0} }
+</style>
+</helmet>
+<div style="background: radial-gradient(60% 50% at 25% 15%, rgba(139,92,246,0.28), transparent 70%), radial-gradient(55% 45% at 80% 25%, rgba(34,211,238,0.18), transparent 70%), radial-gradient(70% 60% at 50% 90%, rgba(139,92,246,0.12), transparent 75%), #08080e; color:#ededf6; min-height:100vh; overflow-x:hidden;">
+
+  <!-- NAVBAR -->
+  <nav data-screen-label="Navbar" style="display:flex; align-items:center; padding:20px 64px; position:sticky; top:0; z-index:30; background:rgba(8,8,14,0.8); border-bottom:1px solid rgba(255,255,255,0.05); backdrop-filter:blur(12px);">
+    <div style="width:100%; max-width:1280px; margin:0 auto; display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <img src="assets/logo.svg" alt="logo" style="width:24px; height:24px; object-fit:contain;">
+        <p style="margin:0; color:#fff; font-size:18px; font-weight:700; font-family:'Space Grotesk',sans-serif;">Luis&nbsp; <span style="color:#9ea0b8; font-weight:500;">| Software Engineer</span></p>
+      </div>
+      <div style="display:flex; gap:32px; align-items:center;">
+        <a href="#about" style="color:#9ea0b8; font-size:17px; font-weight:500;">About</a>
+        <a href="#work" style="color:#9ea0b8; font-size:17px; font-weight:500;">Work</a>
+        <a href="#projects" style="color:#9ea0b8; font-size:17px; font-weight:500;">Projects</a>
+        <a href="#contact" style="color:#9ea0b8; font-size:17px; font-weight:500;">Contact</a>
+        <span style="display:flex; align-items:center; gap:4px; color:#9ea0b8; font-size:13px; border:1px solid #2a2a40; border-radius:999px; padding:4px 10px;">EN · ES</span>
+        <span style="display:flex; align-items:center; gap:8px; border:1px solid rgba(139,92,246,0.4); background:rgba(139,92,246,0.1); border-radius:999px; padding:6px 16px; font-size:15px; font-weight:500; color:#c4b5fd;">Resume ⭳</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section data-screen-label="Hero" style="position:relative; height:860px;">
+    <div style="position:absolute; inset:0; display:flex; align-items:flex-start; gap:20px; max-width:1280px; margin:0 auto; padding:90px 64px 16px;">
+      <div style="margin-top:8px; display:flex; flex-direction:column; align-items:center;">
+        <div style="height:20px; width:20px; border-radius:50%; background:#8b5cf6; box-shadow:0 0 24px rgba(139,92,246,0.45);"></div>
+        <div style="height:320px; width:4px; background:linear-gradient(-90deg,#8b5cf6 0%,rgba(139,92,246,0) 100%);"></div>
+      </div>
+      <div style="position:relative; z-index:10;">
+        <p style="margin:0 0 12px; font-size:15px; font-weight:500; text-transform:uppercase; letter-spacing:0.3em; color:#22d3ee;">Senior Full-Stack Engineer · Selective Project Work</p>
+        <h1 style="margin:8px 0 0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:80px; line-height:1.05; letter-spacing:-0.02em; color:#ededf6;">Hi, I’m <span style="background:linear-gradient(90deg,#a78bfa,#22d3ee,#8b5cf6,#a78bfa); background-size:300% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:text-gradient-pan 6s linear infinite;">Luis Ortiz</span></h1>
+        <p style="margin:12px 0 0; max-width:672px; color:#9ea0b8; font-size:28px; line-height:40px; font-weight:400;">I take on a small number of project-based engagements for growing businesses and startups — from customer-facing apps to the internal tools that keep operations moving.</p>
+        <div style="margin-top:24px; display:flex; flex-wrap:wrap; gap:8px;">
+          <span style="border-radius:999px; border:1px solid #2a2a40; background:rgba(14,14,22,0.7); padding:4px 12px; font-size:13px; font-weight:500; color:#9ea0b8;">Web applications</span>
+          <span style="border-radius:999px; border:1px solid #2a2a40; background:rgba(14,14,22,0.7); padding:4px 12px; font-size:13px; font-weight:500; color:#9ea0b8;">Mobile products</span>
+          <span style="border-radius:999px; border:1px solid #2a2a40; background:rgba(14,14,22,0.7); padding:4px 12px; font-size:13px; font-weight:500; color:#9ea0b8;">Internal tools</span>
+        </div>
+        <div style="margin-top:32px; display:flex; flex-wrap:wrap; gap:16px;">
+          <a href="#contact" style="border-radius:12px; background:linear-gradient(90deg,#7c3aed,#0891b2); padding:12px 24px; font-weight:600; color:#fff; box-shadow:0 0 24px rgba(139,92,246,0.45); display:inline-block;">Start a conversation</a>
+          <a href="#projects" style="border-radius:12px; border:1px solid #2a2a40; background:rgba(14,14,22,0.5); padding:12px 24px; font-weight:600; color:#ededf6; display:inline-block;">View selected work</a>
+        </div>
+        <p style="margin-top:20px; font-size:14px; color:#9ea0b8;">Selectively booking new projects · Remote, worldwide.</p>
+      </div>
+    </div>
+    <div style="position:absolute; right:64px; bottom:60px; width:520px; height:340px; border-radius:16px; background:repeating-linear-gradient(45deg, rgba(139,92,246,0.06), rgba(139,92,246,0.06) 12px, transparent 12px, transparent 24px); border:1px dashed rgba(139,92,246,0.3); display:flex; align-items:center; justify-content:center;">
+      <span style="font-family:monospace; font-size:13px; color:#9ea0b8;">3D gaming-desk computer model (WebGL, drag to rotate)</span>
+    </div>
+    <div style="position:absolute; bottom:40px; left:0; right:0; display:flex; justify-content:center;">
+      <div style="display:flex; height:64px; width:35px; align-items:flex-start; justify-content:center; border-radius:24px; border:4px solid #a78bfa; padding:8px;">
+        <div style="height:12px; width:12px; border-radius:50%; background:#a78bfa; box-shadow:0 0 24px rgba(139,92,246,0.45); animation:bounce 1s infinite;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" data-screen-label="About" style="max-width:1280px; margin:0 auto; padding:64px;">
+    <p style="margin:0; font-size:18px; color:#22d3ee; text-transform:uppercase; letter-spacing:0.25em; font-weight:500;">Introduction</p>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:60px; letter-spacing:-0.02em; color:#ededf6;">Overview.</h2>
+    <div style="margin-top:40px; display:grid; grid-template-columns:2fr 1fr; gap:20px;">
+      <div style="position:relative; overflow:hidden; border-radius:24px; background:rgba(19,19,29,0.7); border:1px solid rgba(139,92,246,0.35); padding:40px;">
+        <span style="display:inline-flex; align-items:center; gap:8px; border-radius:999px; border:1px solid #2a2a40; background:rgba(14,14,22,0.8); padding:4px 12px; font-size:12px; font-weight:500; color:#9ea0b8;">
+          <span style="position:relative; display:inline-flex; height:8px; width:8px;"><span style="position:absolute; height:100%; width:100%; border-radius:50%; background:#22d3ee; opacity:0.75; animation:ping 1.2s cubic-bezier(0,0,0.2,1) infinite;"></span><span style="position:relative; display:inline-flex; height:8px; width:8px; border-radius:50%; background:#22d3ee;"></span></span>
+          Senior Applications Developer · TELUS Digital
+        </span>
+        <p style="margin:24px 0 0; font-size:17px; line-height:30px; color:#9ea0b8;">I’m a full-stack engineer who architects and ships modern web and mobile products with React, TypeScript, and Node.js. Today I lead enhancements for native mobile apps and drive a strategic migration to React Native at TELUS Digital Solutions.</p>
+        <p style="margin:16px 0 0; font-size:17px; line-height:30px; color:#9ea0b8;">Over 4+ years, I’ve delivered solutions across enterprise apps, cloud infrastructure, and interactive Web AR — spanning React, Vue, Angular, NestJS, and AWS. Bachelor of Engineering in Computers &amp; Systems; bilingual EN (C2) / ES (native).</p>
+        <div style="margin-top:32px; display:flex; flex-wrap:wrap; gap:16px;">
+          <a href="#resume" style="border-radius:12px; background:linear-gradient(90deg,#7c3aed,#0891b2); padding:12px 24px; font-weight:600; color:#fff; box-shadow:0 0 24px rgba(139,92,246,0.45); display:inline-block;">Download Resume</a>
+          <a href="#contact" style="border-radius:12px; border:1px solid #2a2a40; background:rgba(14,14,22,0.6); padding:12px 24px; font-weight:600; color:#ededf6; display:inline-block;">Let’s talk →</a>
+        </div>
+      </div>
+      <div style="position:relative; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; border-radius:24px; background:rgba(19,19,29,0.7); border:1px solid rgba(139,92,246,0.35); padding:32px;">
+        <div>
+          <p style="margin:0; font-size:12px; text-transform:uppercase; letter-spacing:0.25em; color:#22d3ee;">Currently</p>
+          <h3 style="margin:12px 0 0; font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:700; color:#ededf6;">Building at TELUS</h3>
+          <ul style="margin:20px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:12px; font-size:14px; color:#9ea0b8;">
+            <li style="display:flex; gap:12px;"><span style="margin-top:6px; height:6px; width:6px; flex-shrink:0; border-radius:50%; background:linear-gradient(90deg,#a78bfa,#22d3ee);"></span>Leading the native to React Native migration</li>
+            <li style="display:flex; gap:12px;"><span style="margin-top:6px; height:6px; width:6px; flex-shrink:0; border-radius:50%; background:linear-gradient(90deg,#a78bfa,#22d3ee);"></span>Shipping performance and engagement improvements</li>
+            <li style="display:flex; gap:12px;"><span style="margin-top:6px; height:6px; width:6px; flex-shrink:0; border-radius:50%; background:linear-gradient(90deg,#a78bfa,#22d3ee);"></span>Designing reusable component systems</li>
+          </ul>
+        </div>
+        <div style="margin-top:24px; border-top:1px solid #2a2a40; padding-top:20px;">
+          <p style="margin:0; font-size:13px; color:#9ea0b8;">Open to select project-based work alongside my full-time role.</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:20px; display:grid; grid-template-columns:repeat(4,1fr); gap:20px;">
+      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+        <div style="display:flex; flex-direction:column; justify-content:center; border-radius:16px; background:rgba(19,19,29,0.7); border:1px solid rgba(139,92,246,0.35); padding:24px;">
+          <span style="font-family:'Space Grotesk',sans-serif; font-size:48px; font-weight:700; background:linear-gradient(90deg,#a78bfa,#22d3ee); -webkit-background-clip:text; background-clip:text; color:transparent;">{{ s.value }}</span>
+          <p style="margin:8px 0 0; font-size:13px; text-transform:uppercase; letter-spacing:0.05em; color:#9ea0b8;">{{ s.label }}</p>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:20px; display:grid; grid-template-columns:repeat(4,1fr); gap:20px;">
+      <sc-for list="{{ services }}" as="sv" hint-placeholder-count="4">
+        <div style="border-radius:16px; background:rgba(19,19,29,0.7); border:1px solid rgba(139,92,246,0.35); padding:24px;">
+          <div style="margin-bottom:16px; display:flex; height:48px; width:48px; align-items:center; justify-content:center; border-radius:12px; background:#0e0e16; box-shadow:inset 0 0 0 1px #2a2a40; font-size:22px; color:#a78bfa;">{{ sv.glyph }}</div>
+          <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:600; line-height:1.25; color:#ededf6;">{{ sv.title }}</h3>
+          <p style="margin:8px 0 0; font-size:13px; line-height:1.6; color:#9ea0b8;">{{ sv.blurb }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="work" data-screen-label="Experience" style="max-width:1280px; margin:0 auto; padding:64px;">
+    <p style="margin:0; font-size:18px; color:#22d3ee; text-transform:uppercase; letter-spacing:0.25em; font-weight:500;">What I have done so far</p>
+    <h2 style="margin:8px 0 0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:80px; line-height:1.05; letter-spacing:-0.02em; color:#ededf6;">Work Experience</h2>
+    <div style="margin-top:80px; position:relative;">
+      <div style="position:absolute; left:50%; top:0; bottom:0; width:2px; transform:translateX(-50%); background:linear-gradient(to bottom, rgba(139,92,246,0.05), rgba(139,92,246,0.6), rgba(34,211,238,0.6), rgba(34,211,238,0.05));"></div>
+      <sc-for list="{{ experiences }}" as="xp" hint-placeholder-count="4">
+        <div style="position:relative; display:grid; grid-template-columns:1fr 120px 1fr; margin-bottom:48px; direction: {{ xp.dir }};">
+          <div style="direction:ltr; background:rgba(19,19,29,0.7); backdrop-filter:blur(12px); color:#ededf6; box-shadow:0 3px 0 #8b5cf6; border:1px solid rgba(139,92,246,0.25); border-radius:16px; padding:24px;">
+            <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:700; color:#ededf6;">{{ xp.title }}</h3>
+            <p style="margin:0; color:#c4b5fd; font-size:16px; font-weight:600;">{{ xp.company }}</p>
+            <ul style="margin:20px 0 0; padding-left:20px; display:flex; flex-direction:column; gap:8px;">
+              <sc-for list="{{ xp.points }}" as="pt" hint-placeholder-count="2">
+                <li style="color:#9ea0b8; font-size:14px; letter-spacing:0.025em; padding-left:4px;">{{ pt }}</li>
+              </sc-for>
+            </ul>
+          </div>
+          <div style="direction:ltr; display:flex; flex-direction:column; align-items:center;">
+            <div style="width:60px; height:60px; border-radius:50%; background:{{ xp.iconBg }}; box-shadow:0 0 0 4px #8b5cf6, 0 0 20px rgba(139,92,246,0.4); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+              <img src="{{ xp.icon }}" alt="{{ xp.company }}" style="width:60%; height:60%; object-fit:contain;">
+            </div>
+          </div>
+          <div style="direction:ltr; display:flex; align-items:flex-start; padding-top:8px; justify-content: {{ xp.dateJustify }};">
+            <span style="color:#9ea0b8; font-weight:600; font-size:15px;">{{ xp.date }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- TECH -->
+  <section id="tech" data-screen-label="Tech Stack" style="max-width:1280px; margin:0 auto; padding:64px;">
+    <p style="margin:0; font-size:18px; color:#22d3ee; text-transform:uppercase; letter-spacing:0.25em; font-weight:500;">What I build with</p>
+    <h2 style="margin:0 0 40px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:60px; letter-spacing:-0.02em; color:#ededf6;">Tech Stack.</h2>
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <div style="overflow:hidden; -webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent); mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);">
+        <div style="display:flex; width:max-content; animation:marquee 38s linear infinite;">
+          <sc-for list="{{ techRowOneDoubled }}" as="tc" hint-placeholder-count="8">
+            <div style="margin:0 12px; display:flex; align-items:center; gap:12px; border-radius:999px; border:1px solid #2a2a40; background:rgba(19,19,29,0.7); padding:12px 20px;">
+              <img src="{{ tc.icon }}" alt="{{ tc.name }}" style="height:28px; width:28px; object-fit:contain;">
+              <span style="white-space:nowrap; font-size:15px; font-weight:500; color:#9ea0b8;">{{ tc.name }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="overflow:hidden; -webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent); mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);">
+        <div style="display:flex; width:max-content; animation:marquee-reverse 38s linear infinite;">
+          <sc-for list="{{ techRowTwoDoubled }}" as="tc" hint-placeholder-count="8">
+            <div style="margin:0 12px; display:flex; align-items:center; gap:12px; border-radius:999px; border:1px solid #2a2a40; background:rgba(19,19,29,0.7); padding:12px 20px;">
+              <img src="{{ tc.icon }}" alt="{{ tc.name }}" style="height:28px; width:28px; object-fit:contain;">
+              <span style="white-space:nowrap; font-size:15px; font-weight:500; color:#9ea0b8;">{{ tc.name }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section id="projects" data-screen-label="Case Studies" style="max-width:1280px; margin:0 auto; padding:64px;">
+    <p style="margin:0; font-size:18px; color:#22d3ee; text-transform:uppercase; letter-spacing:0.25em; font-weight:500;">Selected work</p>
+    <h2 style="margin:8px 0 0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:80px; line-height:1.05; letter-spacing:-0.02em; color:#ededf6;">Case Studies.</h2>
+    <p style="margin:12px 0 0; max-width:1024px; color:#9ea0b8; font-size:17px; line-height:30px; text-align:justify;">A selection of product and website builds that show how I approach architecture, delivery, and the details that make software dependable.</p>
+    <div style="margin-top:64px; display:flex; flex-wrap:wrap; gap:28px;">
+      <sc-for list="{{ caseStudies }}" as="cs" hint-placeholder-count="2">
+        <div style="width:560px; border-radius:16px; padding:24px; background:rgba(19,19,29,0.6); backdrop-filter:blur(14px) saturate(140%); border:1px solid rgba(139,92,246,0.4);">
+          <p style="margin:0; font-size:13px; text-transform:uppercase; letter-spacing:0.2em; color:#22d3ee;">{{ cs.summary }}</p>
+          <h3 style="margin:8px 0 0; font-family:'Space Grotesk',sans-serif; font-size:28px; font-weight:700; color:#ededf6;">{{ cs.name }}</h3>
+          <p style="margin:12px 0 0; font-size:14px; line-height:1.6; color:#9ea0b8;">{{ cs.description }}</p>
+          <ul style="margin:20px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px;">
+            <sc-for list="{{ cs.highlights }}" as="hl" hint-placeholder-count="4">
+              <li style="display:flex; gap:8px; font-size:14px; color:#9ea0b8;"><span style="margin-top:8px; height:6px; width:6px; flex-shrink:0; border-radius:50%; background:#22d3ee;"></span>{{ hl }}</li>
+            </sc-for>
+          </ul>
+          <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:8px;">
+            <sc-for list="{{ cs.tags }}" as="tg" hint-placeholder-count="3">
+              <span style="font-size:14px; background:linear-gradient(to top,{{ tg.from }},{{ tg.to }}); -webkit-background-clip:text; background-clip:text; color:transparent;">#{{ tg.name }}</span>
+            </sc-for>
+          </div>
+          <div style="margin-top:24px;">
+            <a href="{{ cs.url }}" style="display:inline-flex; height:40px; align-items:center; gap:8px; border-radius:999px; background:linear-gradient(90deg,#7c3aed,#0891b2); padding:0 16px; font-size:14px; color:#fff;">↗ View live</a>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <h3 style="margin:80px 0 0; font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:700; color:#ededf6;">More builds</h3>
+    <div style="margin-top:80px; display:flex; flex-wrap:wrap; gap:28px;">
+      <sc-for list="{{ projects }}" as="pj" hint-placeholder-count="3">
+        <div style="width:360px; border-radius:16px; padding:20px; background:rgba(19,19,29,0.6); backdrop-filter:blur(14px) saturate(140%); border:1px solid rgba(139,92,246,0.4);">
+          <div style="position:relative; width:100%; height:230px; overflow:hidden; border-radius:16px;">
+            <img src="{{ pj.image }}" alt="{{ pj.name }}" style="width:100%; height:100%; object-fit:cover; border-radius:16px;">
+            <div style="position:absolute; top:12px; right:12px; display:flex; gap:8px;">
+              <div style="background:linear-gradient(90deg,#7c3aed,#0891b2); width:40px; height:40px; border-radius:50%; display:flex; justify-content:center; align-items:center;"><img src="assets/github.png" alt="github" style="width:50%; height:50%; object-fit:contain;"></div>
+            </div>
+          </div>
+          <h3 style="margin:20px 0 0; font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:700; color:#ededf6;">{{ pj.name }}</h3>
+          <p style="margin:8px 0 0; font-size:14px; line-height:1.6; color:#9ea0b8;">{{ pj.description }}</p>
+          <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;">
+            <sc-for list="{{ pj.tags }}" as="tg" hint-placeholder-count="3">
+              <span style="font-size:14px; background:linear-gradient(to top,{{ tg.from }},{{ tg.to }}); -webkit-background-clip:text; background-clip:text; color:transparent;">#{{ tg.name }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" data-screen-label="Testimonials" style="max-width:1280px; margin:0 auto; padding:64px;">
+    <p style="margin:0; font-size:18px; color:#22d3ee; text-transform:uppercase; letter-spacing:0.25em; font-weight:500;">What others say</p>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:60px; letter-spacing:-0.02em; color:#ededf6;">Testimonials.</h2>
+    <div style="margin-top:48px; display:flex; flex-wrap:wrap; gap:28px;">
+      <sc-for list="{{ testimonials }}" as="tm" hint-placeholder-count="3">
+        <div style="width:360px; display:flex; flex-direction:column; border-radius:24px; padding:32px; background:rgba(19,19,29,0.6); backdrop-filter:blur(14px) saturate(140%); border:1px solid rgba(139,92,246,0.4);">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="color:#22d3ee; font-size:14px; letter-spacing:2px;">★★★★★</span>
+            <span style="font-family:'Space Grotesk',sans-serif; font-size:48px; line-height:1; background:linear-gradient(90deg,#a78bfa,#22d3ee); -webkit-background-clip:text; background-clip:text; color:transparent;">”</span>
+          </div>
+          <p style="margin:20px 0 0; flex:1; font-size:16px; line-height:1.6; color:#9ea0b8;">{{ tm.quote }}</p>
+          <div style="margin-top:28px; display:flex; align-items:center; gap:12px; border-top:1px solid rgba(42,42,64,0.6); padding-top:20px;">
+            <div style="display:flex; height:44px; width:44px; flex-shrink:0; align-items:center; justify-content:center; border-radius:50%; background:linear-gradient(135deg,#7c3aed,#0891b2); font-size:14px; font-weight:700; color:#fff; box-shadow:0 0 0 2px rgba(139,92,246,0.4);">{{ tm.initials }}</div>
+            <div>
+              <p style="margin:0; font-weight:500; color:#ededf6;"><span style="color:#a78bfa;">@</span>{{ tm.name }}</p>
+              <p style="margin:2px 0 0; font-size:12px; color:#9ea0b8;">{{ tm.role }}</p>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" data-screen-label="Contact" style="max-width:1280px; margin:0 auto; padding:64px; display:flex; gap:40px;">
+    <div style="flex:0 0 55%; border-radius:16px; background:rgba(19,19,29,0.7); border:1px solid rgba(139,92,246,0.35); padding:32px; backdrop-filter:blur(24px); box-shadow:0 0 24px rgba(139,92,246,0.45);">
+      <p style="margin:0; font-size:18px; color:#22d3ee; text-transform:uppercase; letter-spacing:0.25em; font-weight:500;">Start a project</p>
+      <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:60px; letter-spacing:-0.02em; color:#ededf6;">Contact.</h3>
+      <p style="margin:16px 0 0; max-width:576px; font-size:15px; line-height:1.6; color:#9ea0b8;">Tell me about the project scope, timeline, and what success looks like. I take on a limited number of project-based engagements, so the more context you share, the faster we can tell if it’s a fit.</p>
+      <div style="margin-top:48px; display:flex; flex-direction:column; gap:32px;">
+        <label style="display:flex; flex-direction:column;">
+          <span style="color:#ededf6; font-weight:500; margin-bottom:16px;">Your Name <span style="color:#f87171;">*</span></span>
+          <input type="text" placeholder="What’s your name?" style="background:rgba(14,14,22,0.7); padding:16px 24px; color:#ededf6; border-radius:8px; outline:none; border:1px solid #2a2a40; font-weight:500; font-family:'Inter',sans-serif; font-size:14px;">
+        </label>
+        <label style="display:flex; flex-direction:column;">
+          <span style="color:#ededf6; font-weight:500; margin-bottom:16px;">Your Email <span style="color:#f87171;">*</span></span>
+          <input type="email" placeholder="What’s your email?" style="background:rgba(14,14,22,0.7); padding:16px 24px; color:#ededf6; border-radius:8px; outline:none; border:1px solid #2a2a40; font-weight:500; font-family:'Inter',sans-serif; font-size:14px;">
+        </label>
+        <label style="display:flex; flex-direction:column;">
+          <span style="color:#ededf6; font-weight:500; margin-bottom:16px;">About the project <span style="color:#f87171;">*</span></span>
+          <textarea rows="7" placeholder="Project scope, timeline, and what you are trying to achieve..." style="background:rgba(14,14,22,0.7); padding:16px 24px; color:#ededf6; border-radius:8px; outline:none; border:1px solid #2a2a40; font-weight:500; font-family:'Inter',sans-serif; font-size:14px; resize:vertical;"></textarea>
+        </label>
+        <button style="background:linear-gradient(90deg,#7c3aed,#0891b2); padding:12px 32px; width:fit-content; color:#fff; font-weight:700; box-shadow:0 0 24px rgba(139,92,246,0.45); border-radius:12px; border:none; font-size:15px; font-family:'Inter',sans-serif; cursor:pointer;">Send Message</button>
+        <p style="margin:-12px 0 0; font-size:14px; color:#9ea0b8;">Prefer email? <a href="mailto:me@lfortiz.com" style="color:#67e8f9;">me@lfortiz.com</a></p>
+      </div>
+    </div>
+    <div style="flex:1; display:flex; align-items:center; justify-content:center;">
+      <div style="width:420px; height:420px; border-radius:50%; background:repeating-linear-gradient(45deg, rgba(34,211,238,0.06), rgba(34,211,238,0.06) 12px, transparent 12px, transparent 24px); border:1px dashed rgba(34,211,238,0.3); display:flex; align-items:center; justify-content:center;">
+        <span style="font-family:monospace; font-size:13px; color:#9ea0b8;">3D rotating Earth model (WebGL)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer data-screen-label="Footer" style="background:#08080e; border-top:1px solid rgba(30,58,138,0.5); padding:32px 0;">
+    <div style="max-width:1280px; margin:0 auto; padding:0 64px;">
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:32px; margin-bottom:32px;">
+        <div>
+          <h3 style="margin:0 0 16px; color:#fff; font-weight:700; font-size:20px;">Luis Ortiz</h3>
+          <p style="margin:0; color:#9ea0b8; font-size:14px;">Senior full-stack engineer. Open to select project-based work alongside my full-time role.</p>
+        </div>
+        <div>
+          <h3 style="margin:0 0 16px; color:#fff; font-weight:700; font-size:18px;">Quick Links</h3>
+          <ul style="margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px;">
+            <li><a href="#about" style="color:#9ea0b8; font-size:14px;">About</a></li>
+            <li><a href="#work" style="color:#9ea0b8; font-size:14px;">Work</a></li>
+            <li><a href="#projects" style="color:#9ea0b8; font-size:14px;">Projects</a></li>
+            <li><a href="#contact" style="color:#9ea0b8; font-size:14px;">Contact</a></li>
+            <li><a href="#resume" style="color:#9ea0b8; font-size:14px;">Download Resume</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="margin:0 0 16px; color:#fff; font-weight:700; font-size:18px;">Connect</h3>
+          <div style="display:flex; gap:16px; color:#9ea0b8; font-size:14px;">
+            <span>GitHub</span><span>LinkedIn</span><span>Email</span>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(30,58,138,0.3); padding-top:24px; display:flex; justify-content:space-between; align-items:center;">
+        <p style="margin:0; color:#9ea0b8; font-size:14px;">© 2026 Luis Ortiz. All rights reserved.</p>
+        <p style="margin:0; color:#9ea0b8; font-size:14px;">Built with React, Three.js &amp; Tailwind CSS</p>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const tags = {
+      blue: { from: "#7c3aed", to: "#a78bfa" },
+      green: { from: "#0891b2", to: "#22d3ee" },
+      pink: { from: "#c026d3", to: "#f0abfc" },
+      orange: { from: "#f12711", to: "#f5af19" },
+    };
+    const tag = (name, c) => ({ name, from: tags[c].from, to: tags[c].to });
+    const tech = [
+      ["JavaScript", "javascript"], ["TypeScript", "typescript"], ["React JS", "reactjs"], ["Node JS", "nodejs"],
+      ["Nest JS", "nest"], ["Express", "express"], ["GraphQL", "graphql"], ["Redux Toolkit", "redux"],
+      ["Tailwind CSS", "tailwind"], ["Figma", "figma"], ["AWS", "aws"], ["Docker", "docker"],
+      ["Git", "git"], ["Angular", "angular"], ["Remix Run", "remix"], ["Terraform", "terraform"],
+    ].map(([name, f]) => ({ name, icon: `assets/tech/${f}.png` }));
+    const half = Math.ceil(tech.length / 2);
+    const rowOne = tech.slice(0, half), rowTwo = tech.slice(half);
+    return {
+      stats: [
+        { value: "4+", label: "Years of experience" },
+        { value: "20+", label: "Projects delivered" },
+        { value: "2", label: "Working languages" },
+        { value: "4", label: "Delivery areas" },
+      ],
+      services: [
+        { glyph: "🌐", title: "Full-Stack Web Development", blurb: "React, Vue, and Angular frontends backed by Node, NestJS, and Express." },
+        { glyph: "📱", title: "Mobile App Development", blurb: "Native enhancements and React Native migrations at scale." },
+        { glyph: "☁️", title: "Cloud & DevOps Solutions", blurb: "AWS infrastructure, CI/CD, and Terraform for reliable delivery." },
+        { glyph: "🧩", title: "Product & System Architecture", blurb: "Maintainable technical foundations from prototype to production." },
+      ],
+      experiences: [
+        { title: "Senior Applications Developer", company: "TELUS Digital Solutions", icon: "assets/telus.jpeg", iconBg: "#E6DEDD", date: "October 2024 - Present", dir: "ltr", dateJustify: "flex-start",
+          points: ["Architected and implemented key enhancements for native mobile applications, improving app performance by 40% and increasing user engagement metrics by 35%.", "Contributing to the strategic migration of the native codebase to React Native, designing reusable components to accelerate the project timeline by 30% and reduce development overhead."] },
+        { title: "Full-Stack Engineer", company: "Hidden Mountain Data", icon: "assets/hmd.jpeg", iconBg: "#E6DEDD", date: "September 2024 - October 2024", dir: "rtl", dateJustify: "flex-end",
+          points: ["As a key contractor on an LLM project, developed and delivered a full-stack internal tool using Vue.js and NestJS within a two-week deadline.", "Engineered the backend system, including the Prisma and PostgreSQL schema, enabling efficient language-model data processing with 60% faster query performance and 45% improved throughput."] },
+        { title: "Software Engineer", company: "Holland Orchids", icon: "assets/ho.jpeg", iconBg: "#E6DEDD", date: "May 2023 - June 2024", dir: "ltr", dateJustify: "flex-start",
+          points: ["Led a new internal software suite from Figma prototypes through full-stack development and deployment, replacing a legacy tool and reducing operational time by 70%.", "Improved stability and performance of React legacy systems, reducing crashes by 95%, improving load times by 50%, and managing on-premises infrastructure with 99.8% uptime."] },
+        { title: "Web Developer", company: "Adslivemedia Corp.", icon: "assets/adslive.jpeg", iconBg: "#383E56", date: "March 2021 - May 2023", dir: "rtl", dateJustify: "flex-end",
+          points: ["Developed and deployed 12+ full-stack client sites using React, Vue, and Node.js, with an average 45% increase in client engagement and conversion rates.", "Managed AWS cloud infrastructure, including deployment, monitoring, and administration, achieving 99.9% uptime and reducing infrastructure costs by 30%.", "Built 8+ interactive Web AR experiences with A-Frame and Three.js, increasing client engagement by 60% and helping secure five enterprise contracts."] },
+      ],
+      techRowOneDoubled: [...rowOne, ...rowOne],
+      techRowTwoDoubled: [...rowTwo, ...rowTwo],
+      caseStudies: [
+        { name: "SocialHub", summary: "Full-stack social media management platform",
+          description: "A live social media management platform for scheduling and publishing across connected accounts. Built with a Next.js 15 / React 19 frontend and a NestJS API, backed by Prisma on MySQL with Redis and BullMQ for background jobs.",
+          highlights: ["Auth0 authentication with workspace-based RBAC", "Social OAuth connections with automatic token refresh", "Post scheduling powered by Redis + BullMQ queues", "Media handling via AWS S3 presigned uploads"],
+          tags: [tag("nextjs", "blue"), tag("nestjs", "green"), tag("prisma-mysql", "pink"), tag("aws-s3", "orange")],
+          url: "https://app.lfortiz.com" },
+        { name: "Jersey Guatemala", summary: "Bilingual site for the Asociación de Criadores de Ganado Jersey de Guatemala",
+          description: "A bilingual Spanish / English website for Guatemala’s Jersey cattle breeders association, built with Astro 7. It organizes membership information, a farm directory, registration and certification content, and cattle listings.",
+          highlights: ["Bilingual Spanish / English content architecture", "Membership information and farm directory", "Registration and certification content", "Structured cattle listings"],
+          tags: [tag("astro", "orange"), tag("typescript", "green"), tag("i18n", "blue")],
+          url: "https://jersey-guatemala-production.up.railway.app" },
+      ],
+      projects: [
+        { name: "Socializa.io Landing Page", image: "assets/SocializaShowcase.png",
+          description: "Marketing site for Socializa.io, a social media management platform. Built with React, TypeScript, Tailwind, and purposeful motion design.",
+          tags: [tag("react", "blue"), tag("typescript", "green"), tag("tailwind", "pink")] },
+        { name: "Portfolio Analytics Dashboard", image: "assets/PortfolioShowcase.png",
+          description: "Full-stack analytics dashboard built with a React frontend, NestJS API, PostgreSQL, and cloud deployment. A technical demonstration of a data-intensive product workflow.",
+          tags: [tag("react", "blue"), tag("nestjs", "green"), tag("postgresql", "pink")] },
+        { name: "ERP System for SMEs", image: "assets/erp-showcase.png",
+          description: "Product prototype for small and medium businesses, with inventory, financial, customer, and employee workflows. Built with Next.js, TypeScript, and Prisma.",
+          tags: [tag("nextjs", "blue"), tag("typescript", "green"), tag("prisma", "pink")] },
+      ],
+      testimonials: [
+        { quote: "Luis proved to be a valuable member of any team he is in. Only his ambitions exceed his achievements.", name: "Emmanuel Alvarado", initials: "EA", role: "ITS DevOps Engineer · Allied Global Technology Services" },
+        { quote: "He proved to be an honest, respectful, responsible, and hardworking individual. Under my supervision, he worked as a programmer for a custom-made application and website system.", name: "Lisa Gonzáles Solé", initials: "LG", role: "Marketing and Sales Manager · Holland Orchids" },
+        { quote: "He was a key member of our team at Adslivemedia Corp. He consistently delivered high-quality work and was always ready to mentor junior developers. Working with Luis was a pleasure, and his problem-solving skills and dedication were truly impressive.", name: "Andres Gálvez", initials: "AG", role: "Product Owner | Full-Stack Developer | AWS Certified · AdsLive Media" },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
