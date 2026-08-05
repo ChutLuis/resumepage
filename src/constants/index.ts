@@ -2,7 +2,8 @@ import {
   javascript,
   typescript,
   reactjs,
-  redux,
+  reactNative,
+  expo,
   tailwind,
   nodejs,
   docker,
@@ -13,15 +14,12 @@ import {
   ErpShowcase,
   JerseyShowcase,
   SocialhubShowcase,
-  angular,
   express,
-  graphql,
   nest,
-  remix,
-  terraform,
+  prisma,
+  postgresql,
   hmd,
   telus,
-  figma,
   aws,
   git,
 } from "../assets";
@@ -43,15 +41,49 @@ export const navLinks: NavLink[] = [
 ];
 
 /**
- * "Selected Work" numbered index — every row uses a real/live screenshot.
+ * Featured case study — the single lead item Works.tsx renders above the
+ * numbered "Also built" list. No public URL and no screenshot: this is
+ * proprietary production work (the TELUS customer app), described by
+ * mechanism rather than by artifact. PIN: replace this with the Waymark
+ * case study once it has a public repo, RLS tests, and real screenshots —
+ * the copy/story here is a placeholder until that ships.
  */
-const workItems: WorkItem[] = [
+const featuredWork: WorkItem = {
+  id: "mobile-platform",
+  status: "flagship",
+  featured: true,
+  stack: "react native · typescript · node · nestjs",
+};
+
+/**
+ * "Also built" numbered index — every row uses a real/live screenshot.
+ * SocialHub is a case study (not a live link): its public demo sits behind
+ * an Auth0 tenant with no self-serve signup, so linking to it directly would
+ * dead-end a visitor. A short demo video / write-up replaces the live link
+ * until a proper guest/demo account exists.
+ */
+const secondaryWork: WorkItem[] = [
   {
     id: "socialhub",
-    status: "production",
+    status: "case-study",
     stack: "nextjs 15 · nestjs · redis/bullmq · s3",
-    url: "https://app.lfortiz.com",
+    // No public URL: the live app sits behind Auth0 with no self-serve
+    // signup. A demo video replaces the link until a guest account exists.
     image: SocialhubShowcase,
+  },
+  {
+    id: "erp-pymes",
+    status: "live",
+    stack: "react router · prisma · postgresql · tailwind",
+    url: "https://pos.lfortiz.com",
+    image: ErpShowcase,
+  },
+  {
+    id: "jersey-guatemala",
+    status: "live",
+    stack: "astro 7 · typescript · i18n",
+    url: "https://jersey.lfortiz.com",
+    image: JerseyShowcase,
   },
   {
     id: "socializa",
@@ -60,56 +92,48 @@ const workItems: WorkItem[] = [
     image: SocializaShowcase,
   },
   {
-    id: "erp-pymes",
-    status: "live",
-    stack: "react router · prisma · postgresql · tailwind",
-    url: "https://web-production-76cc3.up.railway.app",
-    image: ErpShowcase,
-  },
-  {
-    id: "jersey-guatemala",
-    status: "live",
-    stack: "astro 7 · typescript · i18n",
-    url: "https://jersey-guatemala-production.up.railway.app",
-    image: JerseyShowcase,
-  },
-  {
     id: "portfolio-analytics",
     stack: "react router · tailwind · recharts · three.js · docker",
-    url: "https://github.com/ChutLuis/portfolio-analytics-upwork",
+    url: "https://github.com/ChutLuis/portfolio-analytics-dashboard",
     image: PortfolioShowcase,
   },
 ];
 
-const frontend: Technology[] = [
-  { name: "JavaScript", icon: javascript },
+const workItems: WorkItem[] = [featuredWork, ...secondaryWork];
+
+/**
+ * Capability groups, replacing the old "keyword grid" (Angular, Remix, Redux,
+ * GraphQL, Terraform, Figma). Mobile leads — it's the differentiator — and
+ * every entry here is something actively used in production work, not a
+ * one-off exposure.
+ */
+const mobile: Technology[] = [
+  { name: "React Native", icon: reactNative },
+  { name: "Expo", icon: expo },
   { name: "TypeScript", icon: typescript },
-  { name: "React", icon: reactjs },
-  { name: "Angular", icon: angular },
-  { name: "Remix", icon: remix },
-  { name: "Redux", icon: redux },
-  { name: "Tailwind", icon: tailwind },
 ];
 
 const backend: Technology[] = [
   { name: "Node.js", icon: nodejs },
   { name: "NestJS", icon: nest },
-  { name: "Express", icon: express },
-  { name: "GraphQL", icon: graphql },
+  { name: "Prisma", icon: prisma },
+  { name: "PostgreSQL", icon: postgresql },
+  { name: "AWS", icon: aws },
 ];
 
-const infra: Technology[] = [
-  { name: "AWS", icon: aws },
+const frontend: Technology[] = [
+  { name: "React", icon: reactjs },
+  { name: "JavaScript", icon: javascript },
+  { name: "Tailwind", icon: tailwind },
+  { name: "Express", icon: express },
   { name: "Docker", icon: docker },
-  { name: "Terraform", icon: terraform },
   { name: "Git", icon: git },
-  { name: "Figma", icon: figma },
 ];
 
 const techGroups: TechGroup[] = [
-  { id: "frontend", items: frontend },
+  { id: "mobile", items: mobile },
   { id: "backend", items: backend },
-  { id: "infra", items: infra },
+  { id: "frontend", items: frontend },
 ];
 
 const experiences: Experience[] = [
@@ -125,16 +149,25 @@ const testimonials: Testimonial[] = [
   { id: "andres", name: "Andres Gálvez" },
 ];
 
-export { techGroups, experiences, testimonials, workItems };
+export { techGroups, experiences, testimonials, workItems, featuredWork, secondaryWork };
+
+const localizeWorkItem = (dictionary: Dictionary) => (item: WorkItem, index: number) => ({
+  ...item,
+  ...dictionary.work.items[item.id],
+  number: String(index + 1).padStart(2, "0"),
+  statusLabel: item.status ? dictionary.work.status[item.status] : "",
+});
 
 export const getLocalizedContent = (dictionary: Dictionary) => ({
   navLinks: navLinks.map((link) => ({ ...link, title: dictionary.nav[link.id] })),
-  workItems: workItems.map((item, index) => ({
-    ...item,
-    ...dictionary.work.items[item.id],
-    number: String(index + 1).padStart(2, "0"),
-    statusLabel: item.status ? dictionary.work.status[item.status] : "",
-  })),
+  // Featured case study, rendered separately and without a number.
+  featuredWork: {
+    ...featuredWork,
+    ...dictionary.work.items[featuredWork.id],
+    statusLabel: featuredWork.status ? dictionary.work.status[featuredWork.status] : "",
+  },
+  // "Also built" — numbered 01-05 independent of the featured item above it.
+  workItems: secondaryWork.map(localizeWorkItem(dictionary)),
   techGroups: techGroups.map((group) => ({
     ...group,
     label: dictionary.tech.groups[group.id],

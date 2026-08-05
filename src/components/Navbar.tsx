@@ -52,13 +52,28 @@ const Navbar = () => {
           <li>
             <LanguageToggle />
           </li>
+          {/*
+            Two plain-text links, not buttons: "Resume" for recruiters,
+            "Discuss a project" (with an arrow, matching the Works.tsx link
+            treatment) for prospects. Neither competes visually with the
+            hero's solid CTA button — the nav is chrome you see on every
+            scroll position, not a persistent sales banner.
+          */}
           <li>
             <a
               href="/resume.pdf"
               download="Luis_Ortiz_Resume.pdf"
-              className="rounded-lg border border-accent-500/40 px-3.5 py-1.5 text-[14px] font-medium text-accent-300 transition-colors duration-200 hover:border-accent-400 hover:text-accent-200"
+              className="text-[14px] text-body transition-colors duration-200 hover:text-heading"
             >
               {t.nav.resume}
+            </a>
+          </li>
+          <li>
+            <a
+              href="#contact"
+              className="text-[14px] font-medium text-accent-300 transition-colors duration-200 hover:text-accent-200"
+            >
+              {t.hero.contactCta} →
             </a>
           </li>
         </ul>
@@ -106,9 +121,18 @@ const Navbar = () => {
               </li>
               <li className="w-full border-t border-line pt-3">
                 <a
+                  href="#contact"
+                  className="text-[16px] font-medium text-accent-300 transition-colors duration-200 hover:text-accent-200"
+                  onClick={() => setToggle(false)}
+                >
+                  {t.hero.contactCta} →
+                </a>
+              </li>
+              <li className="w-full">
+                <a
                   href="/resume.pdf"
                   download="Luis_Ortiz_Resume.pdf"
-                  className="text-[16px] font-medium text-accent-300 transition-colors duration-200 hover:text-accent-200"
+                  className="text-[14px] text-body transition-colors duration-200 hover:text-heading"
                   onClick={() => setToggle(false)}
                 >
                   {t.nav.resume}

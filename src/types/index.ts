@@ -1,5 +1,6 @@
 export type NavId = "work" | "experience" | "about" | "contact";
 export type WorkId =
+  | "mobile-platform"
   | "socialhub"
   | "jersey-guatemala"
   | "portfolio-analytics"
@@ -7,7 +8,7 @@ export type WorkId =
   | "erp-pymes";
 export type ExperienceId = "telus" | "hmd" | "holland" | "adslive";
 export type TestimonialId = "emmanuel" | "lisa" | "andres";
-export type TechGroupId = "frontend" | "backend" | "infra";
+export type TechGroupId = "mobile" | "backend" | "frontend";
 
 export interface NavLink {
   id: NavId;
@@ -22,12 +23,23 @@ export interface NavLink {
 export interface WorkItem {
   id: WorkId;
   /** Inline status chip; omit for none. */
-  status?: "production" | "live";
+  status?: "production" | "live" | "case-study" | "flagship";
   /** Mono stack line, e.g. "nextjs 15 · nestjs · redis/bullmq · s3". */
   stack: string;
-  url: string;
+  /**
+   * Outbound link. Omit when there is no safe public destination yet (e.g. a
+   * case study write-up/video that hasn't been published, or the work is
+   * proprietary with no public artifact) — Works.tsx renders no link at all
+   * in that case rather than pointing at a dead end.
+   */
+  url?: string;
   /** Imported thumbnail; when omitted the row renders a labeled placeholder. */
   image?: string;
+  /**
+   * Marks the single lead item Works.tsx renders as the featured case study
+   * above the numbered "Also built" list. Exactly one item should carry this.
+   */
+  featured?: boolean;
 }
 
 export interface Technology {

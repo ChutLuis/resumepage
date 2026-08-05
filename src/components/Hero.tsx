@@ -39,7 +39,8 @@ const Hero = () => {
       style={{ backgroundImage: HERO_RADIAL }}
     >
       {/* Mobile: constellation as a faint full-bleed backdrop behind the text.
-          pointer-events-none keeps the CTAs fully tappable. */}
+          pointer-events-none keeps the CTAs fully tappable. Purely decorative —
+          no zodiac copy is surfaced here or in the desktop column. */}
       {!isDesktop && (
         <div
           className="pointer-events-none absolute inset-0 z-0 opacity-50"
@@ -78,7 +79,8 @@ const Hero = () => {
           </div>
         </Reveal>
 
-        {/* Desktop: constellation in the right column with its caption. */}
+        {/* Desktop: constellation in the right column, purely decorative — no
+            zodiac caption underneath (dropped per Fase 2 positioning cleanup). */}
         <div className="hidden lg:block">
           <div
             className="h-[440px] w-full"
@@ -91,9 +93,6 @@ const Hero = () => {
               </Suspense>
             )}
           </div>
-          <p className="mt-1.5 text-right font-mono text-[11px] tracking-[0.08em] text-caption">
-            {t.hero.canvasCaption}
-          </p>
         </div>
       </div>
     </section>

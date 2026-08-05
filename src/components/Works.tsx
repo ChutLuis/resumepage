@@ -8,10 +8,12 @@ const WorkThumbnail = ({
   image,
   name,
   imageLabel,
+  className = "h-[160px]",
 }: {
   image?: string;
   name: string;
   imageLabel?: string;
+  className?: string;
 }) => {
   if (image) {
     return (
@@ -19,14 +21,14 @@ const WorkThumbnail = ({
         src={image}
         alt={name}
         loading="lazy"
-        className="h-[160px] w-full rounded-lg border border-line object-cover transition duration-300 group-hover:brightness-110"
+        className={`w-full rounded-lg border border-line object-cover transition duration-300 group-hover:brightness-110 ${className}`}
       />
     );
   }
 
   return (
     <div
-      className="flex h-[160px] w-full items-center justify-center rounded-lg border border-line bg-surface"
+      className={`flex w-full items-center justify-center rounded-lg border border-line bg-surface ${className}`}
       style={{ backgroundImage: PLACEHOLDER_STRIPES }}
     >
       <span className="px-4 text-center font-mono text-[12px] text-body">
@@ -36,6 +38,49 @@ const WorkThumbnail = ({
   );
 };
 
+/**
+ * Lead card for the single flagship/proprietary engagement — no number (it
+ * isn't part of the "Also built" count), larger type, and a status chip
+ * instead of a numbered-list treatment. No image/link: this is proprietary
+ * production work described by mechanism, not by artifact. Replace with the
+ * Waymark case study once it ships (see PIN comment in constants/index.ts).
+ */
+const FeaturedWork = ({
+  item,
+}: {
+  item: ReturnType<typeof useLocale>["content"]["featuredWork"];
+}) => (
+  <article className="rounded-2xl border border-line bg-surface p-8 sm:p-10">
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-10">
+      <div>
+        <h3 className="font-display text-[26px] font-bold leading-tight text-heading sm:text-[30px]">
+          {item.name}
+          {item.status && (
+            <span className="ml-2 align-middle font-mono text-[11px] text-status">
+              ● {item.statusLabel}
+            </span>
+          )}
+        </h3>
+        <p className="mt-1.5 text-[14px] text-body">{item.descriptor}</p>
+        <p className="mt-2.5 font-mono text-[12px] text-accent-400">
+          {item.stack}
+        </p>
+        <p className="mt-4 text-[14px] leading-[1.65] text-body">
+          {item.paragraph}
+        </p>
+        <p className="mt-3 font-mono text-[12px] text-caption">
+          {item.linkLabel}
+        </p>
+      </div>
+      <WorkThumbnail
+        name={item.name}
+        imageLabel={item.imageLabel}
+        className="h-[200px] lg:h-[240px]"
+      />
+    </div>
+  </article>
+);
+
 const Works = () => {
   const { t, content } = useLocale();
 
@@ -43,7 +88,15 @@ const Works = () => {
     <Section id="work" className="py-10">
       <Reveal>
         <Eyebrow>{t.work.subhead}</Eyebrow>
-        <div className="mt-6 border-t border-line">
+
+        <div className="mt-6">
+          <FeaturedWork item={content.featuredWork} />
+        </div>
+
+        <p className="mb-2 mt-12 font-mono text-[12px] uppercase tracking-eyebrow text-caption">
+          {t.work.secondaryLabel}
+        </p>
+        <div className="border-t border-line">
           {content.workItems.map((item) => (
             <article
               key={item.id}
@@ -70,27 +123,29 @@ const Works = () => {
                 </p>
               </div>
 
-              {/* Paragraph + link */}
+              {/* Paragraph + link (or plain label when there's no safe public URL yet) */}
               <div className="text-[14px] leading-[1.65] text-body">
                 <p>{item.paragraph}</p>
                 <p className="mt-2.5">
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-accent-300 transition-colors duration-200 hover:text-accent-200"
-                  >
-                    {item.linkLabel} ↗
-                  </a>
+                  {item.url ? (
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent-300 transition-colors duration-200 hover:text-accent-200"
+                    >
+                      {item.linkLabel} ↗
+                    </a>
+                  ) : (
+                    <span className="font-mono text-[12px] text-caption">
+                      {item.linkLabel}
+                    </span>
+                  )}
                 </p>
               </div>
 
               {/* Thumbnail */}
-              <WorkThumbnail
-                image={item.image}
-                name={item.name}
-                imageLabel={item.imageLabel}
-              />
+              <WorkThumbnail image={item.image} name={item.name} imageLabel={item.imageLabel} />
             </article>
           ))}
         </div>

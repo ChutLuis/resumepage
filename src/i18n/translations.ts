@@ -39,12 +39,12 @@ export interface Dictionary {
     intro: string;
     contactCta: string;
     workCta: string;
-    canvasCaption: string;
     canvasAria: string;
   };
   work: {
     subhead: string;
-    status: Record<"production" | "live", string>;
+    secondaryLabel: string;
+    status: Record<"production" | "live" | "case-study" | "flagship", string>;
     items: Record<WorkId, TranslatedWork>;
   };
   experience: {
@@ -136,25 +136,38 @@ const en = {
   },
   language: { label: "Language", en: "EN", es: "ES" },
   hero: {
-    eyebrow: "Senior Full-Stack Engineer — TELUS Digital · Remote, worldwide",
-    headline: "I build web and mobile products that businesses run on.",
+    eyebrow: "Senior React Native & TypeScript Engineer — Remote, worldwide",
+    headline: "React Native and Node systems that run at production scale.",
     intro:
-      "React, TypeScript, and Node — from customer-facing apps to the internal tools that keep operations moving. Currently building TELUS's flagship customer app in React Native; selectively taking on project work.",
-    contactCta: "Start a conversation",
-    workCta: "View work",
-    canvasCaption: "AQUARIUS — BORN FEBRUARY",
+      "I work full-time on a flagship enterprise customer app used by millions of users, and take on a small number of outside engagements with a defined React Native, TypeScript, or Node.js scope. If that's what you're planning, let's talk.",
+    contactCta: "Discuss a project",
+    workCta: "View selected work",
     canvasAria: "Decorative animation of the Aquarius constellation.",
   },
   work: {
     subhead: "Selected work",
-    status: { production: "production", live: "live" },
+    secondaryLabel: "Also built",
+    status: {
+      production: "production",
+      live: "live",
+      "case-study": "case study",
+      flagship: "flagship, in production",
+    },
     items: {
+      "mobile-platform": {
+        name: "React Native platform engineering",
+        descriptor: "Flagship enterprise customer app, millions of users",
+        paragraph:
+          "Core engineer on a production React Native app. Built a new customer experience end to end — screen composition, navigation gating, engagement components — dark-launched behind remote feature flags with full regression coverage. Own shared platform layers: the in-app WebView system, a marketing SDK integration, error observability, accessibility, and backend reliability (request de-duplication, circuit breaking) in the Node/NestJS BFF.",
+        linkLabel: "full write-up coming with the next case study",
+        imageLabel: "No public screenshot — proprietary production work",
+      },
       socialhub: {
         name: "SocialHub",
         descriptor: "Social media management platform",
         paragraph:
           "Queue-backed scheduling and publishing across connected accounts, workspace RBAC, OAuth token auto-refresh.",
-        linkLabel: "app.lfortiz.com",
+        linkLabel: "demo video — coming soon",
         imageLabel: "SocialHub product shot",
       },
       "jersey-guatemala": {
@@ -190,7 +203,7 @@ const en = {
   },
   experience: {
     subhead: "Experience",
-    heading: "Where I've worked.",
+    heading: "Track record.",
     items: {
       telus: {
         title: "Senior Applications Developer",
@@ -208,7 +221,7 @@ const en = {
         title: "Software Engineer",
         date: "May 2023 — Jun 2024",
         summary:
-          "Owned an internal software suite from Figma prototypes to deployment — replacing a legacy tool and cutting operational time by ~70%.",
+          "Owned an internal software suite end to end — replacing a legacy tool and cutting operational time by ~70%.",
       },
       adslive: {
         title: "Web Developer",
@@ -219,18 +232,18 @@ const en = {
     },
   },
   tech: {
-    subhead: "Tech stack",
+    subhead: "Capabilities",
     groups: {
-      frontend: "frontend",
+      mobile: "mobile",
       backend: "backend",
-      infra: "infra & tools",
+      frontend: "frontend & tools",
     },
   },
   about: {
     subhead: "About",
-    heading: "Engineer first, with an eye for product.",
+    heading: "Built and shipped at production scale.",
     bioLead:
-      "I'm a full-stack engineer who architects and ships modern web and mobile products with React, TypeScript, and Node.js. Over 4+ years I've delivered enterprise apps, cloud infrastructure, and interactive Web AR — across React, Vue, Angular, NestJS, and AWS.",
+      "I'm a full-stack engineer who architects and ships React Native and Node.js products at production scale — currently core engineer on a flagship enterprise customer app used by millions of users.",
     bioSecondary:
       "Bachelor of Engineering in Computers & Systems. Bilingual — English (C2) and Spanish (native).",
     resumeCta: "Download resume",
@@ -242,7 +255,7 @@ const en = {
       "Ship performance, accessibility, and reliability improvements app-wide",
     ],
     openToNote:
-      "Open to select project-based work alongside my full-time role.",
+      "Available for a small number of scope-defined engagements alongside my full-time role.",
   },
   testimonials: {
     subhead: "What others say",
@@ -268,7 +281,7 @@ const en = {
     subhead: "Start a project",
     heading: "Tell me what you're building.",
     intro:
-      "Scope, timeline, and what success looks like. I take on a limited number of engagements, so the more context, the faster we can tell if it's a fit.",
+      "Scope, timeline, and what success looks like. I take on a small number of scope-defined engagements each quarter, so the more context, the faster we can tell if it's a fit.",
     preferEmail: "Prefer email?",
     responseNote: "GitHub · LinkedIn — replies within 2 business days.",
     nameLabel: "Name",
@@ -314,15 +327,15 @@ const en = {
   },
   meta: {
     lang: "en",
-    title: "Luis Ortiz | Senior Full-Stack Engineer",
+    title: "Luis Ortiz | Senior React Native & TypeScript Engineer",
     description:
-      "Senior full-stack engineer building React Native, TypeScript, and Node products — from mobile apps used by millions to the internal tools teams rely on. Open to select project work worldwide.",
+      "Senior engineer building React Native, TypeScript, and Node products — core contributor to a production mobile app used by millions of users. Available for a small number of scope-defined project engagements.",
     ogLocale: "en_US",
     ogLocaleAlternate: "es_GT",
     personDescription:
-      "Senior full-stack software engineer in Guatemala building React Native, TypeScript, and Node products — mobile apps used by millions and the internal tools teams rely on.",
+      "Senior software engineer in Guatemala building React Native, TypeScript, and Node products — core contributor to a production mobile app used by millions of users.",
     serviceDescription:
-      "Project-based full-stack and mobile development — React Native apps, web applications, APIs, and cloud solutions for teams and startups.",
+      "Select, scope-defined React Native and Node.js engagements — mobile apps, APIs, and full-stack systems, taken on alongside a full-time senior engineering role.",
   },
 } satisfies Dictionary;
 
@@ -341,26 +354,38 @@ const es = {
   language: { label: "Idioma", en: "EN", es: "ES" },
   hero: {
     eyebrow:
-      "Ingeniero Full-Stack Senior — TELUS Digital · Remoto, en todo el mundo",
-    headline:
-      "Construyo productos web y móviles sobre los que operan las empresas.",
+      "Ingeniero Senior React Native & TypeScript — Remoto, en todo el mundo",
+    headline: "Sistemas React Native y Node que operan a escala de producción.",
     intro:
-      "React, TypeScript y Node — desde aplicaciones para clientes hasta las herramientas internas que mantienen las operaciones en marcha. Actualmente desarrollo la app principal de clientes de TELUS en React Native; acepto proyectos selectos en paralelo.",
-    contactCta: "Conversemos",
-    workCta: "Ver proyectos",
-    canvasCaption: "ACUARIO — NACIDO EN FEBRERO",
+      "Trabajo tiempo completo en una app insignia de cliente empresarial usada por millones de usuarios, y acepto un número reducido de proyectos externos con un alcance definido en React Native, TypeScript o Node.js. Si eso es lo que estás planeando, conversemos.",
+    contactCta: "Hablemos de tu proyecto",
+    workCta: "Ver proyectos seleccionados",
     canvasAria: "Animación decorativa de la constelación de Acuario.",
   },
   work: {
     subhead: "Proyectos seleccionados",
-    status: { production: "producción", live: "en vivo" },
+    secondaryLabel: "También he construido",
+    status: {
+      production: "producción",
+      live: "en vivo",
+      "case-study": "caso de estudio",
+      flagship: "insignia, en producción",
+    },
     items: {
+      "mobile-platform": {
+        name: "Ingeniería de plataforma React Native",
+        descriptor: "App insignia de cliente empresarial, millones de usuarios",
+        paragraph:
+          "Ingeniero clave en una app React Native de producción. Construí una nueva experiencia de cliente de principio a fin — composición de pantallas, control de navegación, componentes de engagement — lanzada en oscuro tras feature flags remotos y con cobertura completa de regresión. Soy responsable de capas compartidas de la plataforma: el sistema de WebView de la app, una integración de SDK de marketing, observabilidad de errores, accesibilidad y confiabilidad de backend (deduplicación de requests, circuit breaking) en el BFF de Node/NestJS.",
+        linkLabel: "reporte completo próximamente con el siguiente caso de estudio",
+        imageLabel: "Sin captura pública — trabajo de producción propietario",
+      },
       socialhub: {
         name: "SocialHub",
         descriptor: "Plataforma de gestión de redes sociales",
         paragraph:
           "Programación y publicación respaldadas por colas en cuentas conectadas, RBAC por espacio de trabajo y renovación automática de tokens OAuth.",
-        linkLabel: "app.lfortiz.com",
+        linkLabel: "video demo — próximamente",
         imageLabel: "Captura de SocialHub",
       },
       "jersey-guatemala": {
@@ -396,7 +421,7 @@ const es = {
   },
   experience: {
     subhead: "Experiencia",
-    heading: "Dónde he trabajado.",
+    heading: "Trayectoria comprobada.",
     items: {
       telus: {
         title: "Desarrollador Senior de Aplicaciones",
@@ -414,7 +439,7 @@ const es = {
         title: "Ingeniero de Software",
         date: "May 2023 — Jun 2024",
         summary:
-          "Fui responsable de una suite de software interna desde los prototipos en Figma hasta el despliegue — reemplazando una herramienta heredada y reduciendo el tiempo operativo en ~70%.",
+          "Fui responsable de una suite de software interna de principio a fin — reemplazando una herramienta heredada y reduciendo el tiempo operativo en ~70%.",
       },
       adslive: {
         title: "Desarrollador Web",
@@ -425,18 +450,18 @@ const es = {
     },
   },
   tech: {
-    subhead: "Stack tecnológico",
+    subhead: "Capacidades",
     groups: {
-      frontend: "frontend",
+      mobile: "móvil",
       backend: "backend",
-      infra: "infraestructura y herramientas",
+      frontend: "frontend y herramientas",
     },
   },
   about: {
     subhead: "Acerca de",
-    heading: "Ingeniero primero, con visión de producto.",
+    heading: "Construido y entregado a escala de producción.",
     bioLead:
-      "Soy un ingeniero full-stack que diseña y entrega productos web y móviles modernos con React, TypeScript y Node.js. En más de 4 años he entregado aplicaciones empresariales, infraestructura en la nube y Web AR interactivo — con React, Vue, Angular, NestJS y AWS.",
+      "Soy un ingeniero full-stack que diseña y entrega productos React Native y Node.js a escala de producción — actualmente ingeniero clave en una app insignia de cliente empresarial usada por millones de usuarios.",
     bioSecondary:
       "Licenciatura en Ingeniería en Informática y Sistemas. Bilingüe — inglés (C2) y español (nativo).",
     resumeCta: "Descargar currículum",
@@ -448,7 +473,7 @@ const es = {
       "Entrego mejoras de rendimiento, accesibilidad y confiabilidad en toda la app",
     ],
     openToNote:
-      "Disponible para proyectos selectos junto a mi trabajo de tiempo completo.",
+      "Disponible para un número reducido de proyectos de alcance definido, junto a mi trabajo de tiempo completo.",
   },
   testimonials: {
     subhead: "Lo que dicen otros",
@@ -474,7 +499,7 @@ const es = {
     subhead: "Iniciemos un proyecto",
     heading: "Cuéntame qué estás construyendo.",
     intro:
-      "Alcance, cronograma y cómo se ve el éxito. Trabajo en un número limitado de proyectos, así que mientras más contexto compartas, más rápido sabremos si encajamos.",
+      "Alcance, cronograma y cómo se ve el éxito. Tomo un número reducido de proyectos de alcance definido cada trimestre, así que mientras más contexto compartas, más rápido sabremos si encajamos.",
     preferEmail: "¿Prefieres correo?",
     responseNote: "GitHub · LinkedIn — respondo en un plazo de 2 días hábiles.",
     nameLabel: "Nombre",
@@ -520,15 +545,15 @@ const es = {
   },
   meta: {
     lang: "es",
-    title: "Luis Ortiz | Ingeniero Full-Stack Senior",
+    title: "Luis Ortiz | Ingeniero Senior React Native & TypeScript",
     description:
-      "Ingeniero full-stack senior que construye productos con React Native, TypeScript y Node — desde apps móviles usadas por millones hasta las herramientas internas en las que confían los equipos. Disponible para proyectos selectos a nivel mundial.",
+      "Ingeniero senior que construye productos con React Native, TypeScript y Node — contribuidor clave en una app móvil de producción usada por millones de usuarios. Disponible para un número reducido de proyectos de alcance definido.",
     ogLocale: "es_GT",
     ogLocaleAlternate: "en_US",
     personDescription:
-      "Ingeniero full-stack senior en Guatemala que construye productos con React Native, TypeScript y Node — apps móviles usadas por millones y las herramientas en las que confían los equipos.",
+      "Ingeniero de software senior en Guatemala que construye productos con React Native, TypeScript y Node — contribuidor clave en una app móvil de producción usada por millones de usuarios.",
     serviceDescription:
-      "Desarrollo full-stack y móvil por proyecto — apps en React Native, aplicaciones web, APIs y soluciones en la nube para equipos y startups.",
+      "Proyectos selectos y de alcance definido en React Native y Node.js — apps móviles, APIs y sistemas full-stack, junto a un rol senior de tiempo completo.",
   },
 } satisfies Dictionary;
 
