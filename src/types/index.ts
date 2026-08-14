@@ -5,6 +5,7 @@ export type WorkId =
   | "jersey-guatemala"
   | "portfolio-analytics"
   | "socializa"
+  | "comal"
   | "erp-pymes";
 export type ExperienceId = "telus" | "hmd" | "holland" | "adslive";
 export type TestimonialId = "emmanuel" | "lisa" | "andres";

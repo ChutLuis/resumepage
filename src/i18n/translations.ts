@@ -192,6 +192,14 @@ const en = {
           "Multi-page marketing site for a social media management platform — scroll-choreographed motion, an interactive 3D scene, tiered pricing, and a Braintree checkout.",
         linkLabel: "live site",
       },
+      comal: {
+        name: "Comal",
+        descriptor: "Counter-service POS for cafeterias and comedores",
+        paragraph:
+          "Order-taking, kitchen board, two-minute cash-close reconciliation, and live inventory — server-authoritative pricing and stock in Prisma transactions, with real auth. Seeded demo data.",
+        linkLabel: "live demo",
+        imageLabel: "Comal POS showcase",
+      },
       "erp-pymes": {
         name: "Café & Comedor POS",
         descriptor: "Counter-service POS demo",
@@ -409,6 +417,14 @@ const es = {
         paragraph:
           "Sitio de marketing multipágina para una plataforma de gestión de redes sociales — animaciones coreografiadas al hacer scroll, una escena 3D interactiva, planes de precios y un checkout con Braintree.",
         linkLabel: "ver sitio",
+      },
+      comal: {
+        name: "Comal",
+        descriptor: "Punto de venta para cafeterías y comedores",
+        paragraph:
+          "Toma de pedidos, tablero de cocina, cuadre de caja en dos minutos y control de inventario — precios y stock recalculados en el servidor dentro de transacciones de Prisma, con autenticación real. Datos de demo.",
+        linkLabel: "ver demo",
+        imageLabel: "Captura de Comal POS",
       },
       "erp-pymes": {
         name: "POS para cafés y comedores",

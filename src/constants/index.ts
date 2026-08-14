@@ -11,7 +11,7 @@ import {
   hollandOrchids,
   SocializaShowcase,
   PortfolioShowcase,
-  ErpShowcase,
+  ComalShowcase,
   SocialhubShowcase,
   express,
   nest,
@@ -71,11 +71,11 @@ const secondaryWork: WorkItem[] = [
     image: SocialhubShowcase,
   },
   {
-    id: "erp-pymes",
+    id: "comal",
     status: "live",
     stack: "react router · prisma · postgresql · tailwind",
-    url: "https://pos.lfortiz.com",
-    image: ErpShowcase,
+    url: "https://comal.lfortiz.com",
+    image: ComalShowcase,
   },
   {
     id: "socializa",
