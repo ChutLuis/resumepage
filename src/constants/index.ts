@@ -12,7 +12,6 @@ import {
   SocializaShowcase,
   PortfolioShowcase,
   ErpShowcase,
-  JerseyShowcase,
   SocialhubShowcase,
   express,
   nest,
@@ -77,13 +76,6 @@ const secondaryWork: WorkItem[] = [
     stack: "react router · prisma · postgresql · tailwind",
     url: "https://pos.lfortiz.com",
     image: ErpShowcase,
-  },
-  {
-    id: "jersey-guatemala",
-    status: "live",
-    stack: "astro 7 · typescript · i18n",
-    url: "https://jersey.lfortiz.com",
-    image: JerseyShowcase,
   },
   {
     id: "socializa",
