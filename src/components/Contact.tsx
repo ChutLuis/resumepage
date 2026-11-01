@@ -1,11 +1,22 @@
-import { useState, useRef } from "react";
-import { Section, Reveal, Eyebrow } from "./ui/primitives";
+import { useState, useRef, useEffect, useSyncExternalStore } from "react";
+import { Section, Reveal, SectionHead, buttonClass } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
+import { sceneStore } from "../lib/sceneStore";
+
+const getSceneSnapshot = () => sceneStore.getSnapshot();
 
 const Contact = () => {
   const { t } = useLocale();
   const formRef = useRef<HTMLFormElement>(null);
   const formOpenedAt = useRef(Date.now());
+  const scene = useSyncExternalStore(sceneStore.subscribe, getSceneSnapshot, getSceneSnapshot);
+  const sceneReady = scene.ready && !scene.lost;
+  const [poolFallbackMounted, setPoolFallbackMounted] = useState(true);
+  useEffect(() => {
+    if (!sceneReady) { setPoolFallbackMounted(true); return; }
+    const id = window.setTimeout(() => setPoolFallbackMounted(false), 600);
+    return () => window.clearTimeout(id);
+  }, [sceneReady]);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -110,23 +121,36 @@ const Contact = () => {
   };
 
   const fieldClass = (hasError: boolean) =>
-    `rounded-lg border bg-primary px-4 py-[13px] text-[14px] text-heading outline-none transition-colors duration-200 placeholder:text-body ${
+    `min-h-11 rounded-[4px] border bg-primary px-4 py-[13px] text-[14px] text-heading transition-colors duration-200 placeholder:text-body ${
       hasError ? "border-red-500" : "border-line focus:border-accent-400"
     }`;
 
   return (
-    <Section id="contact" className="pb-[90px] pt-[72px]">
-      <Reveal>
-        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
-          {/* Left: pitch */}
-          <div>
-            <Eyebrow>{t.contact.subhead}</Eyebrow>
-            <h2 className="mt-3 font-display text-[32px] font-bold tracking-[-0.02em] text-heading sm:text-[40px] lg:text-[44px]">
-              {t.contact.heading}
-            </h2>
+    <Section id="contact" className="relative pb-40 pt-20 sm:pb-48 sm:pt-24 lg:pb-60 lg:pt-28">
+      <div id="river-pool" aria-hidden="true" className="pointer-events-none absolute inset-0">
+        {(!sceneReady || poolFallbackMounted) && (
+          <svg
+            className="absolute inset-0 h-full w-full"
+            style={{ opacity: sceneReady ? 0 : 1, transition: "opacity 600ms ease-out" }}
+            viewBox="0 0 1000 1000"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <ellipse cx="500" cy="500" rx="560" ry="500" stroke="#2a2a40" vectorEffect="non-scaling-stroke" />
+            <ellipse cx="500" cy="500" rx="400" ry="340" stroke="#2a2a40" vectorEffect="non-scaling-stroke" />
+            <ellipse cx="500" cy="500" rx="240" ry="190" stroke="#a78bfa" strokeOpacity="0.35" vectorEffect="non-scaling-stroke" />
+          </svg>
+        )}
+      </div>
+      <Reveal className="relative">
+        <SectionHead index="06" label={t.contact.subhead} title={t.contact.heading} />
+
+        <div id="contact-content" className="mt-12 grid grid-cols-1 gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-x-10">
+          {/* Left: introduction */}
+          <div className="lg:col-span-4 lg:col-start-4">
             <p
               id="contact-intro"
-              className="mt-[18px] max-w-[440px] text-[15px] leading-[1.7] text-body"
+              className="max-w-[40ch] text-[17px] leading-[1.65] text-body-strong"
             >
               {t.contact.intro}
             </p>
@@ -134,7 +158,7 @@ const Contact = () => {
               {t.contact.preferEmail}{" "}
               <a
                 href="mailto:me@lfortiz.com"
-                className="font-semibold text-accent-300 transition-colors duration-200 hover:text-accent-200"
+                className="inline-flex min-h-11 items-center font-semibold text-accent-300 transition-colors duration-200 hover:text-accent-200"
               >
                 me@lfortiz.com
               </a>
@@ -144,12 +168,12 @@ const Contact = () => {
             </p>
           </div>
 
-          {/* Right: form card */}
+          {/* Right: contact form */}
           <form
             ref={formRef}
             onSubmit={handleSubmit}
             aria-describedby="contact-intro"
-            className="flex flex-col gap-[18px] rounded-2xl border border-line bg-surface p-8"
+            className="flex flex-col gap-[18px] border border-line bg-surface p-6 sm:p-8 lg:col-span-5"
           >
             <label htmlFor="contact-name" className="flex flex-col gap-2">
               <span className="text-[13px] font-semibold text-heading">
@@ -242,7 +266,7 @@ const Contact = () => {
             {submitStatus === "success" && (
               <div
                 role="alert"
-                className="rounded-lg border border-status/60 bg-status/10 px-4 py-3 text-status"
+                className="border border-status/60 px-4 py-3 text-status"
               >
                 <strong className="font-semibold">{t.contact.success.title}</strong>
                 <p className="mt-1 text-sm">{t.contact.success.body}</p>
@@ -252,7 +276,7 @@ const Contact = () => {
             {submitStatus === "error" && (
               <div
                 role="alert"
-                className="rounded-lg border border-red-500/60 bg-red-500/10 px-4 py-3 text-red-400"
+                className="border border-red-500/60 px-4 py-3 text-red-400"
               >
                 <strong className="font-semibold">{t.contact.error.title}</strong>
                 <p className="mt-1 text-sm">{t.contact.error.body}</p>
@@ -263,7 +287,7 @@ const Contact = () => {
               type="submit"
               disabled={loading}
               aria-busy={loading}
-              className="w-fit rounded-[10px] bg-accent-500 px-[26px] py-[13px] text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-400 disabled:cursor-not-allowed disabled:opacity-60"
+              className={`${buttonClass} w-fit disabled:cursor-not-allowed disabled:opacity-60`}
             >
               {loading ? t.contact.sending : t.contact.send}
             </button>

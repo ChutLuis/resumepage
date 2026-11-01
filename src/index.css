@@ -5,26 +5,6 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------ */
-/*  Lenis smooth scroll (recommended baseline styles)                  */
-/* ------------------------------------------------------------------ */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-.lenis.lenis-smooth iframe {
-  pointer-events: none;
-}
-
-/* ------------------------------------------------------------------ */
 /*  Theme tokens (RGB triplets so Tailwind alpha modifiers work)       */
 /*  Refined Aurora v2 — dark only.                                     */
 /* ------------------------------------------------------------------ */
@@ -46,7 +26,7 @@ html.lenis body {
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {

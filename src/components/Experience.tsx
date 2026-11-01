@@ -1,40 +1,34 @@
-import { Section, Reveal, Eyebrow } from "./ui/primitives";
+import { Section, Reveal, SectionHead } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
 
 const Experience = () => {
   const { t, content } = useLocale();
+  const lastIndex = content.experiences.length - 1;
 
   return (
-    <Section id="experience" className="pb-10 pt-[72px]">
+    <Section id="experience" className="py-20 sm:py-24 lg:py-28">
       <Reveal>
-        <Eyebrow>{t.experience.subhead}</Eyebrow>
-        <h2 className="mt-2.5 font-display text-[32px] font-bold tracking-[-0.02em] text-heading sm:text-[40px] lg:text-[44px]">
-          {t.experience.heading}
-        </h2>
+        <SectionHead index="02" label={t.experience.subhead} title={t.experience.heading} />
 
-        <div className="mt-8 border-t border-line">
-          {content.experiences.map((experience) => (
+        <div className="mt-12 lg:mt-16">
+          {content.experiences.map((experience, index) => (
             <article
               key={experience.id}
-              className="grid grid-cols-[44px_1fr] gap-x-5 gap-y-3 border-b border-divider py-[26px] md:grid-cols-[220px_56px_1fr] md:items-start md:gap-6"
+              className={`grid gap-3 border-t border-line py-8 lg:grid-cols-12 lg:gap-x-10 lg:py-10 ${
+                index === lastIndex ? "border-b" : ""
+              }`}
             >
-              <p className="order-1 col-span-2 font-mono text-[12px] text-body md:order-none md:col-span-1 md:pt-1">
+              <p className="font-mono text-[12px] leading-relaxed text-body lg:col-span-3 lg:pt-2">
                 {experience.date}
               </p>
-              <img
-                src={experience.icon}
-                alt={experience.company_name}
-                className="order-2 h-11 w-11 rounded-[10px] object-cover md:order-none"
-                loading="lazy"
-              />
-              <div className="order-3 md:order-none">
-                <h3 className="font-display text-[19px] font-semibold leading-snug text-heading">
-                  {experience.title} ·{" "}
-                  <span className="text-accent-400">
+              <div className="lg:col-span-9">
+                <h3 className="font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-heading sm:text-[24px]">
+                  {experience.title}
+                  <span className="mt-1 block font-sans text-[15px] font-normal tracking-normal text-body-strong">
                     {experience.company_name}
                   </span>
                 </h3>
-                <p className="mt-2 max-w-[680px] text-[14px] leading-[1.65] text-body">
+                <p className="mt-4 max-w-[65ch] text-[16px] leading-[1.7] text-body">
                   {experience.summary}
                 </p>
               </div>

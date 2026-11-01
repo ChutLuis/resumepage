@@ -1,153 +1,116 @@
-import { Section, Reveal, Eyebrow } from "./ui/primitives";
+import { Section, Reveal, SectionHead } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
+import type { WorkId } from "../types";
 
-const PLACEHOLDER_STRIPES =
-  "repeating-linear-gradient(45deg, rgba(139,92,246,0.07), rgba(139,92,246,0.07) 12px, transparent 12px, transparent 24px)";
+// Intrinsic dimensions of the existing showcase files; unknown images still
+// render at their natural aspect ratio without a fabricated placeholder.
+const imageSizes: Partial<Record<WorkId, readonly [number, number]>> = {
+  socialhub: [1100, 563],
+  comal: [2560, 1280],
+  socializa: [2465, 1292],
+  "portfolio-analytics": [2469, 1291],
+};
 
-const WorkThumbnail = ({
-  image,
-  name,
-  imageLabel,
-  className = "h-[160px]",
-}: {
-  image?: string;
-  name: string;
-  imageLabel?: string;
-  className?: string;
-}) => {
-  if (image) {
-    return (
-      <img
-        src={image}
-        alt={name}
-        loading="lazy"
-        className={`w-full rounded-lg border border-line object-cover transition duration-300 group-hover:brightness-110 ${className}`}
-      />
-    );
-  }
+type LocalizedWork = ReturnType<typeof useLocale>["content"]["workItems"][number];
 
+/** 6x6 status square shown before live/production labels. */
+const StatusDot = () => (
+  <span aria-hidden="true" className="mr-2.5 inline-block h-1.5 w-1.5 bg-status align-middle" />
+);
+
+const WorkDetails = ({ item }: { item: LocalizedWork }) => {
+  const showDot = item.status === "live" || item.status === "production";
   return (
-    <div
-      className={`flex w-full items-center justify-center rounded-lg border border-line bg-surface ${className}`}
-      style={{ backgroundImage: PLACEHOLDER_STRIPES }}
-    >
-      <span className="px-4 text-center font-mono text-[12px] text-body">
-        {imageLabel}
-      </span>
+    <div className="min-w-0">
+      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+        <span className="font-mono text-[12px] text-body">{item.number}</span>
+        {item.status && (
+          <span className="font-mono text-[12px] text-body">
+            {showDot && <StatusDot />}
+            {item.statusLabel}
+          </span>
+        )}
+      </div>
+      <h3 className="mt-3 font-display text-[24px] font-medium leading-tight tracking-[-0.025em] text-heading sm:text-[28px]">
+        {item.name}
+      </h3>
+      <p className="mt-1.5 text-[15px] leading-relaxed text-body-strong">{item.descriptor}</p>
+      <p className="mt-3 font-mono text-[12px] leading-relaxed text-body">{item.stack}</p>
+      <p className="mt-4 max-w-[65ch] text-[15px] leading-[1.7] text-body">{item.paragraph}</p>
+      <p className="mt-3 text-[14px] leading-relaxed">
+        {item.url ? (
+          <a href={item.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-accent-300 underline decoration-line underline-offset-4 transition-colors duration-200 hover:text-accent-200">
+            {item.linkLabel} ↗
+          </a>
+        ) : (
+          <span className="font-mono text-[12px] text-body">{item.linkLabel}</span>
+        )}
+      </p>
     </div>
   );
 };
 
-/**
- * Lead card for the single flagship/proprietary engagement — no number (it
- * isn't part of the "Also built" count), larger type, and a status chip
- * instead of a numbered-list treatment. No image/link: this is proprietary
- * production work described by mechanism, not by artifact. Replace with the
- * Waymark case study once it ships (see PIN comment in constants/index.ts).
- */
-const FeaturedWork = ({
-  item,
-}: {
-  item: ReturnType<typeof useLocale>["content"]["featuredWork"];
-}) => (
-  <article className="rounded-2xl border border-line bg-surface p-8 sm:p-10">
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-10">
-      <div>
-        <h3 className="font-display text-[26px] font-bold leading-tight text-heading sm:text-[30px]">
-          {item.name}
-          {item.status && (
-            <span className="ml-2 align-middle font-mono text-[11px] text-status">
-              ● {item.statusLabel}
-            </span>
-          )}
-        </h3>
-        <p className="mt-1.5 text-[14px] text-body">{item.descriptor}</p>
-        <p className="mt-2.5 font-mono text-[12px] text-accent-400">
-          {item.stack}
-        </p>
-        <p className="mt-4 text-[14px] leading-[1.65] text-body">
-          {item.paragraph}
-        </p>
-        <p className="mt-3 font-mono text-[12px] text-caption">
-          {item.linkLabel}
-        </p>
-      </div>
-      <WorkThumbnail
-        name={item.name}
-        imageLabel={item.imageLabel}
-        className="h-[200px] lg:h-[240px]"
-      />
-    </div>
-  </article>
-);
-
 const Works = () => {
   const { t, content } = useLocale();
+  const featured = content.featuredWork;
+  const featuredShowDot = featured.status === "live" || featured.status === "production";
 
   return (
-    <Section id="work" className="py-10">
+    <Section id="work" className="py-20 sm:py-24 lg:py-28">
       <Reveal>
-        <Eyebrow>{t.work.subhead}</Eyebrow>
+        <SectionHead index="01" label={t.work.subhead} title={t.work.heading} />
 
-        <div className="mt-6">
-          <FeaturedWork item={content.featuredWork} />
+        <article className="group mt-12 grid grid-cols-1 gap-y-6 lg:mt-16 lg:grid-cols-12 lg:gap-x-10">
+          <div className="lg:col-span-3">
+            <p className="font-mono text-[12px] text-body">
+              {featuredShowDot && <StatusDot />}
+              {featured.statusLabel}
+            </p>
+          </div>
+          <div className="lg:col-span-9">
+            <h3 className="max-w-[22ch] text-balance font-display text-[30px] font-medium leading-[1.08] tracking-[-0.03em] text-heading sm:text-[40px] lg:text-[44px]">
+              {featured.name}
+            </h3>
+            <p className="mt-4 text-[18px] leading-[1.5] text-body-strong">{featured.descriptor}</p>
+            <p className="mt-6 max-w-[65ch] text-[16px] leading-[1.75] text-body">{featured.paragraph}</p>
+            <div className="mt-8 grid gap-3 border-t border-line pt-5 font-mono text-[12px] leading-relaxed text-body sm:grid-cols-3">
+              <p>{featured.stack}</p>
+              <p>{featured.imageLabel}</p>
+              <p>{featured.linkLabel}</p>
+            </div>
+          </div>
+        </article>
+
+        <div className="mt-20 flex items-center gap-4 lg:mt-24">
+          <p className="font-mono text-[12px] uppercase tracking-eyebrow text-body">{t.work.secondaryLabel}</p>
+          <span aria-hidden="true" className="h-px flex-1 bg-line" />
         </div>
 
-        <p className="mb-2 mt-12 font-mono text-[12px] uppercase tracking-eyebrow text-caption">
-          {t.work.secondaryLabel}
-        </p>
-        <div className="border-t border-line">
-          {content.workItems.map((item) => (
-            <article
-              key={item.id}
-              className="group grid grid-cols-1 items-start gap-6 border-b border-divider py-[30px] lg:grid-cols-[64px_1.1fr_1fr_320px] lg:items-center lg:gap-8"
-            >
-              {/* Number */}
-              <span className="font-mono text-[22px] leading-none text-accent-500">
-                {item.number}
-              </span>
-
-              {/* Name / descriptor / stack */}
-              <div>
-                <h3 className="font-display text-[26px] font-bold leading-tight text-heading">
-                  {item.name}
-                  {item.status && (
-                    <span className="ml-2 align-middle font-mono text-[11px] text-status">
-                      ● {item.statusLabel}
-                    </span>
-                  )}
-                </h3>
-                <p className="mt-1.5 text-[14px] text-body">{item.descriptor}</p>
-                <p className="mt-2.5 font-mono text-[12px] text-accent-400">
-                  {item.stack}
-                </p>
-              </div>
-
-              {/* Paragraph + link (or plain label when there's no safe public URL yet) */}
-              <div className="text-[14px] leading-[1.65] text-body">
-                <p>{item.paragraph}</p>
-                <p className="mt-2.5">
-                  {item.url ? (
-                    <a
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-accent-300 transition-colors duration-200 hover:text-accent-200"
-                    >
-                      {item.linkLabel} ↗
-                    </a>
-                  ) : (
-                    <span className="font-mono text-[12px] text-caption">
-                      {item.linkLabel}
-                    </span>
-                  )}
-                </p>
-              </div>
-
-              {/* Thumbnail */}
-              <WorkThumbnail image={item.image} name={item.name} imageLabel={item.imageLabel} />
-            </article>
-          ))}
+        <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-12 lg:gap-x-10 lg:gap-y-20">
+          {content.workItems.map((item, index) => {
+            const dimensions = imageSizes[item.id];
+            const columns = index % 4 === 0 || index % 4 === 3 ? "md:col-span-7" : "md:col-span-5";
+            return (
+              <article key={item.id} className={item.image ? `group min-w-0 ${columns}` : "min-w-0 border-t border-line pt-6 md:col-span-12"}>
+                {item.image && (
+                  <div className="mb-6 overflow-hidden border border-line transition-colors duration-300 group-hover:border-accent-400/50">
+                    <img
+                      src={item.image}
+                      alt={item.imageLabel || item.name}
+                      width={dimensions?.[0]}
+                      height={dimensions?.[1]}
+                      loading="lazy"
+                      className="h-auto w-full transition-transform duration-500 ease-out group-hover:scale-[1.015]"
+                    />
+                  </div>
+                )}
+                {!item.image && item.imageLabel && (
+                  <p className="mb-5 font-mono text-[12px] leading-relaxed text-body">{item.imageLabel}</p>
+                )}
+                <WorkDetails item={item} />
+              </article>
+            );
+          })}
         </div>
       </Reveal>
     </Section>

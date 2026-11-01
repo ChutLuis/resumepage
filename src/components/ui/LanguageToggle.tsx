@@ -9,7 +9,7 @@ const LanguageToggle = () => {
     <div
       role="group"
       aria-label={t.language.label}
-      className="flex items-center gap-1.5 text-[13px]"
+      className="flex items-center text-[13px]"
     >
       {locales.map((language, index) => (
         <Fragment key={language}>
@@ -23,7 +23,7 @@ const LanguageToggle = () => {
             lang={language}
             aria-pressed={locale === language}
             onClick={() => setLocale(language)}
-            className={`transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-accent-400 ${
+            className={`inline-flex h-11 min-w-11 items-center justify-center transition-colors duration-200 ${
               locale === language
                 ? "font-medium text-heading"
                 : "text-body hover:text-heading"

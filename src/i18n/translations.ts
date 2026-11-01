@@ -34,15 +34,20 @@ export interface Dictionary {
     es: string;
   };
   hero: {
-    eyebrow: string;
     headline: string;
+    headlineLead: string;
+    headlineAccent: string;
     intro: string;
     contactCta: string;
+    contactLink: string;
     workCta: string;
-    canvasAria: string;
+    metaRole: string;
+    metaEdition: string;
+    metaLocation: string;
   };
   work: {
     subhead: string;
+    heading: string;
     secondaryLabel: string;
     status: Record<"production" | "live" | "case-study" | "flagship", string>;
     items: Record<WorkId, TranslatedWork>;
@@ -54,6 +59,7 @@ export interface Dictionary {
   };
   tech: {
     subhead: string;
+    heading: string;
     groups: Record<TechGroupId, string>;
   };
   about: {
@@ -65,10 +71,10 @@ export interface Dictionary {
     talkCta: string;
     currentlyLabel: string;
     currentlyPoints: [string, string, string];
-    openToNote: string;
   };
   testimonials: {
     subhead: string;
+    heading: string;
     items: Record<TestimonialId, TranslatedTestimonial>;
   };
   contact: {
@@ -100,6 +106,9 @@ export interface Dictionary {
     github: string;
     linkedin: string;
     email: string;
+    colophonLead: string;
+    colophonSource: string;
+    colophonTail: string;
   };
   system: {
     skipToContent: string;
@@ -136,29 +145,34 @@ const en = {
   },
   language: { label: "Language", en: "EN", es: "ES" },
   hero: {
-    eyebrow: "Senior React Native & TypeScript Engineer — Remote, worldwide",
-    headline: "React Native and Node systems that run at production scale.",
+    headline: "Mobile apps, from screen to server.",
+    headlineLead: "Mobile apps, from screen",
+    headlineAccent: "to server.",
     intro:
-      "I work full-time on a flagship enterprise customer app used by millions of users, and take on a small number of outside engagements with a defined React Native, TypeScript, or Node.js scope. If that's what you're planning, let's talk.",
-    contactCta: "Discuss a project",
+      "I build React Native apps and Node.js services, from navigation and accessibility to the APIs behind them. Currently, I work on TELUS’s customer app.",
+    contactCta: "Get in touch",
+    contactLink: "Contact",
     workCta: "View selected work",
-    canvasAria: "Decorative animation of the Aquarius constellation.",
+    metaRole: "Software engineer",
+    metaEdition: "Portfolio",
+    metaLocation: "Guatemala",
   },
   work: {
     subhead: "Selected work",
+    heading: "Things I’ve built.",
     secondaryLabel: "Also built",
     status: {
       production: "production",
       live: "live",
       "case-study": "case study",
-      flagship: "flagship, in production",
+      flagship: "in production",
     },
     items: {
       "mobile-platform": {
         name: "React Native platform engineering",
-        descriptor: "Flagship enterprise customer app, millions of users",
+        descriptor: "TELUS customer app used by millions",
         paragraph:
-          "Core engineer on a production React Native app. Built a new customer experience end to end — screen composition, navigation gating, engagement components — dark-launched behind remote feature flags with full regression coverage. Own shared platform layers: the in-app WebView system, a marketing SDK integration, error observability, accessibility, and backend reliability (request de-duplication, circuit breaking) in the Node/NestJS BFF.",
+          "I work on a production React Native app and built a new customer experience from screen composition and navigation controls to engagement components. It was released behind remote feature flags with regression tests. I also work on shared platform layers: the in-app WebView, a marketing SDK integration, error observability, accessibility, and backend reliability—including request de-duplication and circuit breaking—in the Node/NestJS BFF.",
         linkLabel: "full write-up coming with the next case study",
         imageLabel: "No public screenshot — proprietary production work",
       },
@@ -196,7 +210,7 @@ const en = {
         name: "Comal",
         descriptor: "Counter-service POS for cafeterias and comedores",
         paragraph:
-          "Order-taking, kitchen board, two-minute cash-close reconciliation, and live inventory — server-authoritative pricing and stock in Prisma transactions, with real auth. Seeded demo data.",
+          "Order-taking, kitchen board, two-minute cash-close reconciliation, and live inventory — server-authoritative pricing and stock in Prisma transactions, with authenticated access. Seeded demo data.",
         linkLabel: "live demo",
         imageLabel: "Comal POS showcase",
       },
@@ -204,20 +218,20 @@ const en = {
         name: "Café & Comedor POS",
         descriptor: "Counter-service POS demo",
         paragraph:
-          "Order-taking, kitchen board, cash-close reconciliation, and reporting for cafés and comedores — server-authoritative pricing and stock in Prisma transactions, with real auth. Seeded demo data.",
+          "Order-taking, kitchen board, cash-close reconciliation, and reporting for cafés and comedores — server-authoritative pricing and stock in Prisma transactions, with authenticated access. Seeded demo data.",
         linkLabel: "live site",
       },
     },
   },
   experience: {
     subhead: "Experience",
-    heading: "Track record.",
+    heading: "Where I’ve worked.",
     items: {
       telus: {
         title: "Senior Applications Developer",
         date: "Oct 2024 — Present",
         summary:
-          "Core engineer on TELUS's flagship customer app (React Native, millions of users). Led the end-to-end build of a new customer experience — screen composition, navigation gating, and engagement components — dark-launched behind remote feature flags with full test coverage. Also own shared platform layers: the in-app WebView system, marketing SDK integration, observability, and accessibility.",
+          "Core engineer on TELUS’s React Native customer app, used by millions. Led the build of a new customer experience, including screen composition, navigation controls, and engagement components, released behind remote feature flags with test coverage. Also responsible for shared platform layers: the in-app WebView, marketing SDK integration, observability, and accessibility.",
       },
       hmd: {
         title: "Full-Stack Engineer (contract)",
@@ -235,12 +249,13 @@ const en = {
         title: "Web Developer",
         date: "Mar 2021 — May 2023",
         summary:
-          "Built and ran 12+ client sites on AWS, and pioneered the company's Web AR offering with 8+ interactive experiences in A-Frame and Three.js.",
+          "Built and maintained 12+ client sites on AWS and helped develop the company’s Web AR offering, including 8+ interactive experiences in A-Frame and Three.js.",
       },
     },
   },
   tech: {
     subhead: "Capabilities",
+    heading: "Tools I build with.",
     groups: {
       mobile: "mobile",
       backend: "backend",
@@ -249,24 +264,23 @@ const en = {
   },
   about: {
     subhead: "About",
-    heading: "Built and shipped at production scale.",
+    heading: "A bit about me.",
     bioLead:
-      "I'm a full-stack engineer who architects and ships React Native and Node.js products at production scale — currently core engineer on a flagship enterprise customer app used by millions of users.",
+      "I’m a full-stack engineer based in Guatemala, currently working on TELUS’s React Native customer app and the platform components behind it.",
     bioSecondary:
       "Bachelor of Engineering in Computers & Systems. Bilingual — English (C2) and Spanish (native).",
     resumeCta: "Download resume",
     talkCta: "Let's talk",
-    currentlyLabel: "currently @ TELUS",
+    currentlyLabel: "currently at TELUS",
     currentlyPoints: [
-      "Leading feature delivery on a React Native app serving millions of users",
-      "Own shared platform layers: WebView, feature flags, analytics, observability",
-      "Ship performance, accessibility, and reliability improvements app-wide",
+      "Leading mobile feature delivery in React Native",
+      "Maintaining shared layers: WebView, feature flags, analytics, and observability",
+      "Improving app performance, accessibility, and reliability",
     ],
-    openToNote:
-      "Available for a small number of scope-defined engagements alongside my full-time role.",
   },
   testimonials: {
     subhead: "What others say",
+    heading: "From people I’ve worked with.",
     items: {
       emmanuel: {
         testimonial:
@@ -286,18 +300,18 @@ const en = {
     },
   },
   contact: {
-    subhead: "Start a project",
+    subhead: "Get in touch",
     heading: "Tell me what you're building.",
     intro:
-      "Scope, timeline, and what success looks like. I take on a small number of scope-defined engagements each quarter, so the more context, the faster we can tell if it's a fit.",
+      "Have a project or a question? Tell me a little about what you’re working on.",
     preferEmail: "Prefer email?",
-    responseNote: "GitHub · LinkedIn — replies within 2 business days.",
+    responseNote: "You can also find me on GitHub and LinkedIn.",
     nameLabel: "Name",
     namePlaceholder: "Your name",
     emailLabel: "Email",
     emailPlaceholder: "you@company.com",
-    messageLabel: "About the project",
-    messagePlaceholder: "Scope, timeline, and what you're trying to achieve…",
+    messageLabel: "Message",
+    messagePlaceholder: "Tell me about your project or question.",
     required: "required",
     send: "Send message",
     sending: "Sending…",
@@ -305,15 +319,15 @@ const en = {
       nameRequired: "Name is required",
       emailRequired: "Email is required",
       emailInvalid: "Please enter a valid email address",
-      messageRequired: "Project details are required",
-      messageMin: "Project details must be at least 10 characters",
+      messageRequired: "Message is required",
+      messageMin: "Your message must be at least 10 characters",
     },
     success: {
-      title: "Success!",
-      body: "Thank you for your message. I'll get back to you soon!",
+      title: "Message sent.",
+      body: "Thanks for your message.",
     },
     error: {
-      title: "Error!",
+      title: "Message not sent.",
       body: "Something went wrong. Please try again or contact me directly.",
     },
   },
@@ -321,29 +335,32 @@ const en = {
     github: "GitHub profile",
     linkedin: "LinkedIn profile",
     email: "Email Luis",
+    colophonLead: "Hebe — Bertel Thorvaldsen, 1816. 3D scan by ",
+    colophonSource: "SMK – Statens Museum for Kunst",
+    colophonTail: ", Public Domain.",
   },
   system: {
     skipToContent: "Skip to main content",
     loadingSection: "Loading section",
     loadingContent: "Loading content...",
-    errorTitle: "Oops! Something went wrong",
+    errorTitle: "Something went wrong",
     errorFallback:
       "We're sorry, but something unexpected happened. Please try refreshing the page.",
-    tryAgain: "Try Again",
-    refresh: "Refresh Page",
-    developmentError: "Error Details (Development Only)",
+    tryAgain: "Try again",
+    refresh: "Refresh page",
+    developmentError: "Error details (development only)",
   },
   meta: {
     lang: "en",
     title: "Luis Ortiz | Senior React Native & TypeScript Engineer",
     description:
-      "Senior engineer building React Native, TypeScript, and Node products — core contributor to a production mobile app used by millions of users. Available for a small number of scope-defined project engagements.",
+      "Luis Ortiz is a software engineer in Guatemala working on mobile apps and backend services with React Native, TypeScript, and Node.js.",
     ogLocale: "en_US",
     ogLocaleAlternate: "es_GT",
     personDescription:
-      "Senior software engineer in Guatemala building React Native, TypeScript, and Node products — core contributor to a production mobile app used by millions of users.",
+      "Luis Ortiz is a software engineer in Guatemala working on mobile apps and backend services with React Native, TypeScript, and Node.js.",
     serviceDescription:
-      "Select, scope-defined React Native and Node.js engagements — mobile apps, APIs, and full-stack systems, taken on alongside a full-time senior engineering role.",
+      "Mobile and web application development, backend services, and APIs with React Native, TypeScript, and Node.js.",
   },
 } satisfies Dictionary;
 
@@ -361,30 +378,34 @@ const es = {
   },
   language: { label: "Idioma", en: "EN", es: "ES" },
   hero: {
-    eyebrow:
-      "Ingeniero Senior React Native & TypeScript — Remoto, en todo el mundo",
-    headline: "Sistemas React Native y Node que operan a escala de producción.",
+    headline: "Apps móviles, de la pantalla al servidor.",
+    headlineLead: "Apps móviles, de la pantalla",
+    headlineAccent: "al servidor.",
     intro:
-      "Trabajo tiempo completo en una app insignia de cliente empresarial usada por millones de usuarios, y acepto un número reducido de proyectos externos con un alcance definido en React Native, TypeScript o Node.js. Si eso es lo que estás planeando, conversemos.",
-    contactCta: "Hablemos de tu proyecto",
+      "Desarrollo aplicaciones con React Native y servicios con Node.js, desde la navegación y la accesibilidad hasta las API que las respaldan. Actualmente trabajo en la app de clientes de TELUS.",
+    contactCta: "Escríbeme",
+    contactLink: "Contacto",
     workCta: "Ver proyectos seleccionados",
-    canvasAria: "Animación decorativa de la constelación de Acuario.",
+    metaRole: "Ingeniero de software",
+    metaEdition: "Portafolio",
+    metaLocation: "Guatemala",
   },
   work: {
     subhead: "Proyectos seleccionados",
+    heading: "Lo que he construido.",
     secondaryLabel: "También he construido",
     status: {
       production: "producción",
       live: "en vivo",
       "case-study": "caso de estudio",
-      flagship: "insignia, en producción",
+      flagship: "en producción",
     },
     items: {
       "mobile-platform": {
         name: "Ingeniería de plataforma React Native",
-        descriptor: "App insignia de cliente empresarial, millones de usuarios",
+        descriptor: "App de clientes de TELUS utilizada por millones de personas",
         paragraph:
-          "Ingeniero clave en una app React Native de producción. Construí una nueva experiencia de cliente de principio a fin — composición de pantallas, control de navegación, componentes de engagement — lanzada en oscuro tras feature flags remotos y con cobertura completa de regresión. Soy responsable de capas compartidas de la plataforma: el sistema de WebView de la app, una integración de SDK de marketing, observabilidad de errores, accesibilidad y confiabilidad de backend (deduplicación de requests, circuit breaking) en el BFF de Node/NestJS.",
+          "Trabajo en una app React Native en producción y construí una nueva experiencia para clientes: desde la composición de pantallas y el control de navegación hasta componentes de interacción. Se lanzó detrás de feature flags remotos y con pruebas de regresión. También trabajo en capas compartidas de la plataforma: el WebView de la app, una integración de SDK de marketing, la observabilidad de errores, la accesibilidad y la confiabilidad del backend —incluidas la deduplicación de solicitudes y los circuit breakers— en el BFF de Node/NestJS.",
         linkLabel: "reporte completo próximamente con el siguiente caso de estudio",
         imageLabel: "Sin captura pública — trabajo de producción propietario",
       },
@@ -422,7 +443,7 @@ const es = {
         name: "Comal",
         descriptor: "Punto de venta para cafeterías y comedores",
         paragraph:
-          "Toma de pedidos, tablero de cocina, cuadre de caja en dos minutos y control de inventario — precios y stock recalculados en el servidor dentro de transacciones de Prisma, con autenticación real. Datos de demo.",
+          "Toma de pedidos, tablero de cocina, cuadre de caja en dos minutos y control de inventario — precios y stock recalculados en el servidor dentro de transacciones de Prisma, con acceso autenticado. Datos de demo.",
         linkLabel: "ver demo",
         imageLabel: "Captura de Comal POS",
       },
@@ -430,20 +451,20 @@ const es = {
         name: "POS para cafés y comedores",
         descriptor: "Demo de POS de mostrador",
         paragraph:
-          "Toma de pedidos, tablero de cocina, cierre y cuadre de caja, y reportes para cafeterías y comedores — precios y stock recalculados en el servidor dentro de transacciones de Prisma, con autenticación real. Datos de demo.",
+          "Toma de pedidos, tablero de cocina, cierre y cuadre de caja, y reportes para cafeterías y comedores — precios y stock recalculados en el servidor dentro de transacciones de Prisma, con acceso autenticado. Datos de demo.",
         linkLabel: "ver sitio",
       },
     },
   },
   experience: {
     subhead: "Experiencia",
-    heading: "Trayectoria comprobada.",
+    heading: "Dónde he trabajado.",
     items: {
       telus: {
         title: "Desarrollador Senior de Aplicaciones",
         date: "Oct 2024 — Actualidad",
         summary:
-          "Ingeniero clave en la app principal de clientes de TELUS (React Native, millones de usuarios). Lideré de inicio a fin la construcción de una nueva experiencia de cliente — composición de pantallas, control de navegación y componentes de engagement — lanzada en oscuro tras feature flags remotos y con cobertura completa de pruebas. También soy responsable de capas compartidas de la plataforma: el sistema de WebView de la app, la integración del SDK de marketing, observabilidad y accesibilidad.",
+          "Ingeniero del equipo que desarrolla la app de clientes de TELUS con React Native, utilizada por millones de personas. Lideré la construcción de una nueva experiencia para clientes, incluyendo la composición de pantallas, el control de navegación y componentes de interacción; se lanzó detrás de feature flags remotos y con cobertura de pruebas. También soy responsable de capas compartidas: el WebView de la app, la integración del SDK de marketing, la observabilidad y la accesibilidad.",
       },
       hmd: {
         title: "Ingeniero Full-Stack (contrato)",
@@ -461,12 +482,13 @@ const es = {
         title: "Desarrollador Web",
         date: "Mar 2021 — May 2023",
         summary:
-          "Construí y mantuve más de 12 sitios de clientes en AWS, y fui pionero de la oferta de Web AR de la empresa con más de 8 experiencias interactivas en A-Frame y Three.js.",
+          "Construí y mantuve más de 12 sitios de clientes en AWS y ayudé a desarrollar la oferta de Web AR de la empresa, incluyendo más de 8 experiencias interactivas con A-Frame y Three.js.",
       },
     },
   },
   tech: {
     subhead: "Capacidades",
+    heading: "Las herramientas con las que construyo.",
     groups: {
       mobile: "móvil",
       backend: "backend",
@@ -475,24 +497,23 @@ const es = {
   },
   about: {
     subhead: "Acerca de",
-    heading: "Construido y entregado a escala de producción.",
+    heading: "Un poco sobre mí.",
     bioLead:
-      "Soy un ingeniero full-stack que diseña y entrega productos React Native y Node.js a escala de producción — actualmente ingeniero clave en una app insignia de cliente empresarial usada por millones de usuarios.",
+      "Soy ingeniero full-stack en Guatemala. Actualmente trabajo en la app de clientes de TELUS con React Native y en los componentes de su plataforma.",
     bioSecondary:
       "Licenciatura en Ingeniería en Informática y Sistemas. Bilingüe — inglés (C2) y español (nativo).",
     resumeCta: "Descargar currículum",
     talkCta: "Conversemos",
-    currentlyLabel: "actualmente @ TELUS",
+    currentlyLabel: "actualmente en TELUS",
     currentlyPoints: [
-      "Lidero la entrega de features en una app React Native con millones de usuarios",
-      "Responsable de capas compartidas: WebView, feature flags, analítica, observabilidad",
-      "Entrego mejoras de rendimiento, accesibilidad y confiabilidad en toda la app",
+      "Lidero el desarrollo de funcionalidades móviles con React Native",
+      "Mantengo capas compartidas: WebView, feature flags, analítica y observabilidad",
+      "Mejoro el rendimiento, la accesibilidad y la confiabilidad de la app",
     ],
-    openToNote:
-      "Disponible para un número reducido de proyectos de alcance definido, junto a mi trabajo de tiempo completo.",
   },
   testimonials: {
     subhead: "Lo que dicen otros",
+    heading: "De personas con las que he trabajado.",
     items: {
       emmanuel: {
         testimonial:
@@ -512,18 +533,18 @@ const es = {
     },
   },
   contact: {
-    subhead: "Iniciemos un proyecto",
+    subhead: "Contacto",
     heading: "Cuéntame qué estás construyendo.",
     intro:
-      "Alcance, cronograma y cómo se ve el éxito. Tomo un número reducido de proyectos de alcance definido cada trimestre, así que mientras más contexto compartas, más rápido sabremos si encajamos.",
+      "¿Tienes un proyecto o alguna pregunta? Cuéntame un poco sobre lo que estás haciendo.",
     preferEmail: "¿Prefieres correo?",
-    responseNote: "GitHub · LinkedIn — respondo en un plazo de 2 días hábiles.",
+    responseNote: "También puedes encontrarme en GitHub y LinkedIn.",
     nameLabel: "Nombre",
     namePlaceholder: "Tu nombre",
     emailLabel: "Correo",
     emailPlaceholder: "tú@empresa.com",
-    messageLabel: "Sobre el proyecto",
-    messagePlaceholder: "Alcance, cronograma y lo que quieres lograr…",
+    messageLabel: "Mensaje",
+    messagePlaceholder: "Cuéntame sobre tu proyecto o consulta.",
     required: "obligatorio",
     send: "Enviar mensaje",
     sending: "Enviando…",
@@ -531,15 +552,15 @@ const es = {
       nameRequired: "El nombre es obligatorio",
       emailRequired: "El correo es obligatorio",
       emailInvalid: "Ingresa una dirección de correo válida",
-      messageRequired: "Los detalles del proyecto son obligatorios",
-      messageMin: "Los detalles del proyecto deben tener al menos 10 caracteres",
+      messageRequired: "El mensaje es obligatorio",
+      messageMin: "El mensaje debe tener al menos 10 caracteres",
     },
     success: {
-      title: "¡Mensaje enviado!",
-      body: "Gracias por escribir. Te responderé pronto.",
+      title: "Mensaje enviado.",
+      body: "Gracias por escribir.",
     },
     error: {
-      title: "Error",
+      title: "No se pudo enviar el mensaje.",
       body: "Algo salió mal. Inténtalo de nuevo o contáctame directamente.",
     },
   },
@@ -547,12 +568,15 @@ const es = {
     github: "Perfil de GitHub",
     linkedin: "Perfil de LinkedIn",
     email: "Enviar correo a Luis",
+    colophonLead: "Hebe — Bertel Thorvaldsen, 1816. Escaneo 3D de ",
+    colophonSource: "SMK – Statens Museum for Kunst",
+    colophonTail: ", dominio público.",
   },
   system: {
     skipToContent: "Saltar al contenido principal",
     loadingSection: "Cargando sección",
     loadingContent: "Cargando contenido...",
-    errorTitle: "Ups, algo salió mal",
+    errorTitle: "Ocurrió un error",
     errorFallback:
       "Lo sentimos, ocurrió algo inesperado. Intenta actualizar la página.",
     tryAgain: "Intentar de nuevo",
@@ -563,13 +587,13 @@ const es = {
     lang: "es",
     title: "Luis Ortiz | Ingeniero Senior React Native & TypeScript",
     description:
-      "Ingeniero senior que construye productos con React Native, TypeScript y Node — contribuidor clave en una app móvil de producción usada por millones de usuarios. Disponible para un número reducido de proyectos de alcance definido.",
+      "Luis Ortiz es ingeniero de software en Guatemala y desarrolla aplicaciones móviles y servicios backend con React Native, TypeScript y Node.js.",
     ogLocale: "es_GT",
     ogLocaleAlternate: "en_US",
     personDescription:
-      "Ingeniero de software senior en Guatemala que construye productos con React Native, TypeScript y Node — contribuidor clave en una app móvil de producción usada por millones de usuarios.",
+      "Luis Ortiz es ingeniero de software en Guatemala y desarrolla aplicaciones móviles y servicios backend con React Native, TypeScript y Node.js.",
     serviceDescription:
-      "Proyectos selectos y de alcance definido en React Native y Node.js — apps móviles, APIs y sistemas full-stack, junto a un rol senior de tiempo completo.",
+      "Desarrollo de aplicaciones móviles y web, servicios backend y API con React Native, TypeScript y Node.js.",
   },
 } satisfies Dictionary;
 

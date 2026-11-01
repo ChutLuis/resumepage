@@ -52,7 +52,7 @@ export const Reveal = ({
       variants={variants}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: "some" }}
     >
       {children}
     </motion.div>
@@ -63,13 +63,48 @@ export const Reveal = ({
 export const Eyebrow = ({
   children,
   className = "",
+  as: Tag = "p",
 }: {
   children: ReactNode;
   className?: string;
+  as?: "p" | "h2";
 }) => (
-  <p
+  <Tag
     className={`font-mono text-[12px] uppercase tracking-eyebrow text-body ${className}`}
   >
     {children}
-  </p>
+  </Tag>
+);
+
+/** Editorial running head: hairline, mono index + label rail (3 cols), display title (9 cols). */
+export const SectionHead = ({ index, label, title }: { index: string; label: string; title: string }) => (
+  <header className="grid grid-cols-1 gap-y-5 border-t border-line pt-6 lg:grid-cols-12 lg:gap-x-10 lg:pt-8">
+    <p className="font-mono text-[12px] uppercase tracking-eyebrow text-body lg:col-span-3 lg:pt-4">
+      <span className="tabular-nums text-accent-300">{index}</span>
+      <span aria-hidden="true" className="mx-2 text-line">/</span>
+      {label}
+    </p>
+    <h2 className="max-w-[20ch] text-balance font-display text-[34px] font-medium leading-[1.04] tracking-[-0.035em] text-heading sm:text-[44px] lg:col-span-9 lg:text-[56px]">
+      {title}
+    </h2>
+  </header>
+);
+
+export const buttonClass =
+  "group inline-flex min-h-11 items-center gap-3 rounded-[4px] bg-accent-400 px-5 py-3 text-[15px] font-semibold text-primary transition-colors duration-200 hover:bg-accent-300 active:bg-accent-200";
+export const textLinkClass =
+  "inline-flex min-h-11 items-center text-[15px] font-medium text-heading underline decoration-line underline-offset-4 transition-colors duration-200 hover:text-accent-300 hover:decoration-accent-300";
+
+/** 16px arrow used inside buttons/CTAs (replaces the "→" glyph). */
+export const ArrowRight = ({ className = "" }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    className={`transition-transform duration-200 group-hover:translate-x-0.5 ${className}`}
+  >
+    <path d="M3 8h10m0 0-4-4m4 4-4 4" stroke="currentColor" strokeWidth="1.5" />
+  </svg>
 );

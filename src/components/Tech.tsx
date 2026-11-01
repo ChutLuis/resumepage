@@ -1,41 +1,27 @@
-import { Section, Reveal, Eyebrow } from "./ui/primitives";
+import { Section, Reveal, SectionHead } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
 
 const Tech = () => {
   const { t, content } = useLocale();
 
   return (
-    <Section id="tech" className="pb-10 pt-[72px]">
+    <Section id="tech" className="py-20 sm:py-24 lg:py-28">
       <Reveal>
-        <Eyebrow>{t.tech.subhead}</Eyebrow>
-        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {content.techGroups.map((group) => (
-            <div
-              key={group.id}
-              className="rounded-xl border border-line bg-surface p-6"
-            >
-              <p className="mb-4 font-mono text-[12px] text-accent-400">
-                {group.label}
-              </p>
-              <div className="flex flex-wrap gap-2.5">
-                {group.items.map((tech) => (
-                  <span
-                    key={tech.name}
-                    className="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-[7px] text-[13px] text-body-strong"
-                  >
-                    <img
-                      src={tech.icon}
-                      alt=""
-                      aria-hidden="true"
-                      className="h-[18px] w-[18px] object-contain"
-                      loading="lazy"
-                    />
-                    {tech.name}
-                  </span>
-                ))}
+        <SectionHead index="03" label={t.tech.subhead} title={t.tech.heading} />
+
+        <div className="mt-12 lg:mt-16 lg:grid lg:grid-cols-12 lg:gap-x-10">
+          <div className="grid gap-10 sm:grid-cols-3 lg:col-span-9 lg:col-start-4">
+            {content.techGroups.map((group) => (
+              <div key={group.id}>
+                <p className="border-b border-line pb-3 font-mono text-[12px] uppercase tracking-eyebrow text-body">
+                  {group.label}
+                </p>
+                <ul className="mt-4 space-y-2 text-[17px] leading-relaxed text-body-strong">
+                  {group.items.map((tech) => <li key={tech.name}>{tech.name}</li>)}
+                </ul>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </Reveal>
     </Section>
