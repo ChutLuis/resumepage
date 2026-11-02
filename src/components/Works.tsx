@@ -1,116 +1,166 @@
-import { Section, Reveal, SectionHead } from "./ui/primitives";
+import {
+  ArrowUpRight,
+  Eyebrow,
+  Reveal,
+  Section,
+  SectionHead,
+  StatusDot,
+  fillTemplate,
+  textLinkClass,
+} from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
-import type { WorkId } from "../types";
-
-// Intrinsic dimensions of the existing showcase files; unknown images still
-// render at their natural aspect ratio without a fabricated placeholder.
-const imageSizes: Partial<Record<WorkId, readonly [number, number]>> = {
-  socialhub: [1100, 563],
-  comal: [2560, 1280],
-  socializa: [2465, 1292],
-  "portfolio-analytics": [2469, 1291],
-};
+import PlatformSchematic from "./work/PlatformSchematic";
 
 type LocalizedWork = ReturnType<typeof useLocale>["content"]["workItems"][number];
 
-/** 6x6 status square shown before live/production labels. */
-const StatusDot = () => (
-  <span aria-hidden="true" className="mr-2.5 inline-block h-1.5 w-1.5 bg-status align-middle" />
-);
-
-const WorkDetails = ({ item }: { item: LocalizedWork }) => {
-  const showDot = item.status === "live" || item.status === "production";
+/** Status label with a green square only for work that is running for real. */
+const StatusChip = ({ status, label }: { status: LocalizedWork["status"]; label: string }) => {
+  if (!status || !label) return null;
+  const showDot = status === "live" || status === "production" || status === "flagship";
   return (
-    <div className="min-w-0">
-      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-        <span className="font-mono text-[12px] text-body">{item.number}</span>
-        {item.status && (
-          <span className="font-mono text-[12px] text-body">
-            {showDot && <StatusDot />}
-            {item.statusLabel}
-          </span>
-        )}
-      </div>
-      <h3 className="mt-3 font-display text-[24px] font-medium leading-tight tracking-[-0.025em] text-heading sm:text-[28px]">
-        {item.name}
-      </h3>
-      <p className="mt-1.5 text-[15px] leading-relaxed text-body-strong">{item.descriptor}</p>
-      <p className="mt-3 font-mono text-[12px] leading-relaxed text-body">{item.stack}</p>
-      <p className="mt-4 max-w-[65ch] text-[15px] leading-[1.7] text-body">{item.paragraph}</p>
-      <p className="mt-3 text-[14px] leading-relaxed">
-        {item.url ? (
-          <a href={item.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-accent-300 underline decoration-line underline-offset-4 transition-colors duration-200 hover:text-accent-200">
-            {item.linkLabel} ↗
+    <span className="inline-flex items-center text-label font-medium text-body-strong">
+      {showDot && <StatusDot />}
+      {label}
+    </span>
+  );
+};
+
+const WorkCard = ({ item }: { item: LocalizedWork }) => {
+  const thumbnail = item.image ? (
+    <img
+      src={item.image}
+      alt={item.imageLabel || item.name}
+      loading="lazy"
+      className={`block aspect-[16/10] w-full rounded-md border border-line object-cover object-top transition-colors duration-300 ${
+        item.url ? "group-hover/card:border-accent-400/50" : ""
+      }`}
+    />
+  ) : null;
+
+  return (
+    <article
+      className={item.image ? "group/card min-w-0" : "min-w-0 border-t border-line pt-4"}
+    >
+      {thumbnail &&
+        (item.url ? (
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            tabIndex={-1}
+            aria-hidden="true"
+            className="block"
+          >
+            {thumbnail}
           </a>
         ) : (
-          <span className="font-mono text-[12px] text-body">{item.linkLabel}</span>
+          thumbnail
+        ))}
+      {!item.image && item.imageLabel && (
+        <p className="text-label font-medium text-caption">{item.imageLabel}</p>
+      )}
+
+      <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h3 className="font-display text-display-item font-medium text-heading">{item.name}</h3>
+        <div className="flex items-baseline gap-3.5">
+          <StatusChip status={item.status} label={item.statusLabel} />
+          <span className="font-mono text-label text-caption">{item.number}</span>
+        </div>
+      </div>
+      <p className="mt-1.5 text-small text-body-strong">{item.descriptor}</p>
+      <p className="mt-2.5 max-w-[58ch] text-small text-body">{item.paragraph}</p>
+      <p className="mt-3 font-mono text-label text-body">{item.stack}</p>
+      <div className="mt-3.5">
+        {item.url ? (
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${textLinkClass} -my-2`}
+          >
+            <span>{item.linkLabel}</span>
+            <ArrowUpRight />
+          </a>
+        ) : (
+          <p className="text-small text-caption">{item.linkLabel}</p>
         )}
-      </p>
-    </div>
+      </div>
+    </article>
   );
 };
 
 const Works = () => {
   const { t, content } = useLocale();
   const featured = content.featuredWork;
-  const featuredShowDot = featured.status === "live" || featured.status === "production";
+  const telus = content.experiences.find((experience) => experience.id === "telus");
+  const projectCount = 1 + content.workItems.length;
 
   return (
-    <Section id="work" className="py-20 sm:py-24 lg:py-28">
-      <Reveal>
-        <SectionHead index="01" label={t.work.subhead} title={t.work.heading} />
+    <Section id="work" className="py-16 sm:py-20 lg:py-24">
+      <SectionHead
+        label={t.work.subhead}
+        title={t.work.heading}
+        aside={fillTemplate(t.work.extent, { count: projectCount })}
+      />
 
-        <article className="group mt-12 grid grid-cols-1 gap-y-6 lg:mt-16 lg:grid-cols-12 lg:gap-x-10">
-          <div className="lg:col-span-3">
-            <p className="font-mono text-[12px] text-body">
-              {featuredShowDot && <StatusDot />}
-              {featured.statusLabel}
-            </p>
-          </div>
-          <div className="lg:col-span-9">
-            <h3 className="max-w-[22ch] text-balance font-display text-[30px] font-medium leading-[1.08] tracking-[-0.03em] text-heading sm:text-[40px] lg:text-[44px]">
+      <Reveal className="mt-12 lg:mt-14">
+        <article
+          className="grid grid-cols-1 items-start gap-x-14 gap-y-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]"
+          data-scene-calm
+        >
+          <div className="min-w-0">
+            <div className="flex items-center gap-4">
+              <Eyebrow>{t.work.featuredLabel}</Eyebrow>
+              <StatusChip status={featured.status} label={featured.statusLabel} />
+            </div>
+            <h3 className="mt-4 text-balance font-display text-display-feature font-medium text-heading">
               {featured.name}
             </h3>
-            <p className="mt-4 text-[18px] leading-[1.5] text-body-strong">{featured.descriptor}</p>
-            <p className="mt-6 max-w-[65ch] text-[16px] leading-[1.75] text-body">{featured.paragraph}</p>
-            <div className="mt-8 grid gap-3 border-t border-line pt-5 font-mono text-[12px] leading-relaxed text-body sm:grid-cols-3">
-              <p>{featured.stack}</p>
-              <p>{featured.imageLabel}</p>
-              <p>{featured.linkLabel}</p>
-            </div>
+            <p className="mt-2.5 text-lead text-body-strong">{featured.descriptor}</p>
+            <p className="mt-5 max-w-[62ch] text-copy text-body">{featured.paragraph}</p>
+
+            <dl className="mt-7">
+              {telus && (
+                <div className="flex items-baseline gap-4 border-t border-line py-3">
+                  <dt className="w-24 shrink-0 text-label font-medium text-caption">{t.work.meta.company}</dt>
+                  <dd className="min-w-0 text-small text-body-strong">{telus.company_name}</dd>
+                </div>
+              )}
+              {telus && (
+                <div className="flex items-baseline gap-4 border-t border-line py-3">
+                  <dt className="w-24 shrink-0 text-label font-medium text-caption">{t.work.meta.dates}</dt>
+                  <dd className="min-w-0 font-mono text-label lowercase text-body">{telus.date}</dd>
+                </div>
+              )}
+              <div className="flex items-baseline gap-4 border-t border-line py-3">
+                <dt className="w-24 shrink-0 text-label font-medium text-caption">{t.work.meta.stack}</dt>
+                <dd className="min-w-0 font-mono text-label text-body">{featured.stack}</dd>
+              </div>
+            </dl>
+
+            <p className="mt-5 text-small text-caption">{featured.linkLabel}</p>
           </div>
+
+          <PlatformSchematic
+            label={t.work.schematic.label}
+            layers={t.work.schematic.layers}
+            release={t.work.schematic.release}
+            caption={featured.imageLabel ?? ""}
+          />
         </article>
 
-        <div className="mt-20 flex items-center gap-4 lg:mt-24">
-          <p className="font-mono text-[12px] uppercase tracking-eyebrow text-body">{t.work.secondaryLabel}</p>
+        <div className="mt-16 flex items-center gap-4 sm:mt-20 lg:mt-24">
+          <Eyebrow className="shrink-0">{t.work.secondaryLabel}</Eyebrow>
           <span aria-hidden="true" className="h-px flex-1 bg-line" />
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-12 lg:gap-x-10 lg:gap-y-20">
-          {content.workItems.map((item, index) => {
-            const dimensions = imageSizes[item.id];
-            const columns = index % 4 === 0 || index % 4 === 3 ? "md:col-span-7" : "md:col-span-5";
-            return (
-              <article key={item.id} className={item.image ? `group min-w-0 ${columns}` : "min-w-0 border-t border-line pt-6 md:col-span-12"}>
-                {item.image && (
-                  <div className="mb-6 overflow-hidden border border-line transition-colors duration-300 group-hover:border-accent-400/50">
-                    <img
-                      src={item.image}
-                      alt={item.imageLabel || item.name}
-                      width={dimensions?.[0]}
-                      height={dimensions?.[1]}
-                      loading="lazy"
-                      className="h-auto w-full transition-transform duration-500 ease-out group-hover:scale-[1.015]"
-                    />
-                  </div>
-                )}
-                {!item.image && item.imageLabel && (
-                  <p className="mb-5 font-mono text-[12px] leading-relaxed text-body">{item.imageLabel}</p>
-                )}
-                <WorkDetails item={item} />
-              </article>
-            );
-          })}
+        <div
+          className="mt-7 grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2"
+          data-scene-calm
+        >
+          {content.workItems.map((item) => (
+            <WorkCard key={item.id} item={item} />
+          ))}
         </div>
       </Reveal>
     </Section>

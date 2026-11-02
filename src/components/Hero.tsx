@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useLocale } from "../i18n/LocaleContext";
 import { buttonClass, textLinkClass } from "./ui/primitives";
 import AquariusFallback from "./canvas/AquariusFallback";
+import { useGuatemalaTime } from "../hooks/useGuatemalaTime";
 import { sceneStore } from "../lib/sceneStore";
 
 const DESKTOP_QUERY = "(min-width: 1024px)";
@@ -30,26 +31,20 @@ const getSceneSnapshot = () => sceneStore.getSnapshot();
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const guatemalaClock = new Intl.DateTimeFormat("en-GB", {
-  timeZone: "America/Guatemala",
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: false,
-});
-
-const formatGuatemalaTime = () => guatemalaClock.format(new Date());
-
-const useGuatemalaTime = () => {
-  const [time, setTime] = useState(formatGuatemalaTime);
-  useEffect(() => {
-    const id = window.setInterval(() => setTime(formatGuatemalaTime()), 15000);
-    return () => window.clearInterval(id);
-  }, []);
-  return time;
-};
+/**
+ * Per-cell hairlines and padding for the proof strip. Two columns below lg
+ * (a 2x2 grid with a rule between rows), four columns from lg with a rule
+ * between cells.
+ */
+const PROOF_CELL = [
+  "pr-4 lg:pr-6",
+  "border-l border-line pl-4 lg:pl-6 lg:pr-6",
+  "border-t border-line pr-4 lg:border-l lg:border-t-0 lg:pl-6 lg:pr-6",
+  "border-l border-t border-line pl-4 lg:border-t-0 lg:pl-6 lg:pr-6",
+] as const;
 
 const Hero = () => {
-  const { t, locale } = useLocale();
+  const { t } = useLocale();
   const isDesktop = useIsDesktop();
   const heroRef = useRef<HTMLElement>(null);
   const columnRef = useRef<HTMLDivElement>(null);
@@ -93,16 +88,11 @@ const Hero = () => {
 
   const leadWords = t.hero.headlineLead.split(" ");
   const accentWords = t.hero.headlineAccent.split(" ");
-  const headlineSize = locale === "es"
-    ? "lg:text-[length:min(80px,calc((100svh-290px)/6.6),calc((100vw-80px)/14.2))]"
-    : "lg:text-[length:min(92px,calc((100svh-290px)/6.6),calc((100vw-80px)/11.8))]";
 
-  const maskedWord = (text: string, index: number, accent: boolean) => (
-    <span
-      className={`-mb-[0.14em] inline-block overflow-hidden pb-[0.14em] align-bottom ${accent ? "-mr-[0.06em] pr-[0.06em]" : ""}`}
-    >
+  const maskedWord = (text: string, index: number) => (
+    <span className="-mb-[0.14em] inline-block overflow-hidden pb-[0.14em] align-bottom">
       <motion.span
-        className={`inline-block ${accent ? "font-serif text-[1.08em] font-normal italic tracking-[-0.01em] text-accent-300" : ""}`}
+        className="inline-block"
         initial={reduced ? { opacity: 0 } : { y: "105%" }}
         animate={reduced ? { opacity: 1 } : { y: "0%" }}
         transition={{ duration: reduced ? 0 : 0.9, ease: EASE, delay: reduced ? 0 : 0.15 + index * 0.06 }}
@@ -111,35 +101,35 @@ const Hero = () => {
       </motion.span>
     </span>
   );
-  const wordLine = (list: string[], offset: number, accent: boolean) =>
+  const wordLine = (list: string[], offset: number, keyPrefix: string) =>
     list.map((text, i) => (
-      <Fragment key={`${accent ? "a" : "l"}-${i}`}>
-        {maskedWord(text, offset + i, accent)}
+      <Fragment key={`${keyPrefix}-${i}`}>
+        {maskedWord(text, offset + i)}
         {i < list.length - 1 ? " " : null}
       </Fragment>
     ));
 
   return (
     <section ref={heroRef} className="relative w-full overflow-hidden">
-      <div className="relative z-10 mx-auto flex max-w-content flex-col px-6 pt-24 sm:px-10 lg:h-[100svh] lg:max-h-[1040px] lg:min-h-[720px]">
+      <div className="relative z-10 mx-auto flex max-w-content flex-col px-6 pb-10 pt-[77px] sm:px-10 lg:min-h-[min(100svh,1040px)] lg:pt-[89px]">
         {/* Meta row */}
-        <div className="relative flex items-center justify-between gap-4 pb-4 font-mono text-[11px] uppercase tracking-eyebrow text-body sm:text-[12px]">
-          <motion.span className="flex items-center gap-2.5 whitespace-nowrap" {...fade(0.05)}>
-            <span aria-hidden="true" className="h-1.5 w-1.5 bg-accent-400" />
+        <div className="relative flex items-center justify-between gap-4 pb-4 text-label text-body">
+          <motion.span className="whitespace-nowrap" {...fade(0.05)}>
             {t.hero.metaRole}
           </motion.span>
           <motion.span className="hidden whitespace-nowrap md:inline" {...fade(0.12)}>
             {t.hero.metaEdition} — {year}
           </motion.span>
-          <motion.span className="whitespace-nowrap tabular-nums" {...fade(0.18)}>
-            <span className="hidden sm:inline">{t.hero.metaLocation} — </span>
-            {time} GMT−6
+          <motion.span className="inline-flex items-center gap-2 whitespace-nowrap" {...fade(0.18)}>
+            <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 bg-status" />
+            {t.hero.metaLocation}
+            <span className="font-mono">{time} GMT−6</span>
           </motion.span>
           <motion.span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px origin-left bg-line" {...rule(0.1)} />
         </div>
 
         {/* Stage: on desktop the statue stands centred behind everything in here */}
-        <div className="relative flex flex-1 flex-col pb-14 pt-4 sm:pt-6 lg:pb-12 lg:pt-10">
+        <div className="relative flex flex-1 flex-col pt-4 sm:pt-6 lg:pb-10 lg:pt-14">
           <div ref={columnRef} className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
             {isDesktop && (!ready || fallbackMounted) && (
               <div
@@ -166,22 +156,25 @@ const Hero = () => {
             )}
           </div>
 
-          <h1 className={`relative order-2 font-display text-[44px] font-semibold leading-[1.0] tracking-[-0.04em] text-heading xs:text-[54px] sm:text-[68px] ${headlineSize} lg:mt-auto lg:leading-[0.98]`}>
+          <h1 className="relative order-2 font-display text-display-hero font-semibold text-heading lg:mt-auto">
             <span className="sr-only">{t.hero.headline}</span>
             <span aria-hidden="true">
-              <span className="block text-balance">{wordLine(leadWords, 0, false)}</span>
-              <span className="block">{wordLine(accentWords, leadWords.length, true)}</span>
+              <span className="block text-balance">{wordLine(leadWords, 0, "l")}</span>
+              <span className="block text-body">{wordLine(accentWords, leadWords.length, "a")}</span>
             </span>
           </h1>
 
-          <div className="relative order-3 mt-7 max-w-[480px] sm:mt-8 lg:order-1 lg:mt-0 lg:max-w-[380px]">
-            <motion.p className="text-[16px] leading-[1.65] text-body sm:text-[17px] lg:text-[16px]" {...fade(0.55, 16)}>
+          <div className="relative order-3 mt-8 max-w-[38ch] text-lead lg:order-1 lg:mt-0">
+            <motion.p className="text-lead text-body-strong" {...fade(0.55, 16)}>
               {t.hero.intro}
             </motion.p>
-            <motion.div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-2" {...fade(0.7, 16)}>
+            <motion.div
+              className="mt-7 flex flex-col items-start gap-5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-2"
+              {...fade(0.7, 16)}
+            >
               <a
                 href="#work"
-                className={buttonClass}
+                className={`${buttonClass} w-full justify-between sm:w-auto sm:justify-start`}
               >
                 {t.hero.workCta}
                 <svg
@@ -204,6 +197,20 @@ const Hero = () => {
             </motion.div>
           </div>
         </div>
+
+        {/* Proof strip: sits under the headline on desktop, under the CTAs on mobile */}
+        <motion.dl
+          aria-label={t.hero.proofLabel}
+          className="relative mt-10 grid grid-cols-2 border-t border-line lg:mt-0 lg:grid-cols-4"
+          {...fade(0.85, 12)}
+        >
+          {t.hero.proof.map((stat, i) => (
+            <div key={stat.value} className={`pb-6 pt-5 lg:pb-7 lg:pt-6 ${PROOF_CELL[i]}`}>
+              <dt className="font-display text-display-stat font-medium text-heading">{stat.value}</dt>
+              <dd className="mt-2 max-w-[26ch] text-small text-body">{stat.label}</dd>
+            </div>
+          ))}
+        </motion.dl>
       </div>
     </section>
   );

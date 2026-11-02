@@ -1,6 +1,7 @@
 import type {
   ExperienceId,
   NavId,
+  SchematicLayerId,
   TechGroupId,
   TestimonialId,
   WorkId,
@@ -19,6 +20,9 @@ type TranslatedWork = {
 };
 type TranslatedExperience = { title: string; date: string; summary: string };
 type TranslatedTestimonial = { testimonial: string; designation: string };
+type SchematicLayer = { label: string; items: readonly string[] };
+type Fact = { label: string; value: string };
+type ProofStat = { value: string; label: string };
 
 export interface Dictionary {
   nav: Record<NavId, string> & {
@@ -44,45 +48,71 @@ export interface Dictionary {
     metaRole: string;
     metaEdition: string;
     metaLocation: string;
+    /** Accessible name for the proof strip under the headline. */
+    proofLabel: string;
+    proof: [ProofStat, ProofStat, ProofStat, ProofStat];
   };
   work: {
     subhead: string;
     heading: string;
+    /** Header note; `{count}` is the number of rendered projects. */
+    extent: string;
     secondaryLabel: string;
+    featuredLabel: string;
+    /** Field names for the featured case study's metadata rows. */
+    meta: { company: string; dates: string; stack: string };
+    schematic: {
+      label: string;
+      layers: Record<SchematicLayerId, SchematicLayer>;
+      release: string;
+    };
     status: Record<"production" | "live" | "case-study" | "flagship", string>;
     items: Record<WorkId, TranslatedWork>;
   };
   experience: {
     subhead: string;
     heading: string;
+    /** Header note; `{count}` roles, `{year}` the earliest start year. */
+    extent: string;
+    currentLabel: string;
     items: Record<ExperienceId, TranslatedExperience>;
   };
   tech: {
     subhead: string;
     heading: string;
+    /** Header note; `{count}` tools across `{groups}` groups. */
+    extent: string;
     groups: Record<TechGroupId, string>;
+    /** Where each tool appears in the work and experience, keyed by tool name. */
+    usedIn: Record<string, string>;
+    notesCaption: string;
   };
   about: {
     subhead: string;
     heading: string;
     bioLead: string;
-    bioSecondary: string;
     resumeCta: string;
     talkCta: string;
     currentlyLabel: string;
     currentlyPoints: [string, string, string];
+    facts: [Fact, Fact, Fact];
   };
   testimonials: {
     subhead: string;
     heading: string;
+    /** Header note; `{count}` is the number of testimonials. */
+    extent: string;
     items: Record<TestimonialId, TranslatedTestimonial>;
   };
   contact: {
     subhead: string;
     heading: string;
     intro: string;
-    preferEmail: string;
-    responseNote: string;
+    directLabel: string;
+    elsewhereLabel: string;
+    resumeLink: string;
+    localTimeLabel: string;
+    formLabel: string;
     nameLabel: string;
     namePlaceholder: string;
     emailLabel: string;
@@ -109,6 +139,7 @@ export interface Dictionary {
     colophonLead: string;
     colophonSource: string;
     colophonTail: string;
+    colophonType: string;
   };
   system: {
     skipToContent: string;
@@ -156,16 +187,49 @@ const en = {
     metaRole: "Software engineer",
     metaEdition: "Portfolio",
     metaLocation: "Guatemala",
+    proofLabel: "Highlights",
+    proof: [
+      { value: "Millions", label: "of users on the TELUS customer app I build on" },
+      { value: "~70%", label: "operational time cut by the suite I owned at Holland Orchids" },
+      { value: "12+", label: "client sites built and maintained on AWS at Adslivemedia" },
+      { value: "5+ years", label: "professional experience, since March 2021" },
+    ],
   },
   work: {
     subhead: "Selected work",
     heading: "Things I’ve built.",
+    extent: "{count} projects",
     secondaryLabel: "Also built",
+    featuredLabel: "Featured",
+    meta: { company: "Company", dates: "Dates", stack: "Stack" },
+    schematic: {
+      label: "How the work is layered",
+      layers: {
+        screen: {
+          label: "Screen",
+          items: ["Screen composition", "Navigation controls", "Engagement components"],
+        },
+        platform: {
+          label: "Platform",
+          items: [
+            "In-app WebView",
+            "Marketing SDK integration",
+            "Error observability",
+            "Accessibility",
+          ],
+        },
+        server: {
+          label: "Server",
+          items: ["Node/NestJS BFF", "Request de-duplication", "Circuit breaking"],
+        },
+      },
+      release: "Released behind remote feature flags, with regression tests",
+    },
     status: {
-      production: "production",
-      live: "live",
-      "case-study": "case study",
-      flagship: "in production",
+      production: "Production",
+      live: "Live",
+      "case-study": "Case study",
+      flagship: "In production",
     },
     items: {
       "mobile-platform": {
@@ -173,7 +237,7 @@ const en = {
         descriptor: "TELUS customer app used by millions",
         paragraph:
           "I work on a production React Native app and built a new customer experience from screen composition and navigation controls to engagement components. It was released behind remote feature flags with regression tests. I also work on shared platform layers: the in-app WebView, a marketing SDK integration, error observability, accessibility, and backend reliability—including request de-duplication and circuit breaking—in the Node/NestJS BFF.",
-        linkLabel: "full write-up coming with the next case study",
+        linkLabel: "Full write-up coming with the next case study",
         imageLabel: "No public screenshot — proprietary production work",
       },
       socialhub: {
@@ -181,7 +245,7 @@ const en = {
         descriptor: "Social media management platform",
         paragraph:
           "Queue-backed scheduling and publishing across connected accounts, workspace RBAC, OAuth token auto-refresh.",
-        linkLabel: "demo video — coming soon",
+        linkLabel: "Demo video — coming soon",
         imageLabel: "SocialHub product shot",
       },
       "jersey-guatemala": {
@@ -189,7 +253,7 @@ const en = {
         descriptor: "Bilingual cattle breeders association site",
         paragraph:
           "Farm directory with individual herd profiles and filterable cattle-for-sale listings — fully bilingual (Spanish/English), built on Astro content collections with an automatic image pipeline.",
-        linkLabel: "live site",
+        linkLabel: "Live site",
         imageLabel: "Jersey Guatemala site shot",
       },
       "portfolio-analytics": {
@@ -197,21 +261,21 @@ const en = {
         descriptor: "Analytics dashboard UI demo",
         paragraph:
           "Analytics dashboard UI — KPI cards, Recharts graphs, and a Three.js hero — built with React Router and Tailwind over sample data, containerized with Docker.",
-        linkLabel: "source on GitHub",
+        linkLabel: "Source on GitHub",
       },
       socializa: {
         name: "Socializa.io",
         descriptor: "Marketing site with pricing and checkout",
         paragraph:
           "Multi-page marketing site for a social media management platform — scroll-choreographed motion, an interactive 3D scene, tiered pricing, and a Braintree checkout.",
-        linkLabel: "live site",
+        linkLabel: "Live site",
       },
       comal: {
         name: "Comal",
         descriptor: "Counter-service POS for cafeterias and comedores",
         paragraph:
           "Order-taking, kitchen board, two-minute cash-close reconciliation, and live inventory — server-authoritative pricing and stock in Prisma transactions, with authenticated access. Seeded demo data.",
-        linkLabel: "live demo",
+        linkLabel: "Live demo",
         imageLabel: "Comal POS showcase",
       },
       "erp-pymes": {
@@ -219,13 +283,15 @@ const en = {
         descriptor: "Counter-service POS demo",
         paragraph:
           "Order-taking, kitchen board, cash-close reconciliation, and reporting for cafés and comedores — server-authoritative pricing and stock in Prisma transactions, with authenticated access. Seeded demo data.",
-        linkLabel: "live site",
+        linkLabel: "Live site",
       },
     },
   },
   experience: {
     subhead: "Experience",
     heading: "Where I’ve worked.",
+    extent: "{count} roles · {year} — present",
+    currentLabel: "Current",
     items: {
       telus: {
         title: "Senior Applications Developer",
@@ -256,31 +322,49 @@ const en = {
   tech: {
     subhead: "Capabilities",
     heading: "Tools I build with.",
+    extent: "{count} tools in {groups} groups",
     groups: {
-      mobile: "mobile",
-      backend: "backend",
-      frontend: "frontend & tools",
+      mobile: "Mobile",
+      backend: "Backend",
+      frontend: "Frontend & tools",
     },
+    usedIn: {
+      "React Native": "TELUS customer app",
+      TypeScript: "TELUS customer app",
+      "Node.js": "TELUS BFF",
+      NestJS: "TELUS BFF · SocialHub · Hidden Mountain Data",
+      Prisma: "Comal · Hidden Mountain Data",
+      PostgreSQL: "Comal · Hidden Mountain Data",
+      AWS: "Adslivemedia client sites · SocialHub (S3)",
+      React: "Comal · Socializa.io · Portfolio Analytics",
+      Tailwind: "Comal · Socializa.io · Portfolio Analytics",
+      Docker: "Portfolio Analytics",
+    },
+    notesCaption: "Notes show where each tool appears in the work and experience above.",
   },
   about: {
     subhead: "About",
     heading: "A bit about me.",
     bioLead:
       "I’m a full-stack engineer based in Guatemala, currently working on TELUS’s React Native customer app and the platform components behind it.",
-    bioSecondary:
-      "Bachelor of Engineering in Computers & Systems. Bilingual — English (C2) and Spanish (native).",
     resumeCta: "Download resume",
     talkCta: "Let's talk",
-    currentlyLabel: "currently at TELUS",
+    currentlyLabel: "Currently at TELUS",
     currentlyPoints: [
       "Leading mobile feature delivery in React Native",
       "Maintaining shared layers: WebView, feature flags, analytics, and observability",
       "Improving app performance, accessibility, and reliability",
     ],
+    facts: [
+      { label: "Based in", value: "Guatemala · GMT−6" },
+      { label: "Education", value: "B.Eng. in Computers & Systems" },
+      { label: "Languages", value: "English (C2) · Spanish (native)" },
+    ],
   },
   testimonials: {
     subhead: "What others say",
     heading: "From people I’ve worked with.",
+    extent: "{count} references",
     items: {
       emmanuel: {
         testimonial:
@@ -304,8 +388,11 @@ const en = {
     heading: "Tell me what you're building.",
     intro:
       "Have a project or a question? Tell me a little about what you’re working on.",
-    preferEmail: "Prefer email?",
-    responseNote: "You can also find me on GitHub and LinkedIn.",
+    directLabel: "Email me directly",
+    elsewhereLabel: "Elsewhere",
+    resumeLink: "Resume (PDF)",
+    localTimeLabel: "Local time — Guatemala",
+    formLabel: "Or send a message",
     nameLabel: "Name",
     namePlaceholder: "Your name",
     emailLabel: "Email",
@@ -338,6 +425,7 @@ const en = {
     colophonLead: "Hebe — Bertel Thorvaldsen, 1816. 3D scan by ",
     colophonSource: "SMK – Statens Museum for Kunst",
     colophonTail: ", Public Domain.",
+    colophonType: "Set in Space Grotesk and Inter.",
   },
   system: {
     skipToContent: "Skip to main content",
@@ -389,16 +477,53 @@ const es = {
     metaRole: "Ingeniero de software",
     metaEdition: "Portafolio",
     metaLocation: "Guatemala",
+    proofLabel: "Datos destacados",
+    proof: [
+      { value: "Millones", label: "de personas usan la app de clientes de TELUS en la que trabajo" },
+      { value: "~70%", label: "menos tiempo operativo con la suite que lideré en Holland Orchids" },
+      { value: "12+", label: "sitios de clientes construidos y mantenidos en AWS en Adslivemedia" },
+      { value: "5+ años", label: "de experiencia profesional, desde marzo de 2021" },
+    ],
   },
   work: {
     subhead: "Proyectos seleccionados",
     heading: "Lo que he construido.",
+    extent: "{count} proyectos",
     secondaryLabel: "También he construido",
+    featuredLabel: "Destacado",
+    meta: { company: "Empresa", dates: "Fechas", stack: "Tecnologías" },
+    schematic: {
+      label: "Cómo se organiza el trabajo",
+      layers: {
+        screen: {
+          label: "Pantalla",
+          items: [
+            "Composición de pantallas",
+            "Control de navegación",
+            "Componentes de interacción",
+          ],
+        },
+        platform: {
+          label: "Plataforma",
+          items: [
+            "WebView de la app",
+            "Integración de SDK de marketing",
+            "Observabilidad de errores",
+            "Accesibilidad",
+          ],
+        },
+        server: {
+          label: "Servidor",
+          items: ["BFF en Node/NestJS", "Deduplicación de solicitudes", "Circuit breakers"],
+        },
+      },
+      release: "Lanzado detrás de feature flags remotos, con pruebas de regresión",
+    },
     status: {
-      production: "producción",
-      live: "en vivo",
-      "case-study": "caso de estudio",
-      flagship: "en producción",
+      production: "Producción",
+      live: "En vivo",
+      "case-study": "Caso de estudio",
+      flagship: "En producción",
     },
     items: {
       "mobile-platform": {
@@ -406,7 +531,7 @@ const es = {
         descriptor: "App de clientes de TELUS utilizada por millones de personas",
         paragraph:
           "Trabajo en una app React Native en producción y construí una nueva experiencia para clientes: desde la composición de pantallas y el control de navegación hasta componentes de interacción. Se lanzó detrás de feature flags remotos y con pruebas de regresión. También trabajo en capas compartidas de la plataforma: el WebView de la app, una integración de SDK de marketing, la observabilidad de errores, la accesibilidad y la confiabilidad del backend —incluidas la deduplicación de solicitudes y los circuit breakers— en el BFF de Node/NestJS.",
-        linkLabel: "reporte completo próximamente con el siguiente caso de estudio",
+        linkLabel: "Reporte completo próximamente con el siguiente caso de estudio",
         imageLabel: "Sin captura pública — trabajo de producción propietario",
       },
       socialhub: {
@@ -414,7 +539,7 @@ const es = {
         descriptor: "Plataforma de gestión de redes sociales",
         paragraph:
           "Programación y publicación respaldadas por colas en cuentas conectadas, RBAC por espacio de trabajo y renovación automática de tokens OAuth.",
-        linkLabel: "video demo — próximamente",
+        linkLabel: "Video demo — próximamente",
         imageLabel: "Captura de SocialHub",
       },
       "jersey-guatemala": {
@@ -422,7 +547,7 @@ const es = {
         descriptor: "Sitio bilingüe de la asociación de criadores de ganado",
         paragraph:
           "Directorio de fincas con perfiles de hato y listados filtrables de ganado en venta — totalmente bilingüe (español/inglés), construido con content collections de Astro y una canalización automática de imágenes.",
-        linkLabel: "ver sitio",
+        linkLabel: "Ver sitio",
         imageLabel: "Captura de Jersey Guatemala",
       },
       "portfolio-analytics": {
@@ -430,21 +555,21 @@ const es = {
         descriptor: "Demo de UI de dashboard analítico",
         paragraph:
           "UI de dashboard analítico — tarjetas de KPI, gráficas con Recharts y un hero en Three.js — construida con React Router y Tailwind sobre datos de ejemplo, empaquetada con Docker.",
-        linkLabel: "código en GitHub",
+        linkLabel: "Código en GitHub",
       },
       socializa: {
         name: "Socializa.io",
         descriptor: "Sitio de marketing con precios y checkout",
         paragraph:
           "Sitio de marketing multipágina para una plataforma de gestión de redes sociales — animaciones coreografiadas al hacer scroll, una escena 3D interactiva, planes de precios y un checkout con Braintree.",
-        linkLabel: "ver sitio",
+        linkLabel: "Ver sitio",
       },
       comal: {
         name: "Comal",
         descriptor: "Punto de venta para cafeterías y comedores",
         paragraph:
           "Toma de pedidos, tablero de cocina, cuadre de caja en dos minutos y control de inventario — precios y stock recalculados en el servidor dentro de transacciones de Prisma, con acceso autenticado. Datos de demo.",
-        linkLabel: "ver demo",
+        linkLabel: "Ver demo",
         imageLabel: "Captura de Comal POS",
       },
       "erp-pymes": {
@@ -452,13 +577,15 @@ const es = {
         descriptor: "Demo de POS de mostrador",
         paragraph:
           "Toma de pedidos, tablero de cocina, cierre y cuadre de caja, y reportes para cafeterías y comedores — precios y stock recalculados en el servidor dentro de transacciones de Prisma, con acceso autenticado. Datos de demo.",
-        linkLabel: "ver sitio",
+        linkLabel: "Ver sitio",
       },
     },
   },
   experience: {
     subhead: "Experiencia",
     heading: "Dónde he trabajado.",
+    extent: "{count} puestos · {year} — actualidad",
+    currentLabel: "Actual",
     items: {
       telus: {
         title: "Desarrollador Senior de Aplicaciones",
@@ -489,31 +616,50 @@ const es = {
   tech: {
     subhead: "Capacidades",
     heading: "Las herramientas con las que construyo.",
+    extent: "{count} herramientas en {groups} grupos",
     groups: {
-      mobile: "móvil",
-      backend: "backend",
-      frontend: "frontend y herramientas",
+      mobile: "Móvil",
+      backend: "Backend",
+      frontend: "Frontend y herramientas",
     },
+    usedIn: {
+      "React Native": "App de clientes de TELUS",
+      TypeScript: "App de clientes de TELUS",
+      "Node.js": "BFF de TELUS",
+      NestJS: "BFF de TELUS · SocialHub · Hidden Mountain Data",
+      Prisma: "Comal · Hidden Mountain Data",
+      PostgreSQL: "Comal · Hidden Mountain Data",
+      AWS: "Sitios de clientes de Adslivemedia · SocialHub (S3)",
+      React: "Comal · Socializa.io · Portfolio Analytics",
+      Tailwind: "Comal · Socializa.io · Portfolio Analytics",
+      Docker: "Portfolio Analytics",
+    },
+    notesCaption:
+      "Las notas indican dónde aparece cada herramienta en los proyectos y la experiencia anteriores.",
   },
   about: {
     subhead: "Acerca de",
     heading: "Un poco sobre mí.",
     bioLead:
       "Soy ingeniero full-stack en Guatemala. Actualmente trabajo en la app de clientes de TELUS con React Native y en los componentes de su plataforma.",
-    bioSecondary:
-      "Licenciatura en Ingeniería en Informática y Sistemas. Bilingüe — inglés (C2) y español (nativo).",
     resumeCta: "Descargar currículum",
     talkCta: "Conversemos",
-    currentlyLabel: "actualmente en TELUS",
+    currentlyLabel: "Actualmente en TELUS",
     currentlyPoints: [
       "Lidero el desarrollo de funcionalidades móviles con React Native",
       "Mantengo capas compartidas: WebView, feature flags, analítica y observabilidad",
       "Mejoro el rendimiento, la accesibilidad y la confiabilidad de la app",
     ],
+    facts: [
+      { label: "Ubicación", value: "Guatemala · GMT−6" },
+      { label: "Formación", value: "Lic. en Ingeniería en Informática y Sistemas" },
+      { label: "Idiomas", value: "Inglés (C2) · español (nativo)" },
+    ],
   },
   testimonials: {
     subhead: "Lo que dicen otros",
     heading: "De personas con las que he trabajado.",
+    extent: "{count} referencias",
     items: {
       emmanuel: {
         testimonial:
@@ -537,8 +683,11 @@ const es = {
     heading: "Cuéntame qué estás construyendo.",
     intro:
       "¿Tienes un proyecto o alguna pregunta? Cuéntame un poco sobre lo que estás haciendo.",
-    preferEmail: "¿Prefieres correo?",
-    responseNote: "También puedes encontrarme en GitHub y LinkedIn.",
+    directLabel: "Escríbeme directamente",
+    elsewhereLabel: "También en",
+    resumeLink: "Currículum (PDF)",
+    localTimeLabel: "Hora local — Guatemala",
+    formLabel: "O envíame un mensaje",
     nameLabel: "Nombre",
     namePlaceholder: "Tu nombre",
     emailLabel: "Correo",
@@ -571,6 +720,7 @@ const es = {
     colophonLead: "Hebe — Bertel Thorvaldsen, 1816. Escaneo 3D de ",
     colophonSource: "SMK – Statens Museum for Kunst",
     colophonTail: ", dominio público.",
+    colophonType: "Compuesto en Space Grotesk e Inter.",
   },
   system: {
     skipToContent: "Saltar al contenido principal",

@@ -12,7 +12,13 @@ import {
 import AquariusStatue from "./AquariusStatue";
 import River, { type RiverFrameUniforms } from "./River";
 import RiverPool, { type PoolStateUniforms } from "./RiverPool";
-import { buildRiverPath, RIVER_SAMPLE_COUNT, type RiverPathData, type RiverPoolAnchor } from "./riverPath";
+import {
+  buildRiverPath,
+  MAX_RIVER_CALM_RECTS,
+  RIVER_SAMPLE_COUNT,
+  type RiverPathData,
+  type RiverPoolAnchor,
+} from "./riverPath";
 
 const CAMERA_FOV = 18;
 const CAMERA_DISTANCE = 20;
@@ -201,6 +207,21 @@ const SceneController = () => {
         const bounds = section.getBoundingClientRect();
         return [{ id, top: bounds.top + window.scrollY, height: bounds.height }];
       });
+      // Body blocks the River dims behind (tagged in the DOM, capped at 8).
+      // Measured with the reveal offset: content that has not animated in yet
+      // sits up to 24px low, which the shader's feather absorbs.
+      const calmRects = Array.from(document.querySelectorAll<HTMLElement>("[data-scene-calm]"))
+        .map((element) => {
+          const bounds = element.getBoundingClientRect();
+          return {
+            left: bounds.left,
+            top: bounds.top + window.scrollY,
+            right: bounds.right,
+            bottom: bounds.bottom + window.scrollY,
+          };
+        })
+        .filter((rect) => rect.right > rect.left && rect.bottom > rect.top)
+        .slice(0, MAX_RIVER_CALM_RECTS);
       const contactElement = document.getElementById("contact");
       const contentElement = document.getElementById("contact-content");
       const headElement = contactElement?.querySelector("header") ?? null;
@@ -216,7 +237,21 @@ const SceneController = () => {
         const top = contactTop + padTop; // Contact's hairline is the lake surface
         const bottom = Math.max(document.documentElement.scrollHeight, contactTop + bounds.height);
         const contactBottom = contactTop + bounds.height;
-        const reflectHalfWidth = Math.min(280, docWidth * 0.38);
+        // The reflection lives in the open-water band Contact reserves for it.
+        const reflectionElement = document.getElementById("contact-reflection");
+        const reflectionRect = reflectionElement?.getBoundingClientRect();
+        const reflectHalfWidth = reflectionRect
+          ? Math.min(420, docWidth * 0.42)
+          : Math.min(280, docWidth * 0.38);
+        const reflectHalfHeight = reflectionRect
+          ? Math.min(reflectionRect.height * 0.42, reflectHalfWidth * 0.5)
+          : Math.min(100, reflectHalfWidth * 0.4, Math.max(padBottom, 240) * 0.42);
+        const reflectX = reflectionRect
+          ? reflectionRect.left + reflectionRect.width / 2
+          : docWidth / 2;
+        const reflectY = reflectionRect
+          ? reflectionRect.top + window.scrollY + reflectionRect.height / 2
+          : contactBottom - Math.max(padBottom, 240) * 0.5;
         const docRect = (el: Element | null, pad: number) => {
           if (!el) return [0, 0, 0, 0];
           const r = el.getBoundingClientRect();
@@ -232,8 +267,8 @@ const SceneController = () => {
           centerX: docWidth / 2, centerY: (top + bottom) / 2,
           radiusX: docWidth / 2, radiusY: Math.max((bottom - top) / 2, 1),
           impactX: docWidth / 2, impactY: top,
-          reflectX: docWidth / 2, reflectY: contactBottom - Math.max(padBottom, 120) * 0.5,
-          reflectHalfWidth, reflectHalfHeight: Math.min(100, reflectHalfWidth * 0.4, padBottom * 0.42),
+          reflectX, reflectY,
+          reflectHalfWidth, reflectHalfHeight,
           calmLeft: calm[0], calmTop: calm[1], calmRight: calm[2], calmBottom: calm[3],
           calm2Left: calm2[0], calm2Top: calm2[1], calm2Right: calm2[2], calm2Bottom: calm2[3],
         };
@@ -245,6 +280,7 @@ const SceneController = () => {
         viewportHeight: window.innerHeight,
         sections,
         pool,
+        calmRects,
       });
       riverPathRef.current = nextPath;
       setRiverPath(nextPath);

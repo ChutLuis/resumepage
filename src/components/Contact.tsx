@@ -1,12 +1,22 @@
 import { useState, useRef, useEffect, useSyncExternalStore } from "react";
-import { Section, Reveal, SectionHead, buttonClass } from "./ui/primitives";
+import {
+  Section,
+  Reveal,
+  SectionHead,
+  Eyebrow,
+  buttonClass,
+  ArrowRight,
+  ArrowUpRight,
+} from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
+import { useGuatemalaTime } from "../hooks/useGuatemalaTime";
 import { sceneStore } from "../lib/sceneStore";
 
 const getSceneSnapshot = () => sceneStore.getSnapshot();
 
 const Contact = () => {
   const { t } = useLocale();
+  const time = useGuatemalaTime();
   const formRef = useRef<HTMLFormElement>(null);
   const formOpenedAt = useRef(Date.now());
   const scene = useSyncExternalStore(sceneStore.subscribe, getSceneSnapshot, getSceneSnapshot);
@@ -120,13 +130,18 @@ const Contact = () => {
     }
   };
 
-  const fieldClass = (hasError: boolean) =>
-    `min-h-11 rounded-[4px] border bg-primary px-4 py-[13px] text-[14px] text-heading transition-colors duration-200 placeholder:text-body ${
-      hasError ? "border-red-500" : "border-line focus:border-accent-400"
+  const fieldClass = (hasError: boolean, leading = "leading-[1.4]") =>
+    `mt-2 block w-full rounded-md border bg-primary px-3.5 py-3 text-[15px] ${leading} text-heading transition-colors duration-200 placeholder:text-caption focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent-400 ${
+      hasError ? "border-red-500" : "border-control focus:border-accent-400"
     }`;
 
+  const labelClass = "block text-label font-medium text-body-strong";
+  const errorClass = "mt-2 block text-small text-red-400";
+  const rowClass =
+    "group flex items-center justify-between border-t border-line py-3.5 text-copy font-medium text-heading transition-colors duration-200 hover:text-accent-300";
+
   return (
-    <Section id="contact" className="relative pb-40 pt-20 sm:pb-48 sm:pt-24 lg:pb-60 lg:pt-28">
+    <Section id="contact" className="relative pt-20 sm:pt-24 lg:pt-28">
       <div id="river-pool" aria-hidden="true" className="pointer-events-none absolute inset-0">
         {(!sceneReady || poolFallbackMounted) && (
           <svg
@@ -142,158 +157,206 @@ const Contact = () => {
           </svg>
         )}
       </div>
-      <Reveal className="relative">
-        <SectionHead index="06" label={t.contact.subhead} title={t.contact.heading} />
 
-        <div id="contact-content" className="mt-12 grid grid-cols-1 gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-x-10">
-          {/* Left: introduction */}
-          <div className="lg:col-span-4 lg:col-start-4">
-            <p
-              id="contact-intro"
-              className="max-w-[40ch] text-[17px] leading-[1.65] text-body-strong"
+      <SectionHead label={t.contact.subhead} title={t.contact.heading} />
+
+      <Reveal className="relative mt-12">
+        <div id="contact-content">
+          {/* Direct line: the closing call to action */}
+          <div>
+            <Eyebrow>{t.contact.directLabel}</Eyebrow>
+            <a
+              href="mailto:me@lfortiz.com"
+              className="group mt-3 inline-flex items-center gap-4 whitespace-nowrap border-b border-line pb-2.5 font-display text-display-mailto font-medium text-heading transition-colors duration-200 hover:text-accent-300"
             >
-              {t.contact.intro}
-            </p>
-            <p className="mt-6 text-[15px] text-body-strong">
-              {t.contact.preferEmail}{" "}
-              <a
-                href="mailto:me@lfortiz.com"
-                className="inline-flex min-h-11 items-center font-semibold text-accent-300 transition-colors duration-200 hover:text-accent-200"
-              >
-                me@lfortiz.com
-              </a>
-            </p>
-            <p className="mt-2.5 text-[14px] text-body">
-              {t.contact.responseNote}
-            </p>
+              me@lfortiz.com
+              <ArrowRight className="h-[0.6em] w-[0.6em] shrink-0" />
+            </a>
           </div>
 
-          {/* Right: contact form */}
-          <form
-            ref={formRef}
-            onSubmit={handleSubmit}
-            aria-describedby="contact-intro"
-            className="flex flex-col gap-[18px] border border-line bg-surface p-6 sm:p-8 lg:col-span-5"
-          >
-            <label htmlFor="contact-name" className="flex flex-col gap-2">
-              <span className="text-[13px] font-semibold text-heading">
-                {t.contact.nameLabel}
-              </span>
-              <input
-                id="contact-name"
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                placeholder={t.contact.namePlaceholder}
-                required
-                aria-required="true"
-                aria-invalid={errors.name ? "true" : "false"}
-                aria-describedby={errors.name ? "name-error" : undefined}
-                className={fieldClass(Boolean(errors.name))}
-              />
-              {errors.name && (
-                <span id="name-error" role="alert" className="text-sm text-red-400">
-                  {errors.name}
-                </span>
-              )}
-            </label>
+          <div className="mt-14 flex flex-col gap-14 lg:flex-row lg:items-start">
+            {/* Left: intro, elsewhere, local time */}
+            <div className="min-w-0 lg:flex-1">
+              <p id="contact-intro" className="max-w-[36ch] text-lead text-body-strong">
+                {t.contact.intro}
+              </p>
 
-            <label htmlFor="contact-email" className="flex flex-col gap-2">
-              <span className="text-[13px] font-semibold text-heading">
-                {t.contact.emailLabel}
-              </span>
-              <input
-                id="contact-email"
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder={t.contact.emailPlaceholder}
-                required
-                aria-required="true"
-                aria-invalid={errors.email ? "true" : "false"}
-                aria-describedby={errors.email ? "email-error" : undefined}
-                className={fieldClass(Boolean(errors.email))}
-              />
-              {errors.email && (
-                <span id="email-error" role="alert" className="text-sm text-red-400">
-                  {errors.email}
-                </span>
-              )}
-            </label>
-
-            <label htmlFor="contact-message" className="flex flex-col gap-2">
-              <span className="text-[13px] font-semibold text-heading">
-                {t.contact.messageLabel}
-              </span>
-              <textarea
-                id="contact-message"
-                rows={5}
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                placeholder={t.contact.messagePlaceholder}
-                required
-                aria-required="true"
-                aria-invalid={errors.message ? "true" : "false"}
-                aria-describedby={errors.message ? "message-error" : undefined}
-                className={`${fieldClass(Boolean(errors.message))} resize-y`}
-              />
-              {errors.message && (
-                <span id="message-error" role="alert" className="text-sm text-red-400">
-                  {errors.message}
-                </span>
-              )}
-            </label>
-
-            {/* Honeypot — off-screen, ignored by humans */}
-            <label
-              className="absolute -left-[10000px] h-px w-px overflow-hidden"
-              aria-hidden="true"
-            >
-              Company
-              <input
-                type="text"
-                name="company"
-                value={form.company}
-                onChange={handleChange}
-                autoComplete="off"
-                tabIndex={-1}
-              />
-            </label>
-
-            {submitStatus === "success" && (
-              <div
-                role="alert"
-                className="border border-status/60 px-4 py-3 text-status"
-              >
-                <strong className="font-semibold">{t.contact.success.title}</strong>
-                <p className="mt-1 text-sm">{t.contact.success.body}</p>
+              <div className="mt-8">
+                <Eyebrow>{t.contact.elsewhereLabel}</Eyebrow>
+                <ul className="mt-3 flex flex-col">
+                  <li>
+                    <a
+                      href="https://github.com/chutluis"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={rowClass}
+                    >
+                      <span>GitHub</span>
+                      <ArrowUpRight />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.linkedin.com/in/luis-ortiz-3b5454195/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={rowClass}
+                    >
+                      <span>LinkedIn</span>
+                      <ArrowUpRight />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/resume.pdf"
+                      download="Luis_Ortiz_Resume.pdf"
+                      className={`${rowClass} border-b`}
+                    >
+                      <span>{t.contact.resumeLink}</span>
+                      <ArrowUpRight />
+                    </a>
+                  </li>
+                </ul>
               </div>
-            )}
 
-            {submitStatus === "error" && (
-              <div
-                role="alert"
-                className="border border-red-500/60 px-4 py-3 text-red-400"
-              >
-                <strong className="font-semibold">{t.contact.error.title}</strong>
-                <p className="mt-1 text-sm">{t.contact.error.body}</p>
+              <div className="mt-8">
+                <Eyebrow>{t.contact.localTimeLabel}</Eyebrow>
+                <p className="mt-2 font-mono text-[15px] tabular-nums text-body-strong">
+                  {time} GMT−6
+                </p>
               </div>
-            )}
+            </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              aria-busy={loading}
-              className={`${buttonClass} w-fit disabled:cursor-not-allowed disabled:opacity-60`}
-            >
-              {loading ? t.contact.sending : t.contact.send}
-            </button>
-          </form>
+            {/* Right: contact form */}
+            <div className="min-w-0 rounded-xl border border-line bg-surface p-6 sm:p-7 lg:flex-[1.2]">
+              <Eyebrow>{t.contact.formLabel}</Eyebrow>
+              <form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                aria-describedby="contact-intro"
+                className="mt-4 flex flex-col gap-5"
+              >
+                <label htmlFor="contact-name" className="block">
+                  <span className={labelClass}>{t.contact.nameLabel}</span>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder={t.contact.namePlaceholder}
+                    autoComplete="name"
+                    required
+                    aria-required="true"
+                    aria-invalid={errors.name ? "true" : "false"}
+                    aria-describedby={errors.name ? "name-error" : undefined}
+                    className={fieldClass(Boolean(errors.name))}
+                  />
+                  {errors.name && (
+                    <span id="name-error" role="alert" className={errorClass}>
+                      {errors.name}
+                    </span>
+                  )}
+                </label>
+
+                <label htmlFor="contact-email" className="block">
+                  <span className={labelClass}>{t.contact.emailLabel}</span>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder={t.contact.emailPlaceholder}
+                    autoComplete="email"
+                    required
+                    aria-required="true"
+                    aria-invalid={errors.email ? "true" : "false"}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                    className={fieldClass(Boolean(errors.email))}
+                  />
+                  {errors.email && (
+                    <span id="email-error" role="alert" className={errorClass}>
+                      {errors.email}
+                    </span>
+                  )}
+                </label>
+
+                <label htmlFor="contact-message" className="block">
+                  <span className={labelClass}>{t.contact.messageLabel}</span>
+                  <textarea
+                    id="contact-message"
+                    rows={5}
+                    name="message"
+                    value={form.message}
+                    onChange={handleChange}
+                    placeholder={t.contact.messagePlaceholder}
+                    required
+                    aria-required="true"
+                    aria-invalid={errors.message ? "true" : "false"}
+                    aria-describedby={errors.message ? "message-error" : undefined}
+                    className={`${fieldClass(Boolean(errors.message), "leading-[1.5]")} resize-y`}
+                  />
+                  {errors.message && (
+                    <span id="message-error" role="alert" className={errorClass}>
+                      {errors.message}
+                    </span>
+                  )}
+                </label>
+
+                {/* Honeypot — off-screen, ignored by humans */}
+                <label
+                  className="absolute -left-[10000px] h-px w-px overflow-hidden"
+                  aria-hidden="true"
+                >
+                  Company
+                  <input
+                    type="text"
+                    name="company"
+                    value={form.company}
+                    onChange={handleChange}
+                    autoComplete="off"
+                    tabIndex={-1}
+                  />
+                </label>
+
+                {submitStatus === "success" && (
+                  <div
+                    role="alert"
+                    className="rounded-xl border border-status/60 px-4 py-3 text-status"
+                  >
+                    <strong className="font-medium">{t.contact.success.title}</strong>
+                    <p className="mt-1 text-small">{t.contact.success.body}</p>
+                  </div>
+                )}
+
+                {submitStatus === "error" && (
+                  <div
+                    role="alert"
+                    className="rounded-xl border border-red-500/60 px-4 py-3 text-red-400"
+                  >
+                    <strong className="font-medium">{t.contact.error.title}</strong>
+                    <p className="mt-1 text-small">{t.contact.error.body}</p>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  aria-busy={loading}
+                  className={`${buttonClass} w-fit disabled:cursor-not-allowed disabled:opacity-60`}
+                >
+                  {loading ? t.contact.sending : t.contact.send}
+                  <ArrowRight />
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </Reveal>
+
+      {/* Open water: anchors the reflected constellation (SceneLayer measures it). */}
+      <div id="contact-reflection" aria-hidden="true" className="h-[240px] sm:h-[300px] lg:h-[380px]" />
     </Section>
   );
 };

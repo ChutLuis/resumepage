@@ -19,6 +19,8 @@ export interface PoolStateUniforms {
 }
 
 const EDGE_DOTS = 16;
+/** Dots each reflected star smears into on the rippling water. */
+const STREAK_DOTS = 7;
 
 /** Particle budgets for the lake surface, meniscus rim, splash mist and reflection. */
 const POOL_SURFACE_DESKTOP = 56000;
@@ -69,6 +71,17 @@ const createPoolParticles = (mobile: boolean) => {
   STAR_IDS.forEach((id) => {
     const [x, y] = local.get(id) ?? [0, 0];
     push(3, x, y, STAR_IGNITE[id] / INTRO_END, STARS[id][2] >= 1.4 ? 5.6 : 4.2);
+  });
+  // Streak dots: each reflected star smears downwards into the open water.
+  // aSeed packs the dot index in the integer part and the draw order in the
+  // fraction, so the shader can read both from one attribute.
+  STAR_IDS.forEach((id) => {
+    const [x, y] = local.get(id) ?? [0, 0];
+    const order = STAR_IGNITE[id] / INTRO_END;
+    const starSize = STARS[id][2] >= 1.4 ? 3.2 : 2.6;
+    for (let j = 0; j < STREAK_DOTS; j++) {
+      push(6, x, y, j + order * 0.999, starSize * (1 - 0.5 * (j / STREAK_DOTS)));
+    }
   });
   EDGE_SCHEDULE.forEach((edge) => {
     const [ax, ay] = local.get(edge.from) ?? [0, 0];
@@ -149,6 +162,7 @@ const RiverPool = ({
     uCalm2: { value: new Vector4() },
     uImpactSpread: { value: 0 },
     uIsMobile: { value: 0 },
+    uCalmStrength: { value: 0 },
   }), [frameUniforms, stateUniforms]);
 
   useLayoutEffect(() => {
@@ -172,6 +186,7 @@ const RiverPool = ({
     );
     uniforms.uImpactSpread.value = impactHalfWidth / radiusX;
     uniforms.uIsMobile.value = mobile ? 1 : 0;
+    uniforms.uCalmStrength.value = mobile ? 0.7 : 0.85;
   }, [
     uniforms,
     centerX, centerY, radiusX, radiusY,

@@ -1,40 +1,49 @@
-import { Section, Reveal, SectionHead } from "./ui/primitives";
+import { Section, Reveal, SectionHead, StatusDot, fillTemplate } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
 
 const Experience = () => {
   const { t, content } = useLocale();
   const lastIndex = content.experiences.length - 1;
+  const earliestYear = Math.min(...content.experiences.map((experience) => experience.startYear));
+  const extent = fillTemplate(t.experience.extent, {
+    count: content.experiences.length,
+    year: earliestYear,
+  });
 
   return (
-    <Section id="experience" className="py-20 sm:py-24 lg:py-28">
-      <Reveal>
-        <SectionHead index="02" label={t.experience.subhead} title={t.experience.heading} />
+    <Section id="experience" className="py-16 sm:py-20 lg:py-24">
+      <SectionHead label={t.experience.subhead} title={t.experience.heading} aside={extent} />
 
-        <div className="mt-12 lg:mt-16">
+      <Reveal className="mt-12">
+        <ol data-scene-calm>
           {content.experiences.map((experience, index) => (
-            <article
+            <li
               key={experience.id}
-              className={`grid gap-3 border-t border-line py-8 lg:grid-cols-12 lg:gap-x-10 lg:py-10 ${
+              className={`flex flex-col gap-4 border-t border-line py-8 lg:flex-row lg:items-start lg:gap-12 ${
                 index === lastIndex ? "border-b" : ""
               }`}
             >
-              <p className="font-mono text-[12px] leading-relaxed text-body lg:col-span-3 lg:pt-2">
-                {experience.date}
-              </p>
-              <div className="lg:col-span-9">
-                <h3 className="font-display text-[22px] font-medium leading-snug tracking-[-0.02em] text-heading sm:text-[24px]">
-                  {experience.title}
-                  <span className="mt-1 block font-sans text-[15px] font-normal tracking-normal text-body-strong">
-                    {experience.company_name}
-                  </span>
-                </h3>
-                <p className="mt-4 max-w-[65ch] text-[16px] leading-[1.7] text-body">
-                  {experience.summary}
-                </p>
+              <div className="lg:w-[220px] lg:shrink-0">
+                <p className="font-mono text-label lowercase text-body">{experience.date}</p>
+                {experience.current && (
+                  <p className="mt-2.5 flex items-center text-label font-medium text-body-strong">
+                    <StatusDot />
+                    {t.experience.currentLabel}
+                  </p>
+                )}
               </div>
-            </article>
+              <div className="min-w-0 lg:flex-1">
+                <h3 className="font-display text-display-item font-medium text-heading">
+                  {experience.title}
+                </h3>
+                <p className="mt-1.5 text-small text-body-strong">{experience.company_name}</p>
+              </div>
+              <p className="max-w-[62ch] text-copy text-body lg:min-w-0 lg:flex-[1.4]">
+                {experience.summary}
+              </p>
+            </li>
           ))}
-        </div>
+        </ol>
       </Reveal>
     </Section>
   );

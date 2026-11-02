@@ -1,30 +1,28 @@
-import { Section, Reveal, SectionHead, ArrowRight, buttonClass, textLinkClass } from "./ui/primitives";
+import { Section, Reveal, SectionHead, Eyebrow, ArrowRight, buttonClass, textLinkClass } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
 
 const About = () => {
   const { t } = useLocale();
+  const lastPoint = t.about.currentlyPoints.length - 1;
 
   return (
-    <Section id="about" className="py-20 sm:py-24 lg:py-28">
-      <Reveal>
-        <SectionHead index="04" label={t.about.subhead} title={t.about.heading} />
+    <Section id="about" className="py-16 sm:py-20 lg:py-24">
+      <SectionHead
+        label={t.about.subhead}
+        title={t.about.heading}
+        aside={t.about.facts[0].value}
+      />
 
-        <div className="mt-12 lg:mt-16 lg:grid lg:grid-cols-12 lg:gap-x-10">
-          <div className="grid gap-12 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] md:gap-14 lg:col-span-9 lg:col-start-4">
-            {/* Left: story + CTAs */}
-            <div>
-              <p className="max-w-[34ch] text-[20px] leading-[1.55] text-body-strong">
+      <Reveal className="mt-12">
+        <div data-scene-calm>
+          <div className="flex flex-col gap-12 lg:flex-row lg:gap-16">
+            {/* Left: statement + CTAs */}
+            <div className="lg:flex-[1.4]">
+              <p className="max-w-[34ch] font-display text-display-statement font-medium text-heading">
                 {t.about.bioLead}
               </p>
-              <p className="mt-5 max-w-[60ch] text-[16px] leading-[1.7] text-body">
-                {t.about.bioSecondary}
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">
-                <a
-                  href="/resume.pdf"
-                  download="Luis_Ortiz_Resume.pdf"
-                  className={buttonClass}
-                >
+              <div className="mt-8 flex flex-wrap items-center gap-6">
+                <a href="/resume.pdf" download="Luis_Ortiz_Resume.pdf" className={buttonClass}>
                   {t.about.resumeCta}
                 </a>
                 <a href="#contact" className={textLinkClass}>
@@ -34,21 +32,37 @@ const About = () => {
               </div>
             </div>
 
-            {/* Right: currently @ TELUS */}
-            <div>
-              <p className="font-mono text-[12px] uppercase tracking-eyebrow text-body">
-                {t.about.currentlyLabel}
-              </p>
-              <div className="mt-5 flex flex-col gap-3 text-[15px] leading-relaxed text-body-strong">
-                {t.about.currentlyPoints.map((point) => (
-                  <span key={point} className="flex gap-3">
-                    <span aria-hidden="true" className="text-caption">—</span>
+            {/* Right: currently at TELUS */}
+            <div className="lg:flex-1">
+              <Eyebrow>{t.about.currentlyLabel}</Eyebrow>
+              <ul className="mt-3.5">
+                {t.about.currentlyPoints.map((point, index) => (
+                  <li
+                    key={point}
+                    className={`relative border-t border-line py-3.5 pl-5 text-copy text-body-strong ${
+                      index === lastPoint ? "border-b" : ""
+                    }`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="absolute left-0 top-[22px] h-1.5 w-1.5 bg-accent-400"
+                    />
                     {point}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </div>
+
+          {/* Quick facts */}
+          <dl className="mt-16 grid border-t border-line sm:grid-cols-3">
+            {t.about.facts.map((fact) => (
+              <div key={fact.label} className="py-5 pr-6">
+                <dt className="text-label font-medium text-caption">{fact.label}</dt>
+                <dd className="mt-1.5 text-lead text-body-strong">{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </Reveal>
     </Section>

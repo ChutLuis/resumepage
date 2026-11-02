@@ -10,6 +10,7 @@ export type WorkId =
 export type ExperienceId = "telus" | "hmd" | "holland" | "adslive";
 export type TestimonialId = "emmanuel" | "lisa" | "andres";
 export type TechGroupId = "mobile" | "backend" | "frontend";
+export type SchematicLayerId = "screen" | "platform" | "server";
 
 export interface NavLink {
   id: NavId;
@@ -58,6 +59,10 @@ export interface Experience {
   id: ExperienceId;
   company_name: string;
   icon: string;
+  /** Start year shown large in the rail. Decorative, rendered aria-hidden. */
+  startYear: number;
+  /** Marks the current role; exactly one entry should set this. */
+  current?: boolean;
 }
 
 /** Non-translated testimonial fields; testimonial/designation come from i18n. */

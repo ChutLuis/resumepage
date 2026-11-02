@@ -2,6 +2,17 @@ import { FRAME, heroRiverControls } from "./aquariusData";
 
 export const RIVER_SAMPLE_COUNT = 512;
 
+/** Hard cap on calm rectangles; the River shader has that many uniforms. */
+export const MAX_RIVER_CALM_RECTS = 8;
+
+/** Document-pixel rectangle the River dims behind (body content blocks). */
+export interface DocRect {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+}
+
 export interface RiverPathFit {
   centerXDocPx: number;
   centerYDocPx: number;
@@ -62,6 +73,8 @@ export interface RiverPathData {
   pool: RiverPool;
   /** Normalised (0..1) path position where the final vertical drop begins. */
   fallStart: number;
+  /** Body-content rects the River keeps out of the way of (<= MAX_RIVER_CALM_RECTS). */
+  calmRects: readonly DocRect[];
 }
 
 interface ControlPoint {
@@ -78,6 +91,11 @@ const RIVER_WIDTH_START_DESKTOP = 12;
 const RIVER_WIDTH_END_DESKTOP = 72;
 const RIVER_WIDTH_START_MOBILE = 8;
 const RIVER_WIDTH_END_MOBILE = 40;
+
+// The falling sheet gathers and narrows as it drops onto the lake, so it reads
+// as falling water rather than a wide static curtain.
+const FALL_APPROACH_WIDTH_SCALE = 0.8;
+const FALL_IMPACT_WIDTH_SCALE = 0.55;
 
 const catmull = (p0: number, p1: number, p2: number, p3: number, t: number) => {
   const t2 = t * t;
@@ -103,6 +121,7 @@ export const buildRiverPath = ({
   viewportHeight,
   sections,
   pool,
+  calmRects,
 }: {
   fit: RiverPathFit;
   heroBottom: number;
@@ -110,6 +129,7 @@ export const buildRiverPath = ({
   viewportHeight: number;
   sections: readonly RiverSectionOffset[];
   pool: RiverPoolAnchor | null;
+  calmRects?: readonly DocRect[];
 }): RiverPathData | null => {
   const orderedSections = ["work", "experience", "tech", "about", "testimonials", "contact"]
     .map((id) => sections.find((section) => section.id === id))
@@ -182,8 +202,8 @@ export const buildRiverPath = ({
   const impactY = Math.max(resolvedPool.impactY, priorY + 140);
   const approachY = Math.min(Math.max(priorY + 100, impactY - 320), impactY - 80);
   const approachIndex = controls.length;
-  controls.push({ x: resolvedPool.impactX, y: approachY, width: W1 });
-  controls.push({ x: resolvedPool.impactX, y: impactY, width: W1 * 1.5 });
+  controls.push({ x: resolvedPool.impactX, y: approachY, width: W1 * FALL_APPROACH_WIDTH_SCALE });
+  controls.push({ x: resolvedPool.impactX, y: impactY, width: W1 * FALL_IMPACT_WIDTH_SCALE });
 
   const heroEndIndex = (heroControls.length - 1) * CATMULL_STEPS;
   const points: ControlPoint[] = [controls[0]];
@@ -240,7 +260,10 @@ export const buildRiverPath = ({
     poolStart: 1,
     heroBottom,
     mobile,
-    pool: { ...resolvedPool, impactY, impactHalfWidth: W1 * 1.5 },
+    pool: { ...resolvedPool, impactY, impactHalfWidth: W1 * FALL_IMPACT_WIDTH_SCALE },
     fallStart,
+    calmRects: (calmRects ?? [])
+      .filter((rect) => rect.right > rect.left && rect.bottom > rect.top)
+      .slice(0, MAX_RIVER_CALM_RECTS),
   };
 };

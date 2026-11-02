@@ -20,11 +20,18 @@ uniform float uFallStart;
 uniform vec2 uViewport;
 uniform vec2 uPourOffset;
 
+// Body-content rects (document px) the stream dims behind so text stays legible.
+uniform vec4 uCalmRects[8];
+uniform float uCalmCount;
+uniform float uCalmStrength;
+
 varying vec3 vColor;
 varying float vAlpha;
 
 const float SAMPLE_LAST = 511.0;
 const float TAU = 6.28318530718;
+const int MAX_CALM = 8;
+const float CALM_FEATHER = 40.0;
 const vec3 WHITE = vec3(0.9255, 0.9216, 0.9569);  // #ecebf4
 const vec3 PALE = vec3(0.7686, 0.7098, 0.9922);   // #c4b5fd
 const vec3 DEEP = vec3(0.5451, 0.3608, 0.9647);   // #8b5cf6
@@ -36,6 +43,20 @@ vec4 pathAt(float s) {
   vec4 a = texelFetch(uPath, ivec2(index, 0), 0);
   vec4 b = texelFetch(uPath, ivec2(index + 1, 0), 0);
   return mix(a, b, t);
+}
+
+// 1 inside a calm rect (feathered), 0 outside. Rects arrive bottom-first, so
+// the xy pair is the top-left and zw the bottom-right.
+float calmAt(vec2 doc) {
+  float m = 0.0;
+  for (int i = 0; i < MAX_CALM; i++) {
+    if (float(i) >= uCalmCount) break;
+    vec4 r = uCalmRects[i];
+    vec2 lo = smoothstep(r.xy - CALM_FEATHER, r.xy + CALM_FEATHER, doc);
+    vec2 hi = 1.0 - smoothstep(r.zw - CALM_FEATHER, r.zw + CALM_FEATHER, doc);
+    m = max(m, lo.x * lo.y * hi.x * hi.y);
+  }
+  return m;
 }
 
 void main() {
@@ -64,9 +85,12 @@ void main() {
 
   float isSpray = step(1.5, aKind);
   float isCore = step(0.5, aKind) * (1.0 - isSpray);
+  // In the fall, quantise the lateral offset into discrete strands: falling
+  // water reads as columns, not a diffuse curtain.
+  float lateral = mix(aLateral, (floor(aLateral * 3.0) + 0.5) / 3.0, fall * 0.85);
   float wobble = sin(aSeed * TAU + s * 52.0 - uTime * 0.55) * min(4.0, halfWidth * 0.16);
   float drift = sin(uTime * 0.8 + aSeed * TAU) * halfWidth * 0.25 * isSpray;
-  vec2 doc = center + normal * (aLateral * (1.0 + isSpray * down * 0.6) * halfWidth + wobble * (1.0 - fall * 0.6) + drift);
+  vec2 doc = center + normal * (lateral * (1.0 + isSpray * down * 0.6) * halfWidth + wobble * (1.0 - fall) + drift);
   doc += uPourOffset * (1.0 - smoothstep(0.0, 150.0, travelled));
   float worldX = (doc.x - uViewport.x * 0.5) * uWpp;
   float worldY = -(doc.y - uScrollY - uViewport.y * 0.5) * uWpp;
@@ -86,18 +110,20 @@ void main() {
 
   float glint = pow(max(0.0, sin(uTime * (1.1 + aSeed * 1.7) + aSeed * 83.0)), 48.0) * (1.0 - isSpray);
   float sprayFlicker = 0.4 + 0.6 * smoothstep(0.2, 1.0, 0.5 + 0.5 * sin(uTime * 1.3 + aSeed * 50.0));
-  float kindAlpha = mix(1.0, 1.6, isCore) * mix(1.0, 0.5 * sprayFlicker, isSpray);
+  float kindAlpha = mix(1.0, 1.6, isCore) * mix(1.0, 0.5 * sprayFlicker * (1.0 - fall * 0.7), isSpray);
   alpha *= kindAlpha * (1.0 + surge * 0.9) + glint * 0.6;
   alpha *= 1.0 + fall * 0.35;
   alpha *= 1.0 - smoothstep(uLength - 16.0, uLength, travelled);
   alpha *= isVisible * (softFront + leading);
+  // Dim behind body content (never across the fall, which lands on the hairline).
+  alpha *= 1.0 - uCalmStrength * calmAt(doc) * (1.0 - fall);
 
   float downstream = smoothstep(uHeroEnd * 0.45, uHeroEnd + 0.24, s);
   vec3 mouthColor = mix(WHITE, PALE, smoothstep(0.0, max(uHeroEnd * 0.35, 0.001), s));
   vec3 bodyColor = mix(mouthColor, DEEP, downstream);
   vec3 coreColor = mix(WHITE, PALE, downstream * 0.7);
   vColor = mix(bodyColor, coreColor, max(isCore, glint));
-  vColor = mix(vColor, mix(PALE, WHITE, 0.4), fall * 0.5);
+  vColor = mix(vColor, mix(PALE, WHITE, 0.4), fall * 0.7);
   vAlpha = alpha * (0.94 + 0.06 * sin(uTime * 1.7 + aSeed * 38.0));
 
   gl_Position = isVisible > 0.5

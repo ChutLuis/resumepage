@@ -1,4 +1,4 @@
-import { Section, Reveal, SectionHead } from "./ui/primitives";
+import { Section, Reveal, SectionHead, fillTemplate } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
 
 const Feedbacks = () => {
@@ -6,40 +6,44 @@ const Feedbacks = () => {
   const [lead, ...rest] = content.testimonials;
 
   return (
-    <Section id="testimonials" className="py-20 sm:py-24 lg:py-28">
-      <Reveal>
-        <SectionHead index="05" label={t.testimonials.subhead} title={t.testimonials.heading} />
+    <Section id="testimonials" className="py-16 sm:py-20 lg:py-24">
+      <SectionHead
+        label={t.testimonials.subhead}
+        title={t.testimonials.heading}
+        aside={fillTemplate(t.testimonials.extent, { count: content.testimonials.length })}
+      />
 
-        <div className="mt-12 lg:mt-16 lg:grid lg:grid-cols-12 lg:gap-x-10">
-          <div className="lg:col-span-9 lg:col-start-4">
-            {lead && (
-              <figure>
-                <blockquote className="max-w-[30ch] font-serif italic text-[26px] leading-[1.25] tracking-[-0.01em] text-quote sm:text-[32px] lg:text-[40px]">
-                  &ldquo;{lead.testimonial}&rdquo;
-                </blockquote>
-                <figcaption className="mt-6 text-[14px] text-body">
-                  <span className="font-semibold text-heading">{lead.name}</span>{" "}
-                  — {lead.designation}
-                </figcaption>
-              </figure>
-            )}
+      <Reveal className="mt-12">
+        <div data-scene-calm>
+          {lead && (
+            <figure className="max-w-[860px]">
+              <blockquote className="font-display text-display-statement font-medium text-heading">
+                &ldquo;{lead.testimonial}&rdquo;
+              </blockquote>
+              <figcaption className="mt-6 flex items-center gap-3">
+                <span aria-hidden="true" className="block h-px w-8 shrink-0 bg-control" />
+                <span className="text-small text-body">
+                  <span className="font-medium text-body-strong">{lead.name}</span> — {lead.designation}
+                </span>
+              </figcaption>
+            </figure>
+          )}
 
-            {rest.length > 0 && (
-              <div className="mt-14 grid gap-10 border-t border-line pt-10 md:grid-cols-2 md:gap-12">
-                {rest.map((item) => (
-                  <figure key={item.id}>
-                    <blockquote className="max-w-[36ch] font-serif italic text-[20px] leading-[1.45] text-quote sm:text-[22px]">
-                      &ldquo;{item.testimonial}&rdquo;
-                    </blockquote>
-                    <figcaption className="mt-5 text-[13px] text-body">
-                      <span className="font-semibold text-heading">{item.name}</span>{" "}
-                      — {item.designation}
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            )}
-          </div>
+          {rest.length > 0 && (
+            <div className="mt-14 grid gap-6 md:grid-cols-2">
+              {rest.map((item) => (
+                <figure key={item.id} className="rounded-xl border border-line bg-surface p-7">
+                  <blockquote className="text-lead text-quote">
+                    &ldquo;{item.testimonial}&rdquo;
+                  </blockquote>
+                  <figcaption className="mt-[18px]">
+                    <span className="block text-small font-medium text-body-strong">{item.name}</span>
+                    <span className="block text-small text-body">{item.designation}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
         </div>
       </Reveal>
     </Section>

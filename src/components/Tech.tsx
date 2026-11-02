@@ -1,27 +1,53 @@
-import { Section, Reveal, SectionHead } from "./ui/primitives";
+import { Section, Reveal, SectionHead, fillTemplate, tagClass } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
 
 const Tech = () => {
   const { t, content } = useLocale();
+  const toolCount = content.techGroups.reduce((total, group) => total + group.items.length, 0);
+  const extent = fillTemplate(t.tech.extent, {
+    count: toolCount,
+    groups: content.techGroups.length,
+  });
 
   return (
-    <Section id="tech" className="py-20 sm:py-24 lg:py-28">
-      <Reveal>
-        <SectionHead index="03" label={t.tech.subhead} title={t.tech.heading} />
+    <Section id="tech" className="py-16 sm:py-20 lg:py-24">
+      <SectionHead label={t.tech.subhead} title={t.tech.heading} aside={extent} />
 
-        <div className="mt-12 lg:mt-16 lg:grid lg:grid-cols-12 lg:gap-x-10">
-          <div className="grid gap-10 sm:grid-cols-3 lg:col-span-9 lg:col-start-4">
-            {content.techGroups.map((group) => (
-              <div key={group.id}>
-                <p className="border-b border-line pb-3 font-mono text-[12px] uppercase tracking-eyebrow text-body">
-                  {group.label}
-                </p>
-                <ul className="mt-4 space-y-2 text-[17px] leading-relaxed text-body-strong">
-                  {group.items.map((tech) => <li key={tech.name}>{tech.name}</li>)}
-                </ul>
-              </div>
-            ))}
+      <Reveal className="mt-12">
+        <div data-scene-calm>
+          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+            {content.techGroups.map((group) => {
+              const notes = group.items.flatMap((tech) => {
+                const note = t.tech.usedIn[tech.name];
+                return note ? [`${tech.name} — ${note}`] : [];
+              });
+
+              return (
+                <div key={group.id} className="min-w-0">
+                  <h3 className="border-b border-line pb-3.5 text-small font-medium text-body-strong">
+                    {group.label}
+                  </h3>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {group.items.map((tech) => (
+                      <li key={tech.name} className={tagClass}>
+                        {tech.name}
+                      </li>
+                    ))}
+                  </ul>
+                  {notes.length > 0 && (
+                    <ul className="mt-4 flex flex-col gap-1.5">
+                      {notes.map((note) => (
+                        <li key={note} className="text-label text-caption">
+                          {note}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              );
+            })}
           </div>
+          <p className="mt-10 text-label text-caption">{t.tech.notesCaption}</p>
         </div>
       </Reveal>
     </Section>

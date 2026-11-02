@@ -1,11 +1,11 @@
 import { useEffect, useLayoutEffect, useMemo } from "react";
 import {
   AdditiveBlending, BufferGeometry, DataTexture, Float32BufferAttribute, FloatType,
-  NearestFilter, NoColorSpace, RGBAFormat,
+  NearestFilter, NoColorSpace, RGBAFormat, Vector4,
 } from "three";
 import type { Vector2 } from "three";
 import type { RiverPathData } from "./riverPath";
-import { RIVER_SAMPLE_COUNT } from "./riverPath";
+import { MAX_RIVER_CALM_RECTS, RIVER_SAMPLE_COUNT } from "./riverPath";
 import { riverFragment, riverVertex } from "./riverShaders";
 
 interface Uniform<T> {
@@ -107,6 +107,11 @@ const River = ({ path, frameUniforms }: { path: RiverPathData; frameUniforms: Ri
     uHeroBottom: { value: 0 },
     uIsMobile: { value: 0 },
     uFallStart: { value: 0 },
+    uCalmRects: {
+      value: Array.from({ length: MAX_RIVER_CALM_RECTS }, () => new Vector4()),
+    },
+    uCalmCount: { value: 0 },
+    uCalmStrength: { value: 0 },
   }), [frameUniforms, texture]);
 
   useLayoutEffect(() => {
@@ -117,6 +122,16 @@ const River = ({ path, frameUniforms }: { path: RiverPathData; frameUniforms: Ri
     uniforms.uHeroBottom.value = path.heroBottom;
     uniforms.uIsMobile.value = path.mobile ? 1 : 0;
     uniforms.uFallStart.value = path.fallStart;
+    // Mutate the existing Vector4s in place: swapping the array would never
+    // reach the compiled program (same trap as the path texture above).
+    const calmRects = uniforms.uCalmRects.value;
+    for (let i = 0; i < calmRects.length; i++) {
+      const rect = path.calmRects[i];
+      if (rect) calmRects[i].set(rect.left, rect.top, rect.right, rect.bottom);
+      else calmRects[i].set(0, 0, 0, 0);
+    }
+    uniforms.uCalmCount.value = path.calmRects.length;
+    uniforms.uCalmStrength.value = path.mobile ? 0.4 : 0.65;
   }, [path, textureData, texture, uniforms]);
 
   useEffect(() => () => geometry.dispose(), [geometry]);
