@@ -129,10 +129,10 @@ const techGroups: TechGroup[] = [
 ];
 
 const experiences: Experience[] = [
-  { id: "telus", company_name: "TELUS Digital Solutions", icon: telus },
-  { id: "hmd", company_name: "Hidden Mountain Data", icon: hmd },
-  { id: "holland", company_name: "Holland Orchids", icon: hollandOrchids },
-  { id: "adslive", company_name: "Adslivemedia Corp.", icon: adslive },
+  { id: "telus", company_name: "TELUS Digital Solutions", icon: telus, startYear: 2024, current: true },
+  { id: "hmd", company_name: "Hidden Mountain Data", icon: hmd, startYear: 2024 },
+  { id: "holland", company_name: "Holland Orchids", icon: hollandOrchids, startYear: 2023 },
+  { id: "adslive", company_name: "Adslivemedia Corp.", icon: adslive, startYear: 2021 },
 ];
 
 const testimonials: Testimonial[] = [

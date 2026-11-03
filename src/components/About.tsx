@@ -1,65 +1,68 @@
-import { Section, Reveal, Eyebrow } from "./ui/primitives";
+import { Section, Reveal, SectionHead, Eyebrow, ArrowRight, buttonClass, textLinkClass } from "./ui/primitives";
 import { useLocale } from "../i18n/LocaleContext";
-
-const ABOUT_RADIAL =
-  "radial-gradient(60% 80% at 90% 0%, rgba(139,92,246,0.10), transparent 60%)";
 
 const About = () => {
   const { t } = useLocale();
+  const lastPoint = t.about.currentlyPoints.length - 1;
 
   return (
-    <Section id="about" className="pb-10 pt-[72px]">
-      <Reveal>
-        <div
-          className="grid grid-cols-1 gap-10 rounded-2xl border border-line bg-surface p-8 sm:p-11 lg:grid-cols-2 lg:gap-12"
-          style={{ backgroundImage: ABOUT_RADIAL }}
-        >
-          {/* Left: story + CTAs */}
-          <div>
-            <Eyebrow>{t.about.subhead}</Eyebrow>
-            <h2 className="mt-3 font-display text-[28px] font-bold tracking-[-0.02em] text-heading sm:text-[34px]">
-              {t.about.heading}
-            </h2>
-            <p className="mt-[18px] text-[15px] leading-[1.7] text-body">
-              {t.about.bioLead}
-            </p>
-            <p className="mt-3.5 text-[15px] leading-[1.7] text-body">
-              {t.about.bioSecondary}
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3.5">
-              <a
-                href="/resume.pdf"
-                download="Luis_Ortiz_Resume.pdf"
-                className="inline-block rounded-[10px] bg-accent-500 px-[22px] py-[11px] text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-accent-400"
-              >
-                {t.about.resumeCta}
-              </a>
-              <a
-                href="#contact"
-                className="inline-block rounded-[10px] border border-line px-[22px] py-[11px] text-[14px] font-semibold text-heading transition-colors duration-200 hover:border-accent-400"
-              >
-                {t.about.talkCta} →
-              </a>
+    <Section id="about" className="py-16 sm:py-20 lg:py-24">
+      <SectionHead
+        label={t.about.subhead}
+        title={t.about.heading}
+        aside={t.about.facts[0].value}
+      />
+
+      <Reveal className="mt-12">
+        <div data-scene-calm>
+          <div className="flex flex-col gap-12 lg:flex-row lg:gap-16">
+            {/* Left: statement + CTAs */}
+            <div className="lg:flex-[1.4]">
+              <p className="max-w-[34ch] font-display text-display-statement font-medium text-heading">
+                {t.about.bioLead}
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-6">
+                <a href="/resume.pdf" download="Luis_Ortiz_Resume.pdf" className={buttonClass}>
+                  {t.about.resumeCta}
+                </a>
+                <a href="#contact" className={textLinkClass}>
+                  {t.about.talkCta}
+                  <ArrowRight />
+                </a>
+              </div>
+            </div>
+
+            {/* Right: currently at TELUS */}
+            <div className="lg:flex-1">
+              <Eyebrow>{t.about.currentlyLabel}</Eyebrow>
+              <ul className="mt-3.5">
+                {t.about.currentlyPoints.map((point, index) => (
+                  <li
+                    key={point}
+                    className={`relative border-t border-line py-3.5 pl-5 text-copy text-body-strong ${
+                      index === lastPoint ? "border-b" : ""
+                    }`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="absolute left-0 top-[22px] h-1.5 w-1.5 bg-accent-400"
+                    />
+                    {point}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
-          {/* Right: currently @ TELUS */}
-          <div className="flex flex-col justify-center gap-[18px] border-t border-line pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
-            <p className="font-mono text-[12px] text-accent-400">
-              {t.about.currentlyLabel}
-            </p>
-            <div className="flex flex-col gap-3 text-[14px] text-body-strong">
-              {t.about.currentlyPoints.map((point) => (
-                <span key={point} className="flex gap-3">
-                  <span className="text-accent-500">—</span>
-                  {point}
-                </span>
-              ))}
-            </div>
-            <p className="mt-1.5 border-t border-line pt-4 text-[13px] text-body">
-              {t.about.openToNote}
-            </p>
-          </div>
+          {/* Quick facts */}
+          <dl className="mt-16 grid border-t border-line sm:grid-cols-3">
+            {t.about.facts.map((fact) => (
+              <div key={fact.label} className="py-5 pr-6">
+                <dt className="text-label font-medium text-caption">{fact.label}</dt>
+                <dd className="mt-1.5 text-lead text-body-strong">{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </Reveal>
     </Section>

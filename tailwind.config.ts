@@ -31,8 +31,9 @@ export default {
         // Fixed design tokens from the handoff
         divider: "#16161f", // subtler row divider
         "body-strong": "#c9c8d6", // secondary body / chips
-        quote: "#d6d4e4", // serif pull-quote text
-        caption: "#6d6a85", // mono captions
+        quote: "#d6d4e4", // pull-quote text
+        caption: "#7c7996", // smallest text (4.7:1 on page)
+        control: "#5f5c78", // input borders + link underlines (3.1:1 on page)
         status: "#34d399", // production/live chip
 
         // Legacy aliases remapped onto the new system
@@ -61,14 +62,27 @@ export default {
         display: ['"Space Grotesk"', "ui-sans-serif", "system-ui", "sans-serif"],
         sans: ['"Inter"', "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ['"IBM Plex Mono"', "ui-monospace", "SFMono-Regular", "monospace"],
-        serif: ['"Newsreader"', "ui-serif", "Georgia", "serif"],
         poppins: ['"Inter"', "sans-serif"], // legacy alias
+      },
+      /**
+       * Refined type scale: ten sizes in all. Display roles are fluid by
+       * viewport width only, so the hero is always the largest type.
+       */
+      fontSize: {
+        "display-hero": ["clamp(44px, 5.8vw, 84px)", { lineHeight: "1", letterSpacing: "-0.035em" }],
+        "display-mailto": ["clamp(32px, 4.2vw, 60px)", { lineHeight: "1.05", letterSpacing: "-0.03em" }],
+        "display-section": ["clamp(32px, 3.1vw, 44px)", { lineHeight: "1.08", letterSpacing: "-0.028em" }],
+        "display-stat": ["clamp(32px, 3.1vw, 44px)", { lineHeight: "1", letterSpacing: "-0.03em" }],
+        "display-feature": ["clamp(26px, 2.3vw, 32px)", { lineHeight: "1.15", letterSpacing: "-0.02em" }],
+        "display-statement": ["clamp(22px, 2vw, 28px)", { lineHeight: "1.35", letterSpacing: "-0.015em" }],
+        "display-item": ["clamp(20px, 1.7vw, 24px)", { lineHeight: "1.25", letterSpacing: "-0.015em" }],
+        lead: ["18px", { lineHeight: "1.6" }],
+        copy: ["16px", { lineHeight: "1.65" }],
+        small: ["14px", { lineHeight: "1.55" }],
+        label: ["13px", { lineHeight: "1.4" }],
       },
       maxWidth: {
         content: "1200px",
-      },
-      letterSpacing: {
-        eyebrow: "0.1em",
       },
       screens: {
         xs: "450px",

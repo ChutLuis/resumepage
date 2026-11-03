@@ -1,9 +1,9 @@
-import { lazy, Suspense } from "react";
+import { Component, lazy, Suspense, type ReactNode } from "react";
 import { Hero, Navbar, ErrorBoundary, Footer } from "./components";
 import SectionLoader from "./components/SectionLoader";
 import SmoothScroll from "./components/SmoothScroll";
-import ScrollProgress from "./components/ui/ScrollProgress";
 import { useLocale } from "./i18n/LocaleContext";
+import { sceneStore } from "./lib/sceneStore";
 
 // Lazy load below-the-fold sections for a lean initial payload.
 const Works = lazy(() => import("./components/Works"));
@@ -12,6 +12,23 @@ const Tech = lazy(() => import("./components/Tech"));
 const About = lazy(() => import("./components/About"));
 const Feedbacks = lazy(() => import("./components/Feedbacks"));
 const Contact = lazy(() => import("./components/Contact"));
+const SceneLayer = lazy(() => import("./components/canvas/SceneLayer"));
+
+class SceneLayerBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch() {
+    sceneStore.setLost(true);
+  }
+
+  render() {
+    return this.state.failed ? null : this.props.children;
+  }
+}
 
 function App() {
   const { t } = useLocale();
@@ -27,15 +44,19 @@ function App() {
 
   return (
     <div className="relative z-0 bg-primary">
+      <SceneLayerBoundary>
+        <Suspense fallback={null}>
+          <SceneLayer />
+        </Suspense>
+      </SceneLayerBoundary>
       <SmoothScroll />
-      <ScrollProgress />
 
-      <header>
+      <header className="relative z-20">
         <Navbar />
         <Hero />
       </header>
 
-      <main id="main-content" className="relative">
+      <main id="main-content" className="relative z-10">
         {sections.map((SectionComponent, index) => (
           <ErrorBoundary
             key={index}
@@ -49,7 +70,9 @@ function App() {
         ))}
       </main>
 
-      <Footer />
+      <div className="relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 }

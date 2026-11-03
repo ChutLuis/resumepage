@@ -1,141 +1,110 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { navLinks } from "../constants";
 import { logo, menu, close } from "../assets";
 import useActiveSection from "../hooks/useActiveSection";
 import { useLocale } from "../i18n/LocaleContext";
 import LanguageToggle from "./ui/LanguageToggle";
+import { ArrowRight, buttonSmClass } from "./ui/primitives";
 
-// Stable reference so the IntersectionObserver effect doesn't re-run each render.
 const SECTION_IDS = navLinks.map((link) => link.id);
 
 const Navbar = () => {
-  const [toggle, setToggle] = useState(false);
+  const [open, setOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const activeId = useActiveSection(SECTION_IDS);
   const { t, content } = useLocale();
 
+  useEffect(() => {
+    if (!open) return;
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        buttonRef.current?.focus();
+      }
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Node && !navRef.current?.contains(event.target)) setOpen(false);
+    };
+    const onBreakpointChange = () => {
+      if (!desktop.matches) return;
+      const menuElement = document.getElementById("mobile-menu");
+      if (menuElement?.contains(document.activeElement)) navRef.current?.querySelector("a")?.focus();
+      setOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    desktop.addEventListener("change", onBreakpointChange);
+    onBreakpointChange();
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+      desktop.removeEventListener("change", onBreakpointChange);
+    };
+  }, [open]);
+
+  const linkClass = (active: boolean) =>
+    `inline-flex min-h-11 min-w-11 items-center text-small transition-colors duration-200 ${
+      active
+        ? "text-heading underline decoration-accent-400 decoration-1 underline-offset-[6px]"
+        : "text-body hover:text-heading"
+    }`;
+
   return (
-    <nav
-      className="fixed top-0 z-30 w-full border-b border-white/[0.06] bg-primary/85 backdrop-blur-md"
-      role="navigation"
-      aria-label={t.nav.mainNavigation}
-    >
-      <div className="mx-auto flex w-full max-w-content items-center justify-between px-6 py-[18px] sm:px-10">
-        <Link
-          to="/"
-          className="flex items-center gap-2.5"
-          onClick={() => window.scrollTo(0, 0)}
-        >
+    <nav ref={navRef} className="fixed top-0 z-30 w-full border-b border-line bg-primary" aria-label={t.nav.mainNavigation}>
+      <div className="relative mx-auto flex w-full max-w-content items-center justify-between px-6 py-2 sm:px-10 lg:py-3.5">
+        <Link to="/" className="flex min-h-11 items-center gap-2.5" onClick={() => window.scrollTo(0, 0)}>
           <img src={logo} alt="" className="h-5 w-5 object-contain" />
-          <span className="font-display text-[16px] font-bold text-heading">
-            {t.nav.brand}
-          </span>
+          <span className="font-display text-[17px] font-semibold text-heading">{t.nav.brand}</span>
         </Link>
 
-        <ul className="hidden list-none flex-row items-center gap-7 sm:flex">
-          {content.navLinks.map((link) => {
-            const isActive = activeId === link.id;
-            return (
-              <li key={link.id}>
-                <a
-                  href={`#${link.id}`}
-                  aria-current={isActive ? "true" : undefined}
-                  className={`text-[14px] transition-colors duration-200 ${
-                    isActive ? "text-heading" : "text-body hover:text-heading"
-                  }`}
-                >
-                  {link.title}
-                </a>
-              </li>
-            );
-          })}
+        <ul className="hidden list-none items-center gap-7 lg:flex">
+          {content.navLinks.map((link) => (
+            <li key={link.id}>
+              <a href={`#${link.id}`} aria-current={activeId === link.id ? "true" : undefined} className={linkClass(activeId === link.id)}>
+                {link.title}
+              </a>
+            </li>
+          ))}
+          <li><LanguageToggle /></li>
+          <li><a href="/resume.pdf" download="Luis_Ortiz_Resume.pdf" className={linkClass(false)}>{t.nav.resume}</a></li>
           <li>
-            <LanguageToggle />
-          </li>
-          {/*
-            Two plain-text links, not buttons: "Resume" for recruiters,
-            "Discuss a project" (with an arrow, matching the Works.tsx link
-            treatment) for prospects. Neither competes visually with the
-            hero's solid CTA button — the nav is chrome you see on every
-            scroll position, not a persistent sales banner.
-          */}
-          <li>
-            <a
-              href="/resume.pdf"
-              download="Luis_Ortiz_Resume.pdf"
-              className="text-[14px] text-body transition-colors duration-200 hover:text-heading"
-            >
-              {t.nav.resume}
-            </a>
-          </li>
-          <li>
-            <a
-              href="#contact"
-              className="text-[14px] font-medium text-accent-300 transition-colors duration-200 hover:text-accent-200"
-            >
-              {t.hero.contactCta} →
+            <a href="#contact" className={buttonSmClass}>
+              {t.hero.contactCta}
+              <ArrowRight />
             </a>
           </li>
         </ul>
 
-        <div className="flex flex-1 items-center justify-end sm:hidden">
+        <div className="lg:hidden">
           <button
-            onClick={() => setToggle(!toggle)}
-            className="flex h-11 w-11 items-center justify-center rounded focus:outline-none focus:ring-2 focus:ring-accent-400"
-            aria-label={toggle ? t.nav.closeMenu : t.nav.openMenu}
-            aria-expanded={toggle}
+            ref={buttonRef}
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            className="flex h-11 w-11 items-center justify-center rounded-md"
+            aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
+            aria-expanded={open}
             aria-controls="mobile-menu"
           >
-            <img
-              src={toggle ? close : menu}
-              alt=""
-              className="h-7 w-7 object-contain"
-            />
+            <img src={open ? close : menu} alt="" className="h-7 w-7 object-contain" />
           </button>
-          <div
-            id="mobile-menu"
-            role="dialog"
-            aria-modal="true"
-            aria-label={t.nav.mainNavigation}
-            className={`${
-              !toggle ? "hidden" : "flex"
-            } absolute right-4 top-[68px] z-10 min-w-[180px] flex-col rounded-2xl border border-line bg-bg-2 p-5`}
-          >
-            <ul className="flex w-full list-none flex-col items-start gap-4">
-              {content.navLinks.map((link) => {
-                const isActive = activeId === link.id;
-                return (
-                  <li
-                    key={link.id}
-                    className={`text-[16px] font-medium transition-colors duration-200 ${
-                      isActive ? "text-heading" : "text-body hover:text-heading"
-                    }`}
-                    onClick={() => setToggle(false)}
-                  >
-                    <a href={`#${link.id}`}>{link.title}</a>
-                  </li>
-                );
-              })}
-              <li className="w-full border-t border-line pt-3">
+          <div id="mobile-menu" hidden={!open} className="absolute right-6 top-full mt-2 min-w-[200px] rounded-xl border border-line bg-surface p-5 sm:right-10 lg:hidden">
+            <ul className="flex list-none flex-col items-start">
+              {content.navLinks.map((link) => (
+                <li key={link.id}>
+                  <a href={`#${link.id}`} aria-current={activeId === link.id ? "true" : undefined} className={linkClass(activeId === link.id)} onClick={() => setOpen(false)}>
+                    {link.title}
+                  </a>
+                </li>
+              ))}
+              <li><a href="/resume.pdf" download="Luis_Ortiz_Resume.pdf" className={linkClass(false)} onClick={() => setOpen(false)}>{t.nav.resume}</a></li>
+              <li className="mt-2 flex w-full items-center justify-between gap-4 border-t border-line pt-2">
                 <LanguageToggle />
-              </li>
-              <li className="w-full border-t border-line pt-3">
-                <a
-                  href="#contact"
-                  className="text-[16px] font-medium text-accent-300 transition-colors duration-200 hover:text-accent-200"
-                  onClick={() => setToggle(false)}
-                >
-                  {t.hero.contactCta} →
-                </a>
-              </li>
-              <li className="w-full">
-                <a
-                  href="/resume.pdf"
-                  download="Luis_Ortiz_Resume.pdf"
-                  className="text-[14px] text-body transition-colors duration-200 hover:text-heading"
-                  onClick={() => setToggle(false)}
-                >
-                  {t.nav.resume}
+                <a href="#contact" className={buttonSmClass} onClick={() => setOpen(false)}>
+                  {t.hero.contactCta}
+                  <ArrowRight />
                 </a>
               </li>
             </ul>

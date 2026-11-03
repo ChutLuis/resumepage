@@ -1,28 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* ------------------------------------------------------------------ */
-/*  Lenis smooth scroll (recommended baseline styles)                  */
-/* ------------------------------------------------------------------ */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-.lenis.lenis-smooth iframe {
-  pointer-events: none;
-}
 
 /* ------------------------------------------------------------------ */
 /*  Theme tokens (RGB triplets so Tailwind alpha modifiers work)       */
@@ -46,7 +26,7 @@ html.lenis body {
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -105,7 +85,6 @@ body {
 :focus-visible {
   outline: 2px solid #a78bfa;
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
 /* ------------------------------------------------------------------ */

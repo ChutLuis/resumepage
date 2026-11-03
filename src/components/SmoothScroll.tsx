@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import scrollState from "../lib/scrollState";
+import { subscribeTicker } from "../lib/ticker";
 
 /**
  * Initializes Lenis smooth scrolling for the whole document and keeps the
  * shared `scrollState` (velocity/progress) up to date for animation loops.
  *
  * Behavior:
+ * - Lenis has no rAF loop of its own: it advances from the shared ticker at priority 0,
+ *   so the WebGL scene (priority 10) always renders after the scroll position is updated.
  * - Disabled entirely under `prefers-reduced-motion` (native scroll is kept,
  *   and IntersectionObserver / Framer `useScroll` keep working because Lenis
  *   drives the real window scroll position).
@@ -36,14 +39,11 @@ const SmoothScroll = () => {
     };
     lenis.on("scroll", onScroll);
 
-    let rafId = 0;
-    const raf = (time: number) => {
+    const unsubscribe = subscribeTicker((time) => {
       lenis.raf(time);
       // Decay velocity toward 0 so the shader settles when scrolling stops.
       scrollState.velocity *= 0.9;
-      rafId = requestAnimationFrame(raf);
-    };
-    rafId = requestAnimationFrame(raf);
+    }, 0);
 
     const onAnchorClick = (e: MouseEvent) => {
       const anchor = (e.target as HTMLElement).closest<HTMLAnchorElement>(
@@ -61,7 +61,7 @@ const SmoothScroll = () => {
 
     return () => {
       document.removeEventListener("click", onAnchorClick);
-      cancelAnimationFrame(rafId);
+      unsubscribe();
       lenis.destroy();
       scrollState.velocity = 0;
     };
