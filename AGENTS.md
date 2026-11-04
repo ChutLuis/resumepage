@@ -18,8 +18,6 @@
   to only one locale.
 - `src/hooks/useGuatemalaTime.ts` is the single source of the live Guatemala
   clock, used by both the hero meta row and Contact's local-time note.
-  `src/components/work/PlatformSchematic.tsx` renders the featured case study's
-  layer diagram (screen → platform → server) from `t.work.schematic`.
 - `lambda/src/index.ts` is the API Gateway HTTP API handler. It validates input,
   uses the honeypot, and sends through SES; no email credentials belong in the
   frontend.
@@ -40,7 +38,7 @@
   `text-small` 14, `text-label` 13. Display sizes are width-fluid only; the hero is always the
   largest type on the page.
 - Primary CTA is `buttonClass` (white fill, ink text); `buttonSmClass` in the nav;
-  `textLinkClass` for secondary links; `tagClass` for stack/schematic tags; `ArrowUpRight` for
+  `textLinkClass` for secondary links; `tagClass` for stack/tool tags; `ArrowUpRight` for
   outbound links. Violet is reserved for links, section labels, small status dots and the scene.
 - Hero is a centred stardust poster: meta row (role, edition year, live Guatemala time), standfirst intro + CTAs top-left, the two-part masked headline (`headlineLead` in heading colour / `headlineAccent` in muted colour, same face) across the bottom, and a four-stat proof strip (`hero.proof`) under it. On desktop the whole stage is the scene anchor. Hebe is rendered as a ~90k-particle point cloud (36k on mobile) sampled from `hebe.glb` over an invisible depth-only occluder: she assembles from stardust after the constellation draws, her base turns to drifting dust, scrolling away blows her into stardust, and a fine pointer gently parts the particles. Constellation edges are stippled; a faint dust field drifts in depth behind her. The full `headline` string stays as the screen-reader text.
 - Build sections with `Section` / `Reveal` / `SectionHead` from
@@ -54,7 +52,7 @@
   child of `#contact`. Shared `buttonClass` / `textLinkClass` / `tagClass` / `ArrowRight` /
   `ArrowUpRight` / `StatusDot` / `EASE` keep CTAs and motion consistent. Weights: hero h1 600,
   section h2 500, item h3 500. Each section keeps one signature device: the hero proof strip,
-  the featured Work layer panel plus equal 16:10 project cards, dated role rows (Experience),
+  the featured Work case study (title, full-width product shot, details) plus equal 16:10 project cards, dated role rows (Experience),
   tool tags with "used in" notes (Tech), the statement plus quick-facts strip (About), the lead
   quote plus quote panels (Testimonials), and the large mailto finale (Contact). Section ids:
   `work`, `experience`, `tech`, `about`, `testimonials`, `contact`.
@@ -80,8 +78,8 @@
   renders a static settled frame only when scroll, layout, resize, or ready state is dirty.
   Soft star halos and particle glow are allowed **only inside this scene** (UI keeps no shadows/glows/
   gradients). No drei / postprocessing. Keep it lean.
-- Selected Work rows come from `workItems` in `src/constants/index.ts`; thumbnails
-  are `src/assets/*-showcase.jpg`.
+- The featured case study is `featuredWork` and the “Also built” cards are `secondaryWork` in
+  `src/constants/index.ts`; images are `src/assets/*-showcase.jpg`.
 
 ## Deployment Constraints
 

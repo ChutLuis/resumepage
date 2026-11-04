@@ -1,7 +1,6 @@
 import type {
   ExperienceId,
   NavId,
-  SchematicLayerId,
   TechGroupId,
   TestimonialId,
   WorkId,
@@ -20,7 +19,6 @@ type TranslatedWork = {
 };
 type TranslatedExperience = { title: string; date: string; summary: string };
 type TranslatedTestimonial = { testimonial: string; designation: string };
-type SchematicLayer = { label: string; items: readonly string[] };
 type Fact = { label: string; value: string };
 type ProofStat = { value: string; label: string };
 
@@ -60,13 +58,10 @@ export interface Dictionary {
     secondaryLabel: string;
     featuredLabel: string;
     /** Field names for the featured case study's metadata rows. */
-    meta: { company: string; dates: string; stack: string };
-    schematic: {
-      label: string;
-      layers: Record<SchematicLayerId, SchematicLayer>;
-      release: string;
-    };
-    status: Record<"production" | "live" | "case-study" | "flagship", string>;
+    meta: { platforms: string; testing: string; stack: string };
+    /** Values for the featured case study's platform/testing rows. */
+    featuredFacts: { platforms: string; testing: string };
+    status: Record<"production" | "live" | "case-study" | "flagship" | "public", string>;
     items: Record<WorkId, TranslatedWork>;
   };
   experience: {
@@ -201,52 +196,34 @@ const en = {
     extent: "{count} projects",
     secondaryLabel: "Also built",
     featuredLabel: "Featured",
-    meta: { company: "Company", dates: "Dates", stack: "Stack" },
-    schematic: {
-      label: "How the work is layered",
-      layers: {
-        screen: {
-          label: "Screen",
-          items: ["Screen composition", "Navigation controls", "Engagement components"],
-        },
-        platform: {
-          label: "Platform",
-          items: [
-            "In-app WebView",
-            "Marketing SDK integration",
-            "Error observability",
-            "Accessibility",
-          ],
-        },
-        server: {
-          label: "Server",
-          items: ["Node/NestJS BFF", "Request de-duplication", "Circuit breaking"],
-        },
-      },
-      release: "Released behind remote feature flags, with regression tests",
+    meta: { platforms: "Platforms", testing: "Tested", stack: "Stack" },
+    featuredFacts: {
+      platforms: "Android · iOS · web",
+      testing: "100+ pgTAP assertions on RLS and RPCs · 670+ Vitest tests",
     },
     status: {
       production: "Production",
       live: "Live",
       "case-study": "Case study",
       flagship: "In production",
+      public: "Public repo",
     },
     items: {
-      "mobile-platform": {
-        name: "React Native platform engineering",
-        descriptor: "TELUS customer app used by millions",
+      waymark: {
+        name: "Waymark",
+        descriptor: "A shared trip planner for two",
         paragraph:
-          "I work on a production React Native app and built a new customer experience from screen composition and navigation controls to engagement components. It was released behind remote feature flags with regression tests. I also work on shared platform layers: the in-app WebView, a marketing SDK integration, error observability, accessibility, and backend reliability—including request de-duplication and circuit breaking—in the Node/NestJS BFF.",
-        linkLabel: "Full write-up coming with the next case study",
-        imageLabel: "No public screenshot — proprietary production work",
+          "Built as a real product rather than a demo: one Expo codebase on Android, iOS and web, backed by Supabase. Row Level Security covers every table, privileged writes go only through reviewed RPCs, and a pgTAP suite proves that one member can’t read another’s private notes. An offline queue survives restarts, and the hand-made airmail design runs on Reanimated worklets: trips are dealt like envelopes, stops get postmarked, and private notes are sealed with wax.",
+        linkLabel: "Source on GitHub",
+        imageLabel: "Waymark on three phones: trips in dark mode, the day plan, and a private note opened from its envelope",
       },
-      socialhub: {
-        name: "SocialHub",
-        descriptor: "Social media management platform",
+      "waymark-web": {
+        name: "Waymark site",
+        descriptor: "Product site on a scroll-driven WebGL sky",
         paragraph:
-          "Queue-backed scheduling and publishing across connected accounts, workspace RBAC, OAuth token auto-refresh.",
-        linkLabel: "Demo video — coming soon",
-        imageLabel: "SocialHub product shot",
+          "A static Astro site whose home page sits on one three.js sky. The light changes from dawn to dusk section by section, the camera flies through cut-paper clouds, and a paper plane measures the real layout to wait in open sky, clear of text. three.js loads after first paint, and reduced motion gets a still sky.",
+        linkLabel: "Live site",
+        imageLabel: "Waymark product site: the hero over its WebGL sky",
       },
       "jersey-guatemala": {
         name: "Jersey Guatemala",
@@ -255,20 +232,6 @@ const en = {
           "Farm directory with individual herd profiles and filterable cattle-for-sale listings — fully bilingual (Spanish/English), built on Astro content collections with an automatic image pipeline.",
         linkLabel: "Live site",
         imageLabel: "Jersey Guatemala site shot",
-      },
-      "portfolio-analytics": {
-        name: "Portfolio Analytics",
-        descriptor: "Analytics dashboard UI demo",
-        paragraph:
-          "Analytics dashboard UI — KPI cards, Recharts graphs, and a Three.js hero — built with React Router and Tailwind over sample data, containerized with Docker.",
-        linkLabel: "Source on GitHub",
-      },
-      socializa: {
-        name: "Socializa.io",
-        descriptor: "Marketing site with pricing and checkout",
-        paragraph:
-          "Multi-page marketing site for a social media management platform — scroll-choreographed motion, an interactive 3D scene, tiered pricing, and a Braintree checkout.",
-        linkLabel: "Live site",
       },
       comal: {
         name: "Comal",
@@ -297,7 +260,7 @@ const en = {
         title: "Senior Applications Developer",
         date: "Oct 2024 — Present",
         summary:
-          "Core engineer on TELUS’s React Native customer app, used by millions. Led the build of a new customer experience, including screen composition, navigation controls, and engagement components, released behind remote feature flags with test coverage. Also responsible for shared platform layers: the in-app WebView, marketing SDK integration, observability, and accessibility.",
+          "Core engineer on TELUS’s React Native customer app, used by millions. Led the build of a new customer experience, including screen composition, navigation controls, and engagement components, released behind remote feature flags with test coverage. Also responsible for shared platform layers: the in-app WebView, marketing SDK integration, observability, and accessibility, plus reliability work in the Node/NestJS BFF (request de-duplication and circuit breaking).",
       },
       hmd: {
         title: "Full-Stack Engineer (contract)",
@@ -329,16 +292,17 @@ const en = {
       frontend: "Frontend & tools",
     },
     usedIn: {
-      "React Native": "TELUS customer app",
-      TypeScript: "TELUS customer app",
+      "React Native": "Waymark · TELUS customer app",
+      Expo: "Waymark",
+      TypeScript: "Waymark · TELUS customer app",
       "Node.js": "TELUS BFF",
-      NestJS: "TELUS BFF · SocialHub · Hidden Mountain Data",
+      NestJS: "TELUS BFF · Hidden Mountain Data",
       Prisma: "Comal · Hidden Mountain Data",
-      PostgreSQL: "Comal · Hidden Mountain Data",
-      AWS: "Adslivemedia client sites · SocialHub (S3)",
-      React: "Comal · Socializa.io · Portfolio Analytics",
-      Tailwind: "Comal · Socializa.io · Portfolio Analytics",
-      Docker: "Portfolio Analytics",
+      PostgreSQL: "Waymark (Supabase) · Comal · Hidden Mountain Data",
+      AWS: "Adslivemedia client sites · this site (Amplify, Lambda, SES)",
+      React: "Comal · this site",
+      Tailwind: "Comal · this site",
+      Docker: "Comal",
     },
     notesCaption: "Notes show where each tool appears in the work and experience above.",
   },
@@ -491,56 +455,34 @@ const es = {
     extent: "{count} proyectos",
     secondaryLabel: "También he construido",
     featuredLabel: "Destacado",
-    meta: { company: "Empresa", dates: "Fechas", stack: "Tecnologías" },
-    schematic: {
-      label: "Cómo se organiza el trabajo",
-      layers: {
-        screen: {
-          label: "Pantalla",
-          items: [
-            "Composición de pantallas",
-            "Control de navegación",
-            "Componentes de interacción",
-          ],
-        },
-        platform: {
-          label: "Plataforma",
-          items: [
-            "WebView de la app",
-            "Integración de SDK de marketing",
-            "Observabilidad de errores",
-            "Accesibilidad",
-          ],
-        },
-        server: {
-          label: "Servidor",
-          items: ["BFF en Node/NestJS", "Deduplicación de solicitudes", "Circuit breakers"],
-        },
-      },
-      release: "Lanzado detrás de feature flags remotos, con pruebas de regresión",
+    meta: { platforms: "Plataformas", testing: "Pruebas", stack: "Tecnologías" },
+    featuredFacts: {
+      platforms: "Android · iOS · web",
+      testing: "100+ aserciones pgTAP sobre RLS y RPC · 670+ pruebas en Vitest",
     },
     status: {
       production: "Producción",
       live: "En vivo",
       "case-study": "Caso de estudio",
       flagship: "En producción",
+      public: "Repo público",
     },
     items: {
-      "mobile-platform": {
-        name: "Ingeniería de plataforma React Native",
-        descriptor: "App de clientes de TELUS utilizada por millones de personas",
+      waymark: {
+        name: "Waymark",
+        descriptor: "Planificador de viajes compartido para dos",
         paragraph:
-          "Trabajo en una app React Native en producción y construí una nueva experiencia para clientes: desde la composición de pantallas y el control de navegación hasta componentes de interacción. Se lanzó detrás de feature flags remotos y con pruebas de regresión. También trabajo en capas compartidas de la plataforma: el WebView de la app, una integración de SDK de marketing, la observabilidad de errores, la accesibilidad y la confiabilidad del backend —incluidas la deduplicación de solicitudes y los circuit breakers— en el BFF de Node/NestJS.",
-        linkLabel: "Reporte completo próximamente con el siguiente caso de estudio",
-        imageLabel: "Sin captura pública — trabajo de producción propietario",
+          "Construido como un producto real y no como una demo: una sola base de código Expo para Android, iOS y web, con Supabase detrás. Row Level Security cubre cada tabla, las escrituras privilegiadas pasan solo por RPC revisadas y una suite de pgTAP demuestra que un miembro no puede leer las notas privadas de otro. La cola offline sobrevive a los reinicios, y el diseño de correo aéreo hecho a mano corre sobre worklets de Reanimated: los viajes se reparten como sobres, las paradas reciben matasellos y las notas privadas se sellan con lacre.",
+        linkLabel: "Código en GitHub",
+        imageLabel: "Waymark en tres teléfonos: viajes en modo oscuro, el plan del día y una nota privada abierta desde su sobre",
       },
-      socialhub: {
-        name: "SocialHub",
-        descriptor: "Plataforma de gestión de redes sociales",
+      "waymark-web": {
+        name: "Sitio de Waymark",
+        descriptor: "Sitio del producto sobre un cielo WebGL guiado por el scroll",
         paragraph:
-          "Programación y publicación respaldadas por colas en cuentas conectadas, RBAC por espacio de trabajo y renovación automática de tokens OAuth.",
-        linkLabel: "Video demo — próximamente",
-        imageLabel: "Captura de SocialHub",
+          "Un sitio estático en Astro cuya página de inicio vive sobre un único cielo de three.js. La luz pasa del amanecer al anochecer sección por sección, la cámara vuela entre nubes de papel recortado y un avión de papel mide el layout real para esperar en cielo abierto, lejos del texto. three.js carga después del primer render y, con movimiento reducido, el cielo queda quieto.",
+        linkLabel: "Ver sitio",
+        imageLabel: "Sitio de Waymark: el hero sobre su cielo WebGL",
       },
       "jersey-guatemala": {
         name: "Jersey Guatemala",
@@ -549,20 +491,6 @@ const es = {
           "Directorio de fincas con perfiles de hato y listados filtrables de ganado en venta — totalmente bilingüe (español/inglés), construido con content collections de Astro y una canalización automática de imágenes.",
         linkLabel: "Ver sitio",
         imageLabel: "Captura de Jersey Guatemala",
-      },
-      "portfolio-analytics": {
-        name: "Portfolio Analytics",
-        descriptor: "Demo de UI de dashboard analítico",
-        paragraph:
-          "UI de dashboard analítico — tarjetas de KPI, gráficas con Recharts y un hero en Three.js — construida con React Router y Tailwind sobre datos de ejemplo, empaquetada con Docker.",
-        linkLabel: "Código en GitHub",
-      },
-      socializa: {
-        name: "Socializa.io",
-        descriptor: "Sitio de marketing con precios y checkout",
-        paragraph:
-          "Sitio de marketing multipágina para una plataforma de gestión de redes sociales — animaciones coreografiadas al hacer scroll, una escena 3D interactiva, planes de precios y un checkout con Braintree.",
-        linkLabel: "Ver sitio",
       },
       comal: {
         name: "Comal",
@@ -591,7 +519,7 @@ const es = {
         title: "Desarrollador Senior de Aplicaciones",
         date: "Oct 2024 — Actualidad",
         summary:
-          "Ingeniero del equipo que desarrolla la app de clientes de TELUS con React Native, utilizada por millones de personas. Lideré la construcción de una nueva experiencia para clientes, incluyendo la composición de pantallas, el control de navegación y componentes de interacción; se lanzó detrás de feature flags remotos y con cobertura de pruebas. También soy responsable de capas compartidas: el WebView de la app, la integración del SDK de marketing, la observabilidad y la accesibilidad.",
+          "Ingeniero del equipo que desarrolla la app de clientes de TELUS con React Native, utilizada por millones de personas. Lideré la construcción de una nueva experiencia para clientes, incluyendo la composición de pantallas, el control de navegación y componentes de interacción; se lanzó detrás de feature flags remotos y con cobertura de pruebas. También soy responsable de capas compartidas: el WebView de la app, la integración del SDK de marketing, la observabilidad y la accesibilidad, además de la confiabilidad del BFF en Node/NestJS (deduplicación de solicitudes y circuit breakers).",
       },
       hmd: {
         title: "Ingeniero Full-Stack (contrato)",
@@ -623,16 +551,17 @@ const es = {
       frontend: "Frontend y herramientas",
     },
     usedIn: {
-      "React Native": "App de clientes de TELUS",
-      TypeScript: "App de clientes de TELUS",
+      "React Native": "Waymark · app de clientes de TELUS",
+      Expo: "Waymark",
+      TypeScript: "Waymark · app de clientes de TELUS",
       "Node.js": "BFF de TELUS",
-      NestJS: "BFF de TELUS · SocialHub · Hidden Mountain Data",
+      NestJS: "BFF de TELUS · Hidden Mountain Data",
       Prisma: "Comal · Hidden Mountain Data",
-      PostgreSQL: "Comal · Hidden Mountain Data",
-      AWS: "Sitios de clientes de Adslivemedia · SocialHub (S3)",
-      React: "Comal · Socializa.io · Portfolio Analytics",
-      Tailwind: "Comal · Socializa.io · Portfolio Analytics",
-      Docker: "Portfolio Analytics",
+      PostgreSQL: "Waymark (Supabase) · Comal · Hidden Mountain Data",
+      AWS: "Sitios de clientes de Adslivemedia · este sitio (Amplify, Lambda, SES)",
+      React: "Comal · este sitio",
+      Tailwind: "Comal · este sitio",
+      Docker: "Comal",
     },
     notesCaption:
       "Las notas indican dónde aparece cada herramienta en los proyectos y la experiencia anteriores.",

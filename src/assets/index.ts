@@ -20,12 +20,11 @@ import adslive from "./adslive.jpeg";
 import hollandOrchids from "./ho.jpeg";
 import hmd from "./hmd.jpeg";
 import telus from "./telus.jpeg";
-import SocializaShowcase from "./SocializaShowcase.png";
-import PortfolioShowcase from "./PortfolioShowcase.png";
 import ErpShowcase from "./erp-showcase.jpg";
 import ComalShowcase from "./comal-showcase.jpg";
 import JerseyShowcase from "./jersey-showcase.jpg";
-import SocialhubShowcase from "./socialhub-showcase.jpg";
+import WaymarkShowcase from "./waymark-showcase.jpg";
+import WaymarkWebShowcase from "./waymark-web-showcase.jpg";
 
 export {
   nest,
@@ -49,10 +48,9 @@ export {
   hollandOrchids,
   hmd,
   telus,
-  SocializaShowcase,
-  PortfolioShowcase,
   ErpShowcase,
   ComalShowcase,
   JerseyShowcase,
-  SocialhubShowcase,
+  WaymarkShowcase,
+  WaymarkWebShowcase,
 };
