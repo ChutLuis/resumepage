@@ -1,16 +1,13 @@
 export type NavId = "work" | "experience" | "about" | "contact";
 export type WorkId =
-  | "mobile-platform"
-  | "socialhub"
+  | "waymark"
+  | "waymark-web"
   | "jersey-guatemala"
-  | "portfolio-analytics"
-  | "socializa"
   | "comal"
   | "erp-pymes";
 export type ExperienceId = "telus" | "hmd" | "holland" | "adslive";
 export type TestimonialId = "emmanuel" | "lisa" | "andres";
 export type TechGroupId = "mobile" | "backend" | "frontend";
-export type SchematicLayerId = "screen" | "platform" | "server";
 
 export interface NavLink {
   id: NavId;
@@ -25,7 +22,7 @@ export interface NavLink {
 export interface WorkItem {
   id: WorkId;
   /** Inline status chip; omit for none. */
-  status?: "production" | "live" | "case-study" | "flagship";
+  status?: "production" | "live" | "case-study" | "flagship" | "public";
   /** Mono stack line, e.g. "nextjs 15 · nestjs · redis/bullmq · s3". */
   stack: string;
   /**

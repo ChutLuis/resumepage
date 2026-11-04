@@ -170,7 +170,7 @@ export const buttonSmClass =
   "group inline-flex h-9 items-center gap-2 rounded-md bg-heading px-3.5 text-[14px] font-medium text-primary transition-colors duration-200 hover:bg-white active:bg-body-strong";
 export const textLinkClass =
   "group inline-flex min-h-11 items-center gap-1.5 text-[15px] font-medium text-heading underline decoration-control underline-offset-4 transition-colors duration-200 hover:text-accent-300 hover:decoration-accent-300";
-/** Small bordered tag for stacks and schematic items. */
+/** Small bordered tag for stacks and tool tags. */
 export const tagClass =
   "inline-flex items-center rounded-md border border-line px-2.5 py-1 text-[13px] leading-[1.4] text-body-strong";
 

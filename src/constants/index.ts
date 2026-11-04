@@ -9,10 +9,9 @@ import {
   docker,
   adslive,
   hollandOrchids,
-  SocializaShowcase,
-  PortfolioShowcase,
   ComalShowcase,
-  SocialhubShowcase,
+  WaymarkShowcase,
+  WaymarkWebShowcase,
   express,
   nest,
   prisma,
@@ -41,34 +40,28 @@ export const navLinks: NavLink[] = [
 
 /**
  * Featured case study — the single lead item Works.tsx renders above the
- * numbered "Also built" list. No public URL and no screenshot: this is
- * proprietary production work (the TELUS customer app), described by
- * mechanism rather than by artifact. PIN: replace this with the Waymark
- * case study once it has a public repo, RLS tests, and real screenshots —
- * the copy/story here is a placeholder until that ships.
+ * numbered "Also built" list. Waymark is a real product with a public repo,
+ * RLS proven by a pgTAP suite, and real product screenshots.
  */
 const featuredWork: WorkItem = {
-  id: "mobile-platform",
-  status: "flagship",
+  id: "waymark",
+  status: "public",
   featured: true,
-  stack: "react native · typescript · node · nestjs",
+  stack: "expo · react native · supabase · reanimated · tanstack query",
+  url: "https://github.com/ChutLuis/waymark",
+  image: WaymarkShowcase,
 };
 
 /**
  * "Also built" numbered index — every row uses a real/live screenshot.
- * SocialHub is a case study (not a live link): its public demo sits behind
- * an Auth0 tenant with no self-serve signup, so linking to it directly would
- * dead-end a visitor. A short demo video / write-up replaces the live link
- * until a proper guest/demo account exists.
  */
 const secondaryWork: WorkItem[] = [
   {
-    id: "socialhub",
-    status: "case-study",
-    stack: "nextjs 15 · nestjs · redis/bullmq · s3",
-    // No public URL: the live app sits behind Auth0 with no self-serve
-    // signup. A demo video replaces the link until a guest account exists.
-    image: SocialhubShowcase,
+    id: "waymark-web",
+    status: "live",
+    stack: "astro · three.js · lottie · railway",
+    url: "https://waymark-web-production.up.railway.app",
+    image: WaymarkWebShowcase,
   },
   {
     id: "comal",
@@ -76,18 +69,6 @@ const secondaryWork: WorkItem[] = [
     stack: "react router · prisma · postgresql · tailwind",
     url: "https://comal.lfortiz.com",
     image: ComalShowcase,
-  },
-  {
-    id: "socializa",
-    stack: "react router · tailwind · framer motion · three.js · braintree",
-    url: "https://landing.socializa.io/",
-    image: SocializaShowcase,
-  },
-  {
-    id: "portfolio-analytics",
-    stack: "react router · tailwind · recharts · three.js · docker",
-    url: "https://github.com/ChutLuis/portfolio-analytics-dashboard",
-    image: PortfolioShowcase,
   },
 ];
 
@@ -158,7 +139,7 @@ export const getLocalizedContent = (dictionary: Dictionary) => ({
     ...dictionary.work.items[featuredWork.id],
     statusLabel: featuredWork.status ? dictionary.work.status[featuredWork.status] : "",
   },
-  // "Also built" — numbered 01-05 independent of the featured item above it.
+  // "Also built" — numbered from 01, independent of the featured item above it.
   workItems: secondaryWork.map(localizeWorkItem(dictionary)),
   techGroups: techGroups.map((group) => ({
     ...group,
